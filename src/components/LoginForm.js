@@ -1,55 +1,59 @@
-import {useState} from 'react'
-import styles from './login.module.css'
-import { useRouter } from "next/router";
-import {useAuth} from "../contexts/auth";
+import {useState} from "react";
+import api from "../services/api"
+import cookies from 'js-cookie'
+import styles from './LoginForm.module.css'
+import {useHistory} from "react-router";
+import {useAuth} from "../contexts/authentication-provider";
+import {useEffect} from "react";
+
 
 export default function LoginForm () {
     const [loginError, setLoginError] = useState('')
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
-    const { setToken, login } = useAuth()
+    const { isAuthenticated, setToken } = useAuth()
 
-    const router = useRouter()
+    const history = useHistory();
+
+    useEffect(() => {
+        console.log(isAuthenticated)
+        if (isAuthenticated) {
+            console.log("Already logged in")
+            history.push('/')
+        }
+    }, [history, isAuthenticated]);
+
+    const login = async (username, password) => {
+        try {
+            const { data: token } = await api.post('http://localhost:8080/authenticate', { username, password })
+            if (!token) {
+                console.log("Unexpected response from login")
+                return false;
+            }
+
+            setToken(token.jwt)
+            cookies.set('token', token.jwt, { expires: 60 })
+            api.defaults.headers.Authorization = `Bearer ${token.jwt}`
+            console.log("Got token " + token.jwt)
+            return true;
+        } catch (error) {
+            console.log("Failed to login! " + error)
+        }
+        return false;
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-
         const success = await login(username, password)
 
         if (success) {
-            router.push('/');
+            history.push('/');
+            console.log("Success");
         }
         else {
             setLoginError("Invalid username or password");
         }
-
-        // fetch('http://localhost:8080/authenticate', {
-        //     method: 'POST',
-        //     headers: {
-        //         'Content-Type': 'application/json',
-        //     },
-        //     body: JSON.stringify({
-        //         username,
-        //         password,
-        //     }),
-        // })
-        // .then((r) => {
-        //     return r.json();
-        // })
-        // .then((data) => {
-        //     if (data && data.error) {
-        //         setLoginError(data.message);
-        //     }
-        //     if (data && data.jwt) {
-        //         console.log("Got jwt " + data.jwt);
-        //         setToken(data.jwt);
-        //         router.push('/');
-        //     }
-        // })
-        //     .catch(r => {
-        //         setLoginError("Can't login right now. " + r);
-        //     });
     }
 
     return (
@@ -63,7 +67,7 @@ export default function LoginForm () {
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
                     />
-                        <br />
+                    <br />
                 </div>
                 <div className="row">
                     <label htmlFor="passwordInput">Password:</label>
@@ -73,7 +77,7 @@ export default function LoginForm () {
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
                     />
-                        <br/>
+                    <br/>
                 </div>
                 <div className={`row float-end ${styles.submit}`}>
                     <div className="col-md-12">
