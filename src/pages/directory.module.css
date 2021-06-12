@@ -1,0 +1,22 @@
+.dirNameInput {
+    margin-left: 15px;
+    margin-right: 15px;
+}
+
+.dirsTable {
+    margin:30px
+}
+
+.dirsTableList {
+    align-items: center;
+}
+
+.deleteButton {
+    margin-left:auto;
+    margin-right:fill;
+    display:block;
+}
+
+.columns {
+    justify-content: center;
+}

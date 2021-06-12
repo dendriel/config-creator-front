@@ -9,6 +9,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import AuthenticationProvider from "./contexts/authentication-provider";
 import RequireAuthentication from "./contexts/require-authentication";
+import CustomNavbar from "./components/CustomNavbar";
 
 
 
@@ -18,6 +19,7 @@ ReactDOM.render(
         <Header />
             <AuthenticationProvider>
                 <RequireAuthentication>
+                    <CustomNavbar />
                     <Routes />
                 </RequireAuthentication>
             </AuthenticationProvider>
