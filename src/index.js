@@ -3,15 +3,13 @@ import './global.css';
 import ReactDOM from 'react-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter as Router } from "react-router-dom"
+import {BrowserRouter as Router} from "react-router-dom"
 import Routes from "./components/Routes";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import AuthenticationProvider from "./contexts/authentication-provider";
 import RequireAuthentication from "./contexts/require-authentication";
 import CustomNavbar from "./components/CustomNavbar";
-
-
 
 ReactDOM.render(
   <React.StrictMode>

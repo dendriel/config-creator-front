@@ -1,5 +1,5 @@
 import {useState} from "react";
-import api from "../services/api"
+import restService from "../services/api"
 import cookies from 'js-cookie'
 import styles from './LoginForm.module.css'
 import {useHistory} from "react-router";
@@ -26,7 +26,7 @@ export default function LoginForm () {
 
     const login = async (username, password) => {
         try {
-            const { data: token } = await api.post('http://localhost:8080/authenticate', { username, password })
+            const { data: token } = await restService.api.post('http://localhost:8080/authenticate', { username, password })
             if (!token) {
                 console.log("Unexpected response from login")
                 return false;
@@ -34,7 +34,7 @@ export default function LoginForm () {
 
             setToken(token.jwt)
             cookies.set('token', token.jwt, { expires: 60 })
-            api.defaults.headers.Authorization = `Bearer ${token.jwt}`
+            restService.api.defaults.headers.Authorization = `Bearer ${token.jwt}`
             console.log("Got token " + token.jwt)
             return true;
         } catch (error) {

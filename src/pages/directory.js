@@ -2,20 +2,48 @@ import styles from './directory.module.css'
 import {useEffect, useState} from "react";
 import DirectoryList from "../components/directory/DirectoryList";
 import DirectoryCreate from "../components/directory/DirectoryCreate";
+import restService from "../services/api";
 
 export default function Directory() {
     const [inProgressCreate, setInProgressCreate] = useState(false)
     const [inProgressRemove, setInProgressRemove] = useState(false)
 
-    const [dirs, setDirs] = useState([
-        { id: 1, name: "dir1", resCount: 5, removeInProgress: false},
-        { id: 2, name: "dir2", resCount: 15, removeInProgress: false},
-        { id: 3, name: "default", resCount: 13, removeInProgress: false},
-        { id: 4, name: "dir3", resCount: 0, removeInProgress: false }
-        ])
+    const [dirs, setDirs] = useState([])
+
+    const loadDirs = async () => {
+
+        restService.api.get('http://localhost:8082/directory/all')
+            .then(response => {
+                console.log(JSON.stringify(response.data))
+                if (!response.data) {
+                    console.log("Failed to retrieve directories")
+                    return false;
+                }
+
+                setDirs(response.data)
+            })
+            .catch(error => {
+                console.log("Failed to retrieve dirs! " + error.message)
+                if (error.response.status === 403 || error.response.status === 401) {
+                    console.log("Forbidden");
+                }
+            })
+        // try {
+        //     const { dirs: data } = await api.get('http://localhost:8082/directory/all')
+        //     if (!data) {
+        //         console.log("Failed to retrieve directories")
+        //         return false;
+        //     }
+        //
+        //     setDirs(data)
+        //     console.log("Got dirs " + data)
+        // } catch (error) {
+        //     console.log("Failed to retrieve dirs! " + error)
+        // }
+    }
 
     useEffect(() => {
-
+        loadDirs()
 
     }, [])
 

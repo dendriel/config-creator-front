@@ -1,4 +1,5 @@
 import Axios from "axios";
+import cookies from "js-cookie"
 
 let urls = {
     test: `http://localhost:8080`,
@@ -14,4 +15,33 @@ const api = Axios.create({
     }
 });
 
-export default api;
+
+const restService = {
+    api: api,
+    redirect: null,
+    setToken: null,
+    logout: () => {
+        console.log("Logging out")
+        cookies.remove('token')
+        restService.setToken(null)
+        restService.redirect.push('/login')
+    }
+}
+
+api.interceptors.response.use((response) => response, (error) => {
+    if (!error) {
+        return;
+    }
+
+    if (error.response.status === 403 || error.response.status === 401) {
+        console.log("Not logged in");
+        cookies.remove('token')
+        restService.setToken(null)
+        restService.redirect.push('/login')
+    }
+    else {
+        throw error;
+    }
+});
+
+export default restService;

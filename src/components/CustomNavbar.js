@@ -1,10 +1,13 @@
-// Core Components
-
-import {Button, Form, FormControl, Nav, Navbar, NavDropdown} from "react-bootstrap";
-// import {Dropdown} from "bootstrap";
+import {Button, Nav, Navbar, NavDropdown} from "react-bootstrap";
+import restService from "../services/api";
 
 
 export default function CustomNavbar() {
+
+    const logout = () => {
+        restService.logout()
+    }
+
     return (
         <Navbar bg="light" expand="lg">
             {/*<Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>*/}
@@ -27,6 +30,15 @@ export default function CustomNavbar() {
                         <NavDropdown.Item href="/resources">Resources</NavDropdown.Item>
                     </NavDropdown>
 
+                </Nav>
+
+                <Nav>
+                    <Button variant="outline-warning" onClick={logout}>
+                        Logout
+                    </Button>
+                    {/*<button className={`btn btn-outline-danger`} disabled onClick={() => props.removeDir(dir.id)}>*/}
+                    {/*    Remove*/}
+                    {/*</button>*/}
                 </Nav>
                 {/*<Form inline>*/}
                 {/*    <FormControl type="text" placeholder="Search" className="mr-sm-2" />*/}

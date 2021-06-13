@@ -11,7 +11,7 @@ export default function DirectoryList(props) {
             </button>
         }
 
-        if (dir.name === 'default' || dir.resCount > 0 || props.inProgressRemove || props.inProgressCreate) {
+        if (dir.name === 'default' || dir.resourcesCount > 0 || props.inProgressRemove || props.inProgressCreate) {
             return <button className={`btn btn-outline-danger ${styles.deleteButton}`} disabled onClick={() => props.removeDir(dir.id)}>
                 Remove
             </button>
@@ -42,7 +42,7 @@ export default function DirectoryList(props) {
                             {dir.name}
                         </div >
                         <div className={`col-md-4 form-group ${styles.columns} float-left`}>
-                            {dir.resCount}
+                            {dir.resourcesCount}
                         </div>
                         <div className="col-md-4 form-group">
                             {getDeleteButton(dir)}
