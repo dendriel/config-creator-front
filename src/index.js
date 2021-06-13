@@ -10,6 +10,7 @@ import Footer from "./components/Footer";
 import AuthenticationProvider from "./contexts/authentication-provider";
 import RequireAuthentication from "./contexts/require-authentication";
 import CustomNavbar from "./components/CustomNavbar";
+import AlertProvider from "./contexts/alert-provides";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -18,7 +19,9 @@ ReactDOM.render(
             <AuthenticationProvider>
                 <RequireAuthentication>
                     <CustomNavbar />
-                    <Routes />
+                    <AlertProvider>
+                        <Routes />
+                    </AlertProvider>
                 </RequireAuthentication>
             </AuthenticationProvider>
         <Footer />
