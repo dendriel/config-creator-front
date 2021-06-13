@@ -5,6 +5,7 @@ import styles from './LoginForm.module.css'
 import {useHistory} from "react-router";
 import {useAuth} from "../contexts/authentication-provider";
 import {useEffect} from "react";
+import authService from "../services/auth.service";
 
 
 export default function LoginForm () {
@@ -24,36 +25,30 @@ export default function LoginForm () {
         }
     }, [history, isAuthenticated]);
 
-    const login = async (username, password) => {
-        try {
-            const { data: token } = await restService.api.post('http://localhost:8080/authenticate', { username, password })
-            if (!token) {
-                console.log("Unexpected response from login")
-                return false;
-            }
+    const login = (username, password) => {
+        authService.authenticate(username, password)
+            .then((response) => {
+                const token = response.data
+                if (!token) {
+                    console.log("Unexpected response from login")
+                    return false;
+                }
 
-            setToken(token.jwt)
-            cookies.set('token', token.jwt, { expires: 60 })
-            restService.api.defaults.headers.Authorization = `Bearer ${token.jwt}`
-            console.log("Got token " + token.jwt)
-            return true;
-        } catch (error) {
-            console.log("Failed to login! " + error)
-        }
-        return false;
+                setToken(token.jwt)
+                cookies.set('token', token.jwt, { expires: 60 })
+                restService.api.defaults.headers.Authorization = `Bearer ${token.jwt}`
+                console.log("Got token " + token.jwt)
+
+                history.push('/');
+            })
+            .catch(() => {
+                setLoginError("Invalid username or password");
+            })
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        const success = await login(username, password)
-
-        if (success) {
-            history.push('/');
-            console.log("Success");
-        }
-        else {
-            setLoginError("Invalid username or password");
-        }
+        login(username, password)
     }
 
     return (

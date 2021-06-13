@@ -19,7 +19,7 @@ export default function DirectoryCreate(props) {
             </button>
         }
 
-        return <button className="btn btn-primary" onClick={() => props.createDir(dir)}>
+        return <button className="btn btn-primary" onClick={() => props.createDir(dir)} disabled={!dir.name} >
             Create
         </button>
     }

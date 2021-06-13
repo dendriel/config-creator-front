@@ -3,7 +3,7 @@ import cookies from "js-cookie"
 
 let urls = {
     test: `http://localhost:8080`,
-    development: 'http://localhost:8080/',
+    development: 'http://localhost:3000/',
     production: 'https://your-production-url.com/'
 }
 
@@ -14,7 +14,6 @@ const api = Axios.create({
         'Content-Type': 'application/json'
     }
 });
-
 
 const restService = {
     api: api,
@@ -30,14 +29,13 @@ const restService = {
 
 api.interceptors.response.use((response) => response, (error) => {
     if (!error) {
+        console.log("Not an error")
         return;
     }
+    // console.log("interceptor " + JSON.stringify(error))
 
     if (error.response.status === 403 || error.response.status === 401) {
-        console.log("Not logged in");
-        cookies.remove('token')
-        restService.setToken(null)
-        restService.redirect.push('/login')
+        restService.logout()
     }
     else {
         throw error;

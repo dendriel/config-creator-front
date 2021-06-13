@@ -2,7 +2,7 @@ import styles from './directory.module.css'
 import {useEffect, useState} from "react";
 import DirectoryList from "../components/directory/DirectoryList";
 import DirectoryCreate from "../components/directory/DirectoryCreate";
-import restService from "../services/api";
+import directoryService from "../services/directory.service";
 
 export default function Directory() {
     const [inProgressCreate, setInProgressCreate] = useState(false)
@@ -10,67 +10,53 @@ export default function Directory() {
 
     const [dirs, setDirs] = useState([])
 
-    const loadDirs = async () => {
-
-        restService.api.get('http://localhost:8082/directory/all')
+    const loadDirs = () => {
+        directoryService.getAll()
             .then(response => {
-                console.log(JSON.stringify(response.data))
-                if (!response.data) {
-                    console.log("Failed to retrieve directories")
-                    return false;
-                }
-
-                setDirs(response.data)
-            })
-            .catch(error => {
-                console.log("Failed to retrieve dirs! " + error.message)
-                if (error.response.status === 403 || error.response.status === 401) {
-                    console.log("Forbidden");
+                if (response && response.data) {
+                    setDirs(response.data)
                 }
             })
-        // try {
-        //     const { dirs: data } = await api.get('http://localhost:8082/directory/all')
-        //     if (!data) {
-        //         console.log("Failed to retrieve directories")
-        //         return false;
-        //     }
-        //
-        //     setDirs(data)
-        //     console.log("Got dirs " + data)
-        // } catch (error) {
-        //     console.log("Failed to retrieve dirs! " + error)
-        // }
     }
 
     useEffect(() => {
         loadDirs()
-
     }, [])
 
-
     const createDir = (dir) => {
-        console.log("Create " + JSON.stringify(dir))
         setInProgressCreate(true)
 
-        // send create request to backend
+        directoryService.create(dir.name)
+            .then(() => {
+                setInProgressCreate(false)
+                loadDirs()
+            })
+            .catch(error => {
+                setInProgressCreate(false)
+            })
     }
 
     const removeDir = (id) => {
-        console.log("Remove " + id)
-        setInProgressRemove(true)
+        setDirRemoveInProgress(id, true)
 
-        enableDirRemoveInProgress(id)
-
-        // send remove request to backend.
+        directoryService.remove(id)
+            .then(() => {
+                setDirRemoveInProgress(id, false)
+                loadDirs()
+            })
+            .catch(() => {
+                setDirRemoveInProgress(id, false)
+            })
     }
 
-    const enableDirRemoveInProgress = (id) => {
+    const setDirRemoveInProgress = (id, inProgress) => {
+        setInProgressRemove(inProgress)
         setDirs(prevDirs =>
             prevDirs.map(dir => {
                 if (dir.id === id) {
                     return {
                         ...dir,
-                        removeInProgress: true,
+                        removeInProgress: inProgress,
                     }
                 }
                 return dir;
