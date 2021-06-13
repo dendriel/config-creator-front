@@ -5,6 +5,11 @@ import {useState} from "react";
 export default function DirectoryCreate(props) {
     const [dir, setDir] = useState({ name: "" })
 
+    const create = () => {
+        props.createDir(dir)
+        setDir({ name: "" })
+    }
+
     const getCreateButton = () => {
         if (props.inProgressCreate) {
             return <button className="btn btn-primary" disabled>
@@ -14,12 +19,12 @@ export default function DirectoryCreate(props) {
         }
 
         if (props.inProgressRemove) {
-            return <button className="btn btn-primary" onClick={() => props.createDir(dir)} disabled>
+            return <button className="btn btn-primary" onClick={create} disabled>
                 Create
             </button>
         }
 
-        return <button className="btn btn-primary" onClick={() => props.createDir(dir)} disabled={!dir.name} >
+        return <button className="btn btn-primary" onClick={create} disabled={!dir.name} >
             Create
         </button>
     }

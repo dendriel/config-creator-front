@@ -1,54 +1,27 @@
 import {useState} from "react";
-import restService from "../services/api"
-import cookies from 'js-cookie'
 import styles from './LoginForm.module.css'
-import {useHistory} from "react-router";
-import {useAuth} from "../contexts/authentication-provider";
-import {useEffect} from "react";
-import authService from "../services/auth.service";
 
 
-export default function LoginForm () {
-    const [loginError, setLoginError] = useState('')
+export default function LoginForm (props) {
     const [username, setUsername] = useState('')
     const [password, setPassword] = useState('')
 
-    const { isAuthenticated, setToken } = useAuth()
-
-    const history = useHistory();
-
-    useEffect(() => {
-        console.log(isAuthenticated)
-        if (isAuthenticated) {
-            console.log("Already logged in")
-            history.push('/')
-        }
-    }, [history, isAuthenticated]);
-
-    const login = (username, password) => {
-        authService.authenticate(username, password)
-            .then((response) => {
-                const token = response.data
-                if (!token) {
-                    console.log("Unexpected response from login")
-                    return false;
-                }
-
-                setToken(token.jwt)
-                cookies.set('token', token.jwt, { expires: 60 })
-                restService.api.defaults.headers.Authorization = `Bearer ${token.jwt}`
-                console.log("Got token " + token.jwt)
-
-                history.push('/');
-            })
-            .catch(() => {
-                setLoginError("Invalid username or password");
-            })
-    }
-
     const handleSubmit = async (e) => {
         e.preventDefault()
-        login(username, password)
+
+        if (!username) {
+            props.setLoginError("Please, enter a username")
+            return
+        }
+
+        if (!password) {
+            props.setLoginError("Please, enter a password")
+            return
+        }
+
+        setUsername('')
+        setPassword('')
+        props.login(username, password)
     }
 
     return (
@@ -76,10 +49,21 @@ export default function LoginForm () {
                 </div>
                 <div className={`row float-end ${styles.submit}`}>
                     <div className="col-md-12">
-                        <button type="submit">Log in</button>
+                        <button
+                            type="submit"
+                            className="form-control"
+                            className='btn btn-primary float-right'
+                            disabled={props.tryingLogin}
+                        >
+                        {props.tryingLogin ?
+                            <span className="spinner-border spinner-border-sm" />
+                            : null
+                        }
+                            Login
+                        </button>
                     </div>
                 </div>
-                {loginError && <p style={{color: 'red'}}>{loginError}</p>}
+                {props.loginError && <p style={{color: 'red'}}>{props.loginError}</p>}
             </div>
         </form>
     )
