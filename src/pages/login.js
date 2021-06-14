@@ -37,11 +37,15 @@ export default function Login() {
                 cookies.set('token', token.jwt, { expires: 60 })
                 restService.api.defaults.headers.Authorization = `Bearer ${token.jwt}`
                 console.log("Got token " + token.jwt)
-
-                history.push('/');
             })
-            .catch(() => {
-                setLoginError("Invalid username or password");
+            .catch((error) => {
+                console.log(JSON.stringify(error))
+                if (error.response.status === 401 || error.response.status === 403) {
+                    setLoginError("Invalid username or password");
+                }
+                else {
+                    setLoginError("Unable to login right now")
+                }
             })
             .finally(() => {
                 setTryingLogin(false)

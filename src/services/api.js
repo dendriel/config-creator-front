@@ -34,7 +34,8 @@ api.interceptors.response.use((response) => response, (error) => {
     }
     // console.log("interceptor " + JSON.stringify(error))
 
-    if (error.response.status === 403 || error.response.status === 401) {
+    if (window.location.pathname !== '/login' &&
+        (error.response.status === 403 || error.response.status === 401)) {
         restService.logout()
     }
     else {

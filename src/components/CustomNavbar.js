@@ -1,8 +1,14 @@
 import {Button, Nav, Navbar, NavDropdown} from "react-bootstrap";
 import restService from "../services/api";
+import {useAuth} from "../contexts/authentication-provider";
 
 
 export default function CustomNavbar() {
+    const {isAuthenticated} = useAuth()
+
+    if (!isAuthenticated) {
+        return null
+    }
 
     const logout = () => {
         restService.logout()

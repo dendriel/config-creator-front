@@ -51,8 +51,7 @@ export default function LoginForm (props) {
                     <div className="col-md-12">
                         <button
                             type="submit"
-                            className="form-control"
-                            className='btn btn-primary float-right'
+                            className="btn btn-primary float-right"
                             disabled={props.tryingLogin}
                         >
                         {props.tryingLogin ?
