@@ -1,0 +1,33 @@
+version: "3.9"
+
+services:
+  auth-service:
+    image: dendriel/npc-data-manager-auth:latest
+    command: "java -jar /app/npc-data-manager-auth.jar"
+    restart: always
+    ports:
+      - 8080:8080
+    working_dir: /app
+    environment:
+      - MYSQL_DB=the_quest
+      - MYSQL_HOST=192.168.15.9
+      - MYSQL_PORT=3306
+      - MYSQL_USER=docker
+      - MYSQL_PASS=pass
+  storage-service:
+    image: dendriel/npc-data-manager-storage:latest
+    command: "java -jar /npc-data-manager-storage.jar"
+    restart: always
+    ports:
+      - 8082:8082
+    working_dir: /app
+    volumes:
+      - c:\.aws:/root/.aws:ro
+    environment:
+      - MYSQL_DB=the_quest
+      - MYSQL_HOST=192.168.15.9
+      - MYSQL_PORT=3306
+      - MYSQL_USER=docker
+      - MYSQL_PASS=pass
+      - AUTH_URL=http://192.168.15.9:8080
+
