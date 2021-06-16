@@ -21,7 +21,7 @@ export default function CustomNavbar() {
             <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
                     <Nav.Link href="/">Home</Nav.Link>
-                    <Nav.Link href="/link">Link</Nav.Link>
+                    {/*<Nav.Link href="/link">Link</Nav.Link>*/}
 
                     {/*<NavDropdown title="Dropdown" id="basic-nav-dropdown">*/}
                     {/*    <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>*/}
@@ -30,6 +30,13 @@ export default function CustomNavbar() {
                     {/*    <NavDropdown.Divider />*/}
                     {/*    <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>*/}
                     {/*</NavDropdown>*/}
+
+                    <NavDropdown title="Project" id="basic-nav-dropdown">
+                        <NavDropdown.Item href="/project/create">Create</NavDropdown.Item>
+                    </NavDropdown>
+                    <NavDropdown title="Templates" id="basic-nav-dropdown">
+                        <NavDropdown.Item href="/templates">List</NavDropdown.Item>
+                    </NavDropdown>
 
                     <NavDropdown title="Resources" id="basic-nav-dropdown">
                         <NavDropdown.Item href="/directory">Directory</NavDropdown.Item>

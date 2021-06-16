@@ -1,8 +1,9 @@
 import {Route, Switch} from "react-router-dom";
-import Login from "../pages/login";
-import Home from "../pages/home";
-import NotFound from "../pages/notfound";
-import Directory from "../pages/directory";
+import Login from "./pages/login";
+import Home from "./pages/home";
+import NotFound from "./pages/notfound";
+import Directory from "./pages/directory";
+import Template from "./pages/template";
 
 
 export default function Routes() {
@@ -17,7 +18,9 @@ export default function Routes() {
             <Route path="/directory">
                 <Directory />
             </Route>
-
+            <Route path="/templates">
+                <Template />
+            </Route>
             <Route path="*">
                 <NotFound />
             </Route>
