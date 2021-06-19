@@ -2,7 +2,7 @@ import {useState} from "react";
 import TemplateComponent from "../base-components/TemplateComponent";
 
 
-export default function TemplateCreate(props) {
+export default function ResourceCreate(props) {
     const [data, setData] = useState({
         key: "CDAB11C6194F4008A985EE19B6D052D5",
         id: 1,

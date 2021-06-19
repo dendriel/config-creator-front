@@ -4,6 +4,7 @@ import Home from "./pages/home";
 import NotFound from "./pages/notfound";
 import Directory from "./pages/directory";
 import Template from "./pages/template";
+import TemplateCreate from "./pages/template-create";
 
 
 export default function Routes() {
@@ -18,7 +19,11 @@ export default function Routes() {
             <Route path="/directory">
                 <Directory />
             </Route>
-            <Route path="/templates">
+
+            <Route path="/template/create">
+                <TemplateCreate />
+            </Route>
+            <Route path="/template">
                 <Template />
             </Route>
             <Route path="*">

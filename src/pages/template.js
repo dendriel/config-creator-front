@@ -1,7 +1,8 @@
 import {useState} from "react";
 import TemplateList from "../components/template/TemplateList";
-import TemplateCreate from "../components/template/TemplateCreate";
 import styles from "./template.module.css"
+import {useHistory} from "react-router";
+import TemplateCreate from "./template-create";
 
 
 export default function Template() {
@@ -14,9 +15,12 @@ export default function Template() {
     const [windowMode, setWindowMode] = useState("List")
     const [editTemplateId, setEditTemplateId] = useState(null)
 
+    const history = useHistory();
+
     const showEditTemplate = (id) => {
         if (id === 0) {
-            setWindowMode("Create")
+            // setWindowMode("Create")
+            history.push('/template/create')
         }
         else if (id > 0) {
             setWindowMode("Edit")
