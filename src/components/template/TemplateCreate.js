@@ -8,7 +8,7 @@ export default function TemplateCreate(props) {
         id: 1,
         type: "template",
         name: "template 01",
-        components: [
+        value: [
             {
                 key: "83254B5B72E14EA99354E181551F3B43",
                 name: "Raça",
@@ -35,11 +35,37 @@ export default function TemplateCreate(props) {
                 value: "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
             },
             {
+                key: "55433A6FDFEKKFF7BE18655DFBBD9FE8",
+                name: "Age",
+                type: "list",
+                subtype: "number",
+                value: [
+                    {
+                        key: "55433A6FDFE64FC7BE18655GGHHKK001",
+                        name: "Number 01",
+                        type: "number",
+                        value: 0
+                    },
+                    {
+                        key: "55433A6FDFE64FC7BE18655GGHHKK002",
+                        name: "Number 02",
+                        type: "number",
+                        value: 10
+                    },
+                    {
+                        key: "55433A6FDFE64FC7BE18655GGHHKK003",
+                        name: "Number 03",
+                        type: "number",
+                        value: 30
+                    }
+                ]
+            },
+            {
                 key: "CDAB11C6194F4008A985EE19B6D0KKLO",
                 id: 2,
                 type: "template",
                 name: "template 02",
-                components: [
+                value: [
                     {
                         key: "83254B5B72E14EA99354E18155GG3B43",
                         name: "Origem",
@@ -58,7 +84,7 @@ export default function TemplateCreate(props) {
                         id: 2,
                         type: "template",
                         name: "template 03",
-                        components: [
+                        value: [
                             {
                                 key: "11254B5B72E14EA99354E18155GG3B43",
                                 name: "Teste",
@@ -109,7 +135,7 @@ export default function TemplateCreate(props) {
                 </div>
             </div>
             <hr />
-            <div className="col-md-10 container align-middle">
+            <div className="col-md-12 container align-middle">
                 <TemplateComponent
                     root={true}
                     component={data}

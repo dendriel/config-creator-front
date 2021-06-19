@@ -8,7 +8,7 @@ export default function DefaultComponent(props) {
         setValue(newValue);
 
         props.setData(data => {
-            data.components = data.components.map(comp => {
+            data.value = data.value.map(comp => {
                 if (comp.key !== props.component.key) {
                     return comp;
                 }
