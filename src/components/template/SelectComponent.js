@@ -1,24 +1,17 @@
 import {useState} from "react";
-import {DropdownButton, Dropdown, ButtonGroup, Button} from "react-bootstrap";
+import {ButtonGroup, Button} from "react-bootstrap";
 import {BsFillCaretDownFill, BsFillCaretUpFill} from "react-icons/all";
+import ComponentTypeDropdown from "./ComponentTypeDropdown";
 
 
 export default function SelectComponent(props) {
     const [data, setData] = useState(props.component)
 
-    const options = [
-        { value: 'number', label: 'Number' },
-        { value: 'toggle', label: 'Toggle' },
-        { value: 'text', label: 'Text' },
-        { value: 'textarea', label: 'Text Area' },
-        { value: 'list', label: 'List' },
-    ]
-
-    const onSelect = (e) => {
+    const onDataUpdated = (key, value) => {
         setData(old => {
             return {
                 ...old,
-                type: e
+                [key]: value
             }
         })
 
@@ -30,66 +23,11 @@ export default function SelectComponent(props) {
 
                 return {
                     ...comp,
-                    type: e
+                    [key]: value
                 }
             })
             return oldData
         })
-    }
-
-
-    const onSelectSubtype = (e) => {
-        setData(old => {
-            return {
-                ...old,
-                subtype: e
-            }
-        })
-
-        props.setData(oldData => {
-            oldData.value = oldData.value.map(comp => {
-                if (comp.key !== props.component.key) {
-                    return comp;
-                }
-
-                return {
-                    ...comp,
-                    subtype: e
-                }
-            })
-            return oldData
-        })
-    }
-
-    const updateName = (e) => {
-        setData(old => {
-            return {
-                ...old,
-                name: e.target.value
-            }
-        })
-        props.setData(oldData => {
-            oldData.value = oldData.value.map(comp => {
-                if (comp.key !== props.component.key) {
-                    return comp;
-                }
-
-                console.log("Found")
-                return {
-                    ...comp,
-                    name: e.target.value
-                }
-            })
-            return oldData
-        })
-    }
-
-    const getTitle = (type, label) => {
-        if (!type) {
-            return label
-        }
-
-        return options.find(e => e.value === type).label
     }
 
     const hasExtraFields = () => {
@@ -108,17 +46,13 @@ export default function SelectComponent(props) {
         switch (data.type) {
             case "list":
                 return (
-                    // TODO: componentizar
                     <>
                         <label className="paddingRight">Type: </label>
-                        <DropdownButton className={`float-left paddingRight`} variant="secondary" title={getTitle(data.subtype, "Select Type")} onSelect={onSelectSubtype}>
-                            <Dropdown.ItemText><i>Components</i></Dropdown.ItemText>
-                            {options.map(o =>
-                                <Dropdown.Item key={o.value} eventKey={o.value}>
-                                    {o.label}
-                                </Dropdown.Item>
-                            )}
-                        </DropdownButton>
+                        <ComponentTypeDropdown
+                            placeholder="Select Type"
+                            selected={data.subtype}
+                            onSelected={(value) => onDataUpdated("subtype", value)}
+                        />
                     </>
                 )
             default:
@@ -162,19 +96,16 @@ export default function SelectComponent(props) {
             <div className={`col-10  border border-secondary rounded paddingTopBottom`}>
                 <div className="row justify-content-center">
                     <div className="col-2">
-                        <DropdownButton className={`float-left paddingRight`} variant="secondary" title={getTitle(data.type,"Select")} onSelect={onSelect}>
-                            <Dropdown.ItemText><i>Components</i></Dropdown.ItemText>
-                            {options.map(o =>
-                                <Dropdown.Item key={o.value} eventKey={o.value}>
-                                    {o.label}
-                                </Dropdown.Item>
-                            )}
-                        </DropdownButton>
+                        <ComponentTypeDropdown
+                            placeholder="Select"
+                            selected={data.type}
+                            onSelected={(value) => onDataUpdated("type", value)}
+                        />
                     </div>
                     <div className="col-8">
                         <div className={`float-left form-inline paddingRight`}>
                             <label className={`col-form-label paddingRight`}>Name:</label>
-                            <input className="form-control" type="text" value={data.name} onChange={updateName}/>
+                            <input className="form-control" type="text" value={data.name} onChange={(e) => onDataUpdated("name", e.target.value)}/>
                         </div>
                     </div>
                     <div className="col-2">
