@@ -1,11 +1,13 @@
-import {useState} from "react";
-import {ButtonGroup, Button} from "react-bootstrap";
-import {BsFillCaretDownFill, BsFillCaretUpFill} from "react-icons/all";
+import {useRef, useState} from "react";
+import {ButtonGroup, Button, Overlay} from "react-bootstrap";
+import {BsFillCaretDownFill, BsFillCaretUpFill, BsTrashFill} from "react-icons/all";
 import ComponentTypeDropdown from "./ComponentTypeDropdown";
 
 
 export default function SelectComponent(props) {
     const [data, setData] = useState(props.component)
+    const [toRemove, setToRemove] = useState(false)
+    const removeButtonTarget = useRef(null)
 
     const onDataUpdated = (key, value) => {
         setData(old => {
@@ -28,6 +30,17 @@ export default function SelectComponent(props) {
             })
             return oldData
         })
+    }
+
+    const onRemove = () => {
+        if (!toRemove) {
+            setToRemove(true)
+            setTimeout(() => {setToRemove(false); }, 1000);
+            return;
+        }
+
+        console.log("Remove")
+        props.remove(data.key)
     }
 
     const hasExtraFields = () => {
@@ -109,10 +122,31 @@ export default function SelectComponent(props) {
                         </div>
                     </div>
                     <div className="col-2">
-                        <ButtonGroup className="float-right">
-                            <Button variant="secondary" onClick={() => move(-1)} disabled={isFirstElement()}><BsFillCaretUpFill /></Button>
-                            <Button variant="secondary" onClick={() => move(1)} disabled={isLastElement()}><BsFillCaretDownFill /></Button>
+                        <ButtonGroup>
+                            <Button className="buttonIcon" variant="secondary" onClick={() => move(-1)} disabled={isFirstElement()}><BsFillCaretUpFill /></Button>
+                            <Button className="buttonIcon" variant="secondary" onClick={() => move(1)} disabled={isLastElement()}><BsFillCaretDownFill /></Button>
                         </ButtonGroup>
+                        <>
+                            <Button className="float-right" ref={removeButtonTarget} variant="danger" onClick={onRemove}>
+                                <BsTrashFill className="buttonIcon"/>
+                            </Button>
+                            <Overlay target={removeButtonTarget.current} show={toRemove} placement="right">
+                                {({ placement, arrowProps, show: _show, popper, ...props }) => (
+                                    <div
+                                        {...props}
+                                        style={{
+                                            backgroundColor: 'rgba(255, 100, 100, 0.85)',
+                                            padding: '2px 10px',
+                                            color: 'white',
+                                            borderRadius: 3,
+                                            ...props.style,
+                                        }}
+                                    >
+                                        Double Click to remove
+                                    </div>
+                                )}
+                            </Overlay>
+                        </>
                     </div>
                 </div>
                 {

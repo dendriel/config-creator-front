@@ -33,6 +33,15 @@ export default function TemplateCreate() {
         setData({ ...data, value: newComponents})
     }
 
+    const removeComponent = (key) => {
+        setData(old => {
+            return {
+                ...old,
+                value: old.value.filter(comp => comp.key !== key)
+            }
+        })
+    }
+
     return(
         <div className="col-md-12 container">
             <div>
@@ -73,7 +82,12 @@ export default function TemplateCreate() {
                     {data.value.map(comp => {
                         return(
                         <div key={comp.key} className={styles.paddingTop}>
-                            <SelectComponent component={comp} setData={setData} data={data}/>
+                            <SelectComponent
+                                component={comp}
+                                setData={setData}
+                                data={data}
+                                remove={removeComponent}
+                            />
                         </div>)
                     })
                     }
