@@ -36,6 +36,7 @@ export default function CustomNavbar() {
                     </NavDropdown>
                     <NavDropdown title="Templates" id="basic-nav-dropdown">
                         <NavDropdown.Item href="/template">List</NavDropdown.Item>
+                        <NavDropdown.Item href="/template/create">Create</NavDropdown.Item>
                     </NavDropdown>
 
                     <NavDropdown title="Resources" id="basic-nav-dropdown">

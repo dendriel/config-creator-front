@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {DropdownButton, Dropdown, ButtonGroup, Button} from "react-bootstrap";
-import styles from "./SelectComponent.module.css"
+import {BsFillCaretDownFill, BsFillCaretUpFill} from "react-icons/all";
 
 
 export default function SelectComponent(props) {
@@ -92,6 +92,14 @@ export default function SelectComponent(props) {
         return options.find(e => e.value === type).label
     }
 
+    const hasExtraFields = () => {
+        if (!data.type) {
+            return ""
+        }
+
+        return data.type === "list";
+    }
+
     const getExtraFields = () => {
         if (!data.type) {
             return ""
@@ -102,8 +110,8 @@ export default function SelectComponent(props) {
                 return (
                     // TODO: componentizar
                     <>
-                        <label className={styles.paddingRight}>Type: </label>
-                        <DropdownButton className={`float-left ${styles.paddingRight}`} variant="secondary" title={getTitle(data.subtype, "Select Type")} onSelect={onSelectSubtype}>
+                        <label className="paddingRight">Type: </label>
+                        <DropdownButton className={`float-left paddingRight`} variant="secondary" title={getTitle(data.subtype, "Select Type")} onSelect={onSelectSubtype}>
                             <Dropdown.ItemText><i>Components</i></Dropdown.ItemText>
                             {options.map(o =>
                                 <Dropdown.Item key={o.value} eventKey={o.value}>
@@ -151,27 +159,44 @@ export default function SelectComponent(props) {
 
     return(
         <div className="row justify-content-center">
-            <div>
-                <DropdownButton className={`float-left ${styles.paddingRight}`} variant="secondary" title={getTitle(data.type,"Select Component")} onSelect={onSelect}>
-                    <Dropdown.ItemText><i>Components</i></Dropdown.ItemText>
-                    {options.map(o =>
-                        <Dropdown.Item key={o.value} eventKey={o.value}>
-                            {o.label}
-                        </Dropdown.Item>
-                    )}
-                </DropdownButton>
-                <div className={`float-left form-inline ${styles.paddingRight}`}>
-                    <label className={`col-form-label ${styles.paddingRight}`}>Name:</label>
-                    <input className="form-control" type="text" value={data.name} onChange={updateName}/>
+            <div className={`col-10  border border-secondary rounded paddingTopBottom`}>
+                <div className="row justify-content-center">
+                    <div className="col-2">
+                        <DropdownButton className={`float-left paddingRight`} variant="secondary" title={getTitle(data.type,"Select")} onSelect={onSelect}>
+                            <Dropdown.ItemText><i>Components</i></Dropdown.ItemText>
+                            {options.map(o =>
+                                <Dropdown.Item key={o.value} eventKey={o.value}>
+                                    {o.label}
+                                </Dropdown.Item>
+                            )}
+                        </DropdownButton>
+                    </div>
+                    <div className="col-8">
+                        <div className={`float-left form-inline paddingRight`}>
+                            <label className={`col-form-label paddingRight`}>Name:</label>
+                            <input className="form-control" type="text" value={data.name} onChange={updateName}/>
+                        </div>
+                    </div>
+                    <div className="col-2">
+                        <ButtonGroup className="float-right">
+                            <Button variant="secondary" onClick={() => move(-1)} disabled={isFirstElement()}><BsFillCaretUpFill /></Button>
+                            <Button variant="secondary" onClick={() => move(1)} disabled={isLastElement()}><BsFillCaretDownFill /></Button>
+                        </ButtonGroup>
+                    </div>
                 </div>
-                <div className={`form-inline ${styles.paddingRight}`}>
-                    {getExtraFields()}
-                </div>
+                {
+                    hasExtraFields() ?
+                        <div className={`row justify-content-start paddingTop`}>
+                            <div className="col-10">
+                                <div className={`form-inline paddingRight`}>
+                                    {getExtraFields()}
+                                </div>
+                            </div>
+                        </div>
+                        :
+                        ""
+                }
             </div>
-            <ButtonGroup>
-                <Button variant="secondary" onClick={() => move(1)} disabled={isLastElement()}>\/</Button>
-                <Button variant="secondary" onClick={() => move(-1)} disabled={isFirstElement()}>/\</Button>
-            </ButtonGroup>
         </div>
     )
 }

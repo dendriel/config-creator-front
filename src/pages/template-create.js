@@ -39,21 +39,31 @@ export default function TemplateCreate() {
                 <h1>Templates / Create</h1>
             </div>
             <div>
-                <div className="form-group row">
-                    <label className="col-md-2 col-form-label text-sm-right">Id</label>
-                    <div className="col-md-8">
-                        <label className="col-md-10 col-form-label text-sm-left">{data.key}</label>
+                <div className="row">
+                    <label className="col-2 col-form-label text-sm-right">Id</label>
+                    <div className="col-8">
+                        <label className="col-10 col-form-label text-sm-left">{data.key}</label>
                     </div>
                 </div>
-                <div className="form-group row">
-                    <label className="col-md-2 col-form-label text-sm-right">Name</label>
-                    <div className="col-md-8">
+                <div className="row">
+                    <label className="col-2 col-form-label text-sm-right">Name</label>
+                    <div className="col-8">
                         <input
                             type="text"
                             className="form-control"
                             onChange={(e) => setName(e.target.value)}
                             value={data.name}
                         />
+                    </div>
+                </div>
+                <div className="row">
+                    <div className={`col-10 ${styles.paddingTop}`}>
+                        <button
+                            className={`btn btn-primary float-right`}
+                            onClick={() => console.log(JSON.stringify(data))}
+                        >
+                            Save
+                        </button>
                     </div>
                 </div>
             </div>
@@ -68,8 +78,8 @@ export default function TemplateCreate() {
                     })
                     }
                 </div>
-                <div className={`row justify-content-center ${styles.paddingTop}`}>
-                    <div className="col-6">
+                <div className={`row justify-content-center paddingTopBottom`}>
+                    <div className="col-10">
                         <Button
                             className="float-right"
                             variant="info"
@@ -79,15 +89,6 @@ export default function TemplateCreate() {
                         </Button>
                     </div>
                 </div>
-            </div>
-
-            <div className="col-md-10">
-                <button
-                    className={`btn btn-primary float-right`}
-                    onClick={() => console.log(JSON.stringify(data))}
-                >
-                    Save
-                </button>
             </div>
         </div>
     )

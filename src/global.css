@@ -113,3 +113,16 @@
     flex-direction: column;
   }
 }
+
+.paddingTopBottom {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.paddingRight {
+  padding-right: 10px;
+}
+
+.paddingTop {
+  padding-top: 10px;
+}
