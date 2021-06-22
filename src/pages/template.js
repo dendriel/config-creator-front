@@ -1,21 +1,32 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import TemplateList from "../components/template/TemplateList";
 import styles from "./template.module.css"
 import {useHistory} from "react-router";
 import TemplateCreate from "./template-create";
+import templateService from "../services/tempalte.service";
 
 
 export default function Template() {
-    const [templates, setTemplates] = useState([
-        { id: 1, name: "template 01"},
-        { id: 2, name: "template 02" },
-        { id: 3, name: "template 03" }
-    ])
+    const [templates, setTemplates] = useState([])
 
     const [windowMode, setWindowMode] = useState("List")
     const [editTemplateId, setEditTemplateId] = useState(null)
 
     const history = useHistory();
+
+    const loadTemplates = () => {
+        templateService.getAll(0, 10)
+            .then(response => {
+                console.log("HERE " + JSON.stringify(response))
+                if (response && response.data) {
+                    setTemplates(response.data)
+                }
+            })
+    }
+
+    useEffect(() => {
+        loadTemplates();
+    }, [setTemplates])
 
     const showEditTemplate = (id) => {
         if (id === 0) {

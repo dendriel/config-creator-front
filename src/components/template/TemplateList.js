@@ -17,7 +17,7 @@ export default function TemplateList(props) {
             {props.templates.map(template => (
                     <ListGroup.Item className="col-md-6 text-center align-middle form-inline" key={template.id}>
                         <div className={`col-md-6 form-group ${styles.columns} float-left`}>
-                            {template.name}
+                            {template.data.name}
                         </div >
                         <div className="col-md-6 form-group">
                             <button className={`btn btn-outline-info ${styles.button}`} onClick={() => props.showEditTemplate(template.id)}>
