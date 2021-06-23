@@ -53,6 +53,16 @@ const getAll = (offset, limit) => {
         })
 }
 
+const removeById = (id) => {
+    console.log("Remove template " + id)
+
+    return restService.api.delete(templatePath + "/" + id)
+        .catch(error => {
+            console.log("Failed to delete template.")
+            throw error
+        })
+}
+
 const getSaveRequest = (template) => {
     return template.id ? restService.api.put : restService.api.post;
 }
@@ -79,6 +89,7 @@ const save = (template) => {
 const templateService = {
     getById: getById,
     getAll: getAll,
+    removeById: removeById,
     save: save
 }
 

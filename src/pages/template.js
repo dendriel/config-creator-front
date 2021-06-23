@@ -1,16 +1,14 @@
 import {useEffect, useState} from "react";
 import TemplateList from "../components/template/TemplateList";
-import styles from "./template.module.css"
 import {useHistory} from "react-router";
-import TemplateCreate from "./template-create";
 import templateService from "../services/template.service";
+import {useAlert} from "../contexts/alert-provides";
 
 
 export default function Template() {
     const [templates, setTemplates] = useState([])
 
-    const [windowMode, setWindowMode] = useState("List")
-    const [editTemplateId, setEditTemplateId] = useState(null)
+    const {closeAlert, alertSuccess, alertError} = useAlert();
 
     const history = useHistory();
 
@@ -28,65 +26,50 @@ export default function Template() {
         loadTemplates();
     }, [setTemplates])
 
+    const showCreateTemplate = () => {
+        history.push('/template/create')
+    }
+
     const showEditTemplate = (id) => {
-        console.log("Show edit template for " + id)
-        if (id === 0) {
-            // setWindowMode("Create")
-            history.push('/template/create')
-        }
-        else if (id) {
-            history.push('/template/edit/' + id)
-        }
-        else {
-            setWindowMode("List")
-        }
-        setEditTemplateId(id)
-        console.log(id + "/" + editTemplateId)
+        history.push('/template/edit/' + id)
+    }
+
+    const removeTemplate = (id, setRemoving) => {
+        closeAlert()
+
+        templateService.removeById(id)
+            .then(() => {
+                setTemplates(old => {
+                    return old.filter(t => t.id !== id);
+                })
+                alertSuccess("Template removed")
+            })
+            .catch(error => {
+                console.log("Failed to remove: " + error)
+                alertError("Failed to remove. Please, try again.")
+                setRemoving(false)
+            })
     }
 
     return(
         <div className="col-md-12 container">
             <div>
-                <h1>Templates / {windowMode}</h1>
+                <h1>Templates / List</h1>
             </div>
-            {editTemplateId === null ?
-                <>
-                    <div className="col-md-12 text-center align-middle">
-                        <div className={`row  ${styles.newButtonPadding}`}>
-                            <div className="col-md-9">
-                                <button
-                                    className={`btn btn-primary float-right ${styles.actionButton}`}
-                                    onClick={() => showEditTemplate(0)}
-                                >
-                                    New
-                                </button>
-                            </div>
-                        </div>
+            <div className="col-md-12 text-center align-middle">
+                <div className={`row paddingTopBottom`}>
+                    <div className="col-md-9">
+                        <button className={`btn btn-primary float-right actionButton`} onClick={showCreateTemplate}>
+                            New
+                        </button>
                     </div>
-                    <TemplateList
-                        templates={templates}
-                        showEditTemplate={showEditTemplate}
-                    />
-                </>
-                :
-                <>
-                    <div className="col-md-12 text-center align-middle">
-                        <div className={`row  ${styles.backButtonPadding}`}>
-                            <div className="col-md-12">
-                                <button
-                                    className={`btn btn-primary float-left ${styles.actionButton}`}
-                                    onClick={() => showEditTemplate(null)}
-                                >
-                                    Back
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <TemplateCreate
-                        idTemplate={editTemplateId}
-                    />
-                </>
-            }
+                </div>
+            </div>
+            <TemplateList
+                templates={templates}
+                showEditTemplate={showEditTemplate}
+                removeTemplate={removeTemplate}
+            />
         </div>
     )
 }

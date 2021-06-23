@@ -130,3 +130,7 @@
 .buttonIcon {
   font-size: 18px;
 }
+
+.actionButton {
+  width: 100px !important;
+}

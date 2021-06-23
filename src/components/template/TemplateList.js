@@ -1,5 +1,6 @@
-import {ListGroup} from "react-bootstrap";
 import styles from "../list.module.css";
+import TemplateListItem from "./TemplateListItem";
+import {ListGroup} from "react-bootstrap";
 
 
 export default function TemplateList(props) {
@@ -15,16 +16,13 @@ export default function TemplateList(props) {
             </ListGroup.Item>
 
             {props.templates.map(template => (
-                    <ListGroup.Item className="col-md-6 text-center align-middle form-inline" key={template.id}>
-                        <div className={`col-md-6 form-group ${styles.columns} float-left`}>
-                            {template.data.name}
-                        </div >
-                        <div className="col-md-6 form-group">
-                            <button className={`btn btn-outline-info ${styles.button}`} onClick={() => props.showEditTemplate(template.id)}>
-                                Edit
-                            </button>
-                        </div >
-                    </ListGroup.Item>
+                <TemplateListItem
+                    key={template.id}
+                    id={template.id}
+                    name={template.data.name}
+                    showEditTemplate={props.showEditTemplate}
+                    removeTemplate={props.removeTemplate}
+                />
                 )
             )}
         </ListGroup>

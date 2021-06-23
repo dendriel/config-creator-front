@@ -123,7 +123,7 @@ export default function SelectComponent(props) {
                             <Button className="buttonIcon" variant="secondary" onClick={() => move(1)} disabled={isLastElement()}><BsFillCaretDownFill /></Button>
                         </ButtonGroup>
                         <>
-                            <Button className="float-right" ref={removeButtonTarget} variant="danger" onClick={onRemove}>
+                            <Button className="float-right" ref={removeButtonTarget} variant="danger" onClick={onRemove} disabled={props.saving}>
                                 <BsTrashFill className="buttonIcon"/>
                             </Button>
                             <Overlay target={removeButtonTarget.current} show={toRemove} placement="right">

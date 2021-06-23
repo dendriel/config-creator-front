@@ -9,8 +9,9 @@ import {useAlert} from "../contexts/alert-provides";
 
 export default function TemplateCreate() {
     const [template, setTemplate] = useState({ id: "", data: { name: "", value: [] } })
-
+    const [saving, setSaving] = useState(false)
     const {closeAlert, alertSuccess, alertError} = useAlert();
+    const [mode, setMode] = useState("Create")
 
     let { id } = useParams();
 
@@ -18,10 +19,12 @@ export default function TemplateCreate() {
         console.log("ID: " + id)
         if (id) {
             loadById(id);
+            setMode("Edit")
             return;
         }
 
         setTemplate({ id: "", data: { name: "", value: [] } })
+        addComponent()
 
     }, [setTemplate])
 
@@ -95,10 +98,13 @@ export default function TemplateCreate() {
     }
 
     const save = () => {
-        // validate name
-        //block other operations?
+        if (saving) {
+            return;
+        }
+
         closeAlert();
 
+        setSaving(true)
         templateService.save(template)
             .then(response => {
                 console.log("saved successfully. Id: " + response.data)
@@ -111,12 +117,15 @@ export default function TemplateCreate() {
                 console.log("error: " + error)
                 alertError("Failed to save the template. Please, try again.")
             })
+            .finally(() => {
+                setSaving(false)
+            })
     }
 
     return(
         <div className="col-md-12 container">
             <div>
-                <h1>Templates / Create</h1>
+                <h1>Templates / {mode}</h1>
             </div>
             <div>
                 <div className="row">
@@ -138,10 +147,8 @@ export default function TemplateCreate() {
                 </div>
                 <div className="row">
                     <div className={`col-10 ${styles.paddingTop}`}>
-                        <button
-                            className={`btn btn-primary float-right`}
-                            onClick={save}
-                        >
+                        <button className={`btn btn-primary float-right`} onClick={save} disabled={saving}>
+                            {saving ? <span className="spinner-border spinner-border-sm" /> : ""}
                             Save
                         </button>
                     </div>
@@ -158,9 +165,10 @@ export default function TemplateCreate() {
                                 setData={setData}
                                 data={template.data}
                                 remove={removeComponent}
+                                saving={saving}
                             />
                         </div>)
-                    })
+                        })
                     }
                 </div>
                 <div className={`row justify-content-center paddingTopBottom`}>
@@ -169,6 +177,7 @@ export default function TemplateCreate() {
                             className="float-right"
                             variant="info"
                             onClick={addComponent}
+                            disabled={saving}
                         >
                             Add
                         </Button>

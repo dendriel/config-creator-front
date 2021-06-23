@@ -5,7 +5,7 @@ export default function DirectoryList(props) {
 
     const getDeleteButton = (dir) => {
         if (dir.removeInProgress) {
-            return <button className={`btn btn-outline-danger ${styles.deleteButton}`} disabled onClick={() => props.removeDir(dir.id)}>
+            return <button className={`btn btn-outline-danger ${styles.deleteButton}`}>
                 <span className="spinner-border spinner-border-sm" />
                 Removing..
             </button>
