@@ -3,43 +3,114 @@ import { v4 as uuidv4 } from 'uuid';
 import SelectComponent from "../components/template/SelectComponent";
 import {Button} from "react-bootstrap";
 import styles from "./template-create.module.css"
+import {useParams} from "react-router";
+import templateService from "../services/template.service";
+import {useAlert} from "../contexts/alert-provides";
 
 export default function TemplateCreate() {
-    const [data, setData] = useState({key: "", name: "", value: [{key: uuidv4(), type: "", name: ""}]})
+    const [template, setTemplate] = useState({ id: "", data: { name: "", value: [] } })
+
+    const {closeAlert, alertSuccess, alertError} = useAlert();
+
+    let { id } = useParams();
 
     useEffect(() => {
-        const newKey = uuidv4();
-        setData(data => {
-            return {
-                ...data,
-                key: newKey
-            }
-        })
+        console.log("ID: " + id)
+        if (id) {
+            loadById(id);
+            return;
+        }
 
-    }, [setData])
+        setTemplate({ id: "", data: { name: "", value: [] } })
+
+    }, [setTemplate])
+
+    const loadById = (id) => {
+        templateService.getById(id)
+            .then(response => {
+                if (response && response.data) {
+                    setTemplate(response.data)
+                }
+            })
+    }
+
+    const setData = (data) => {
+        setTemplate(old => {
+             return {
+                 ...old,
+                 data: data
+             }
+        })
+    }
 
     const setName = (name) => {
-        setData(old => {
+        setTemplate(old => {
+            let data = old.data
+            data = {
+                ...data,
+                name: name
+            }
             return {
                 ...old,
-                name: name
+                data: data
+            }
+        })
+    }
+
+    const setId = (id) => {
+        setTemplate(old => {
+            return {
+                ...old,
+                id: id
             }
         })
     }
 
     const addComponent = () => {
         const newKey = uuidv4();
-        const newComponents = data.value.concat({key: newKey, type: "", name: ""})
-        setData({ ...data, value: newComponents})
+        const newComponents = template.data.value.concat({key: newKey, type: "", name: ""})
+        const data = {
+            ...template.data,
+            value: newComponents
+        }
+        setTemplate({
+            ...template,
+            data: data
+            }
+        )
     }
 
     const removeComponent = (key) => {
-        setData(old => {
+        const newComponents = template.data.value.filter(comp => comp.key !== key)
+        const data = {
+            ...template.data,
+            value: newComponents
+        }
+        setTemplate(old => {
             return {
                 ...old,
-                value: old.value.filter(comp => comp.key !== key)
+                data: data
             }
         })
+    }
+
+    const save = () => {
+        // validate name
+        //block other operations?
+        closeAlert();
+
+        templateService.save(template)
+            .then(response => {
+                console.log("saved successfully. Id: " + response.data)
+                alertSuccess("Template saved successfully.")
+                if (response.data) {
+                    setId(response.data)
+                }
+            })
+            .catch(error => {
+                console.log("error: " + error)
+                alertError("Failed to save the template. Please, try again.")
+            })
     }
 
     return(
@@ -51,7 +122,7 @@ export default function TemplateCreate() {
                 <div className="row">
                     <label className="col-2 col-form-label text-sm-right">Id</label>
                     <div className="col-8">
-                        <label className="col-10 col-form-label text-sm-left">{data.key}</label>
+                        <label className="col-10 col-form-label text-sm-left">{template.id}</label>
                     </div>
                 </div>
                 <div className="row">
@@ -61,7 +132,7 @@ export default function TemplateCreate() {
                             type="text"
                             className="form-control"
                             onChange={(e) => setName(e.target.value)}
-                            value={data.name}
+                            value={template.data.name}
                         />
                     </div>
                 </div>
@@ -69,7 +140,7 @@ export default function TemplateCreate() {
                     <div className={`col-10 ${styles.paddingTop}`}>
                         <button
                             className={`btn btn-primary float-right`}
-                            onClick={() => console.log(JSON.stringify(data))}
+                            onClick={save}
                         >
                             Save
                         </button>
@@ -79,13 +150,13 @@ export default function TemplateCreate() {
             <hr />
             <div className="container">
                 <div>
-                    {data.value.map(comp => {
+                    {template.data.value.map(comp => {
                         return(
                         <div key={comp.key} className={styles.paddingTop}>
                             <SelectComponent
                                 component={comp}
                                 setData={setData}
-                                data={data}
+                                data={template.data}
                                 remove={removeComponent}
                             />
                         </div>)

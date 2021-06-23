@@ -5,6 +5,7 @@ import NotFound from "./pages/notfound";
 import Directory from "./pages/directory";
 import Template from "./pages/template";
 import TemplateCreate from "./pages/template-create";
+import ResourceCreate from "./components/template/ResourceCreate";
 
 
 export default function Routes() {
@@ -23,8 +24,14 @@ export default function Routes() {
             <Route path="/template/create">
                 <TemplateCreate />
             </Route>
+            <Route path="/template/edit/:id">
+                <TemplateCreate />
+            </Route>
             <Route path="/template">
                 <Template />
+            </Route>
+            <Route path="/resource/create">
+                <ResourceCreate />
             </Route>
             <Route path="*">
                 <NotFound />

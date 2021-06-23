@@ -3,7 +3,7 @@ import TemplateList from "../components/template/TemplateList";
 import styles from "./template.module.css"
 import {useHistory} from "react-router";
 import TemplateCreate from "./template-create";
-import templateService from "../services/tempalte.service";
+import templateService from "../services/template.service";
 
 
 export default function Template() {
@@ -29,12 +29,13 @@ export default function Template() {
     }, [setTemplates])
 
     const showEditTemplate = (id) => {
+        console.log("Show edit template for " + id)
         if (id === 0) {
             // setWindowMode("Create")
             history.push('/template/create')
         }
-        else if (id > 0) {
-            setWindowMode("Edit")
+        else if (id) {
+            history.push('/template/edit/' + id)
         }
         else {
             setWindowMode("List")

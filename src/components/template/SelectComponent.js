@@ -17,19 +17,18 @@ export default function SelectComponent(props) {
             }
         })
 
-        props.setData(oldData => {
-            oldData.value = oldData.value.map(comp => {
-                if (comp.key !== props.component.key) {
-                    return comp;
-                }
+        props.data.value = props.data.value.map(comp => {
+            if (comp.key !== props.component.key) {
+                return comp;
+            }
 
-                return {
-                    ...comp,
-                    [key]: value
-                }
-            })
-            return oldData
+            return {
+                ...comp,
+                [key]: value
+            }
         })
+
+        props.setData(props.data)
     }
 
     const onRemove = () => {
@@ -91,17 +90,14 @@ export default function SelectComponent(props) {
         const sourceIndex = findIndex();
         const destnIndex = sourceIndex + pos;
 
-        props.setData(oldData => {
-            let val = [...oldData.value]
+        let val = [...props.data.value]
 
-            const temp = val[destnIndex]
-            val[destnIndex] = val[sourceIndex];
-            val[sourceIndex] = temp;
-            return {
-                ...oldData,
-                value: val
-            }
-        })
+        const temp = val[destnIndex]
+        val[destnIndex] = val[sourceIndex];
+        val[sourceIndex] = temp;
+        props.data.value = val
+
+        props.setData(props.data)
     }
 
     return(
