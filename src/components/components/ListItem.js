@@ -2,6 +2,7 @@ import {useRef, useState} from "react";
 import {Button, ListGroup, Overlay} from "react-bootstrap";
 import styles from "../list.module.css";
 import {BsPencilSquare, BsTrashFill} from "react-icons/all";
+import CustomOverlay from "./CustomOverlay";
 
 
 export default function ListItem(props) {
@@ -44,36 +45,24 @@ export default function ListItem(props) {
                             }
                             {props.onRemove ?
                                 <>
-                                <Button ref={removeButtonTarget} variant="danger" onClick={() => onRemove(props.id)} disabled={removing}>
-                                    {removing ?
-                                        <span className="spinner-border spinner-border-sm" />
-                                        :
-                                        <BsTrashFill className="buttonIcon "/>
-                                    }
-                                </Button>
-                                <Overlay target={removeButtonTarget.current} show={toRemove} placement="right">
-                                    {({ placement, arrowProps, show: _show, popper, ...props }) => (
-                                        <div
-                                            {...props}
-                                            style={{
-                                                backgroundColor: 'rgba(255, 100, 100, 0.85)',
-                                                padding: '2px 10px',
-                                                color: 'white',
-                                                borderRadius: 3,
-                                                ...props.style,
-                                            }}
-                                        >
-                                            Double Click to remove
-                                        </div>
-                                    )}
-                                </Overlay>
+                                    <Button ref={removeButtonTarget} variant="danger" onClick={() => onRemove(props.id)} disabled={removing}>
+                                        {removing ?
+                                            <span className="spinner-border spinner-border-sm" />
+                                            :
+                                            <BsTrashFill className="buttonIcon "/>
+                                        }
+                                    </Button>
+                                    <CustomOverlay
+                                        target={removeButtonTarget}
+                                        visible={toRemove}
+                                        message={"Double Click to remove"}
+                                        variant={"danger"}
+                                    />
                                 </>
                                 : ""
                             }
-
                         </div>
-                        :
-                        ""
+                        : ""
                     }
 
                 </div>

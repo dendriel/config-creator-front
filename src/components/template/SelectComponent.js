@@ -2,6 +2,7 @@ import {useRef, useState} from "react";
 import {ButtonGroup, Button, Overlay} from "react-bootstrap";
 import {BsFillCaretDownFill, BsFillCaretUpFill, BsTrashFill} from "react-icons/all";
 import ComponentTypeDropdown from "./ComponentTypeDropdown";
+import CustomOverlay from "../components/CustomOverlay";
 
 
 export default function SelectComponent(props) {
@@ -126,22 +127,12 @@ export default function SelectComponent(props) {
                             <Button className="marginLeft" ref={removeButtonTarget} variant="danger" onClick={onRemove} disabled={props.saving}>
                                 <BsTrashFill className="buttonIcon"/>
                             </Button>
-                            <Overlay target={removeButtonTarget.current} show={toRemove} placement="right">
-                                {({ placement, arrowProps, show: _show, popper, ...props }) => (
-                                    <div
-                                        {...props}
-                                        style={{
-                                            backgroundColor: 'rgba(255, 100, 100, 0.85)',
-                                            padding: '2px 10px',
-                                            color: 'white',
-                                            borderRadius: 3,
-                                            ...props.style,
-                                        }}
-                                    >
-                                        Double Click to remove
-                                    </div>
-                                )}
-                            </Overlay>
+                            <CustomOverlay
+                                target={removeButtonTarget}
+                                visible={toRemove}
+                                message={"Double Click to remove"}
+                                variant={"danger"}
+                            />
                         </>
                     </div>
                 </div>
