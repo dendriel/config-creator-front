@@ -57,7 +57,7 @@ export default function Template() {
                 <h1>Templates / List</h1>
             </div>
             <div className="col-md-12 text-center align-middle">
-                <div className={`row paddingTopBottom`}>
+                <div className={`row marginTopBottom`}>
                     <div className="col-md-9">
                         <button className={`btn btn-primary float-right actionButton`} onClick={showCreateTemplate}>
                             New

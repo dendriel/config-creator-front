@@ -48,7 +48,7 @@ export default function ComponentTypeDropdown(props) {
     }
 
     return (
-        <DropdownButton className={`float-left paddingRight`} variant="secondary" title={getTitle(selected, props.placeholder)} onSelect={onSelect}>
+        <DropdownButton className={`float-left marginRight`} variant="secondary" title={getTitle(selected, props.placeholder)} onSelect={onSelect}>
             <Dropdown.ItemText><i>Components</i></Dropdown.ItemText>
             {options.map(o =>
                 <Dropdown.Item key={o.value} eventKey={o.value}>

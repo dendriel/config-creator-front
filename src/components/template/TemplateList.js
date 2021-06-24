@@ -5,15 +5,16 @@ import {ListGroup} from "react-bootstrap";
 
 export default function TemplateList(props) {
     return (
-        <ListGroup className={`col-md-12 ${styles.dirsTableList}`}>
-
-            <ListGroup.Item className="col-md-6 text-center align-middle">
-                <div className={`col-md-6 form-group ${styles.columns} float-left`}>
+        <ListGroup className={`col-12 ${styles.dirsTableList}`}>
+            <ListGroup.Item className="col-6">
+                <div className="container">
+                    <div className="row">
+                <div className={`col-8 ${styles.columns} text-center`}>
                     <b>Name</b>
                 </div >
-                <div className="col-md-6 form-group float-left">
-                </div >
-            </ListGroup.Item>
+                </div>
+            </div>
+        </ListGroup.Item>
 
             {props.templates.map(template => (
                 <TemplateListItem

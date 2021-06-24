@@ -22,23 +22,22 @@ export default function TemplateListItem(props) {
     }
 
     return (
-        <ListGroup.Item className="col-md-6 text-center align-middle form-inline" key={props.id}>
+        <ListGroup.Item className="col-6" key={props.id}>
             <div className="container">
                 <div className="row">
-                    <div className={`col-md-8 ${styles.columns} float-left`}>
+                    <div className={`col-8 ${styles.columns} text-center`}>
                         {props.name}
                     </div >
-                    <div className="col-md-4 form-group">
-                        <button className={`btn btn-outline-info ${styles.button}`} onClick={() => props.showEditTemplate(props.id)}>
+                    <div className={`col-4 text-right`}>
+                        <Button className={`actionButton marginRight`} variant="info" onClick={() => props.showEditTemplate(props.id)}>
                             Edit
-                        </button>
-                        <Button className="float-right" ref={removeButtonTarget} variant="danger" onClick={() => onRemove(props.id)} disabled={removing}>
+                        </Button>
+                        <Button className="marginLeft" ref={removeButtonTarget} variant="danger" onClick={() => onRemove(props.id)} disabled={removing}>
                             {removing ?
                                 <span className="spinner-border spinner-border-sm" />
                                 :
                                 <BsTrashFill className="buttonIcon"/>
                             }
-
                         </Button>
                         <Overlay target={removeButtonTarget.current} show={toRemove} placement="right">
                             {({ placement, arrowProps, show: _show, popper, ...props }) => (

@@ -119,12 +119,21 @@
   padding-bottom: 10px;
 }
 
-.paddingRight {
-  padding-right: 10px;
+.marginTopBottom {
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
-.paddingTop {
-  padding-top: 10px;
+.marginRight {
+  margin-right: 10px;
+}
+
+.marginLeft {
+  margin-left: 10px;
+}
+
+.marginTop {
+  margin-top: 10px;
 }
 
 .buttonIcon {
@@ -133,4 +142,9 @@
 
 .actionButton {
   width: 100px !important;
+}
+
+.buttonAlignRight {
+  margin-left:auto;
+  margin-right:fill;
 }

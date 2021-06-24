@@ -2,7 +2,6 @@ import {useEffect, useState} from "react";
 import { v4 as uuidv4 } from 'uuid';
 import SelectComponent from "../components/template/SelectComponent";
 import {Button} from "react-bootstrap";
-import styles from "./template-create.module.css"
 import {useParams} from "react-router";
 import templateService from "../services/template.service";
 import {useAlert} from "../contexts/alert-provides";
@@ -146,7 +145,7 @@ export default function TemplateCreate() {
                     </div>
                 </div>
                 <div className="row">
-                    <div className={`col-10 ${styles.paddingTop}`}>
+                    <div className={`col-10 marginTop`}>
                         <button className={`btn btn-primary float-right`} onClick={save} disabled={saving}>
                             {saving ? <span className="spinner-border spinner-border-sm" /> : ""}
                             Save
@@ -159,7 +158,7 @@ export default function TemplateCreate() {
                 <div>
                     {template.data.value.map(comp => {
                         return(
-                        <div key={comp.key} className={styles.paddingTop}>
+                        <div key={comp.key} className="marginTop">
                             <SelectComponent
                                 component={comp}
                                 setData={setData}
@@ -171,7 +170,7 @@ export default function TemplateCreate() {
                         })
                     }
                 </div>
-                <div className={`row justify-content-center paddingTopBottom`}>
+                <div className={`row justify-content-center marginTopBottom`}>
                     <div className="col-10">
                         <Button
                             className="float-right"

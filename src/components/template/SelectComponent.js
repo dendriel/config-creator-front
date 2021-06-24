@@ -59,7 +59,7 @@ export default function SelectComponent(props) {
             case "list":
                 return (
                     <>
-                        <label className="paddingRight">Type: </label>
+                        <label className="marginRight">Type: </label>
                         <ComponentTypeDropdown
                             placeholder="Select Type"
                             selected={data.subtype}
@@ -111,19 +111,19 @@ export default function SelectComponent(props) {
                             onSelected={(value) => onDataUpdated("type", value)}
                         />
                     </div>
-                    <div className="col-8">
-                        <div className={`float-left form-inline paddingRight`}>
-                            <label className={`col-form-label paddingRight`}>Name:</label>
+                    <div className="col-7">
+                        <div className={`float-left form-inline marginRight`}>
+                            <label className={`col-form-label marginRight`}>Name:</label>
                             <input className="form-control" type="text" value={data.name} onChange={(e) => onDataUpdated("name", e.target.value)}/>
                         </div>
                     </div>
-                    <div className="col-2">
+                    <div className="col-3 text-right">
                         <ButtonGroup>
                             <Button className="buttonIcon" variant="secondary" onClick={() => move(-1)} disabled={isFirstElement()}><BsFillCaretUpFill /></Button>
                             <Button className="buttonIcon" variant="secondary" onClick={() => move(1)} disabled={isLastElement()}><BsFillCaretDownFill /></Button>
                         </ButtonGroup>
                         <>
-                            <Button className="float-right" ref={removeButtonTarget} variant="danger" onClick={onRemove} disabled={props.saving}>
+                            <Button className="marginLeft" ref={removeButtonTarget} variant="danger" onClick={onRemove} disabled={props.saving}>
                                 <BsTrashFill className="buttonIcon"/>
                             </Button>
                             <Overlay target={removeButtonTarget.current} show={toRemove} placement="right">
@@ -147,9 +147,9 @@ export default function SelectComponent(props) {
                 </div>
                 {
                     hasExtraFields() ?
-                        <div className={`row justify-content-start paddingTop`}>
+                        <div className={`row justify-content-start marginTop`}>
                             <div className="col-10">
-                                <div className={`form-inline paddingRight`}>
+                                <div className={`form-inline marginRight`}>
                                     {getExtraFields()}
                                 </div>
                             </div>
