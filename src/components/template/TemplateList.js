@@ -1,31 +1,27 @@
-import styles from "../list.module.css";
-import TemplateListItem from "./TemplateListItem";
-import {ListGroup} from "react-bootstrap";
+import List from "../components/List";
+import {useEffect, useState} from "react";
 
 
 export default function TemplateList(props) {
-    return (
-        <ListGroup className={`col-12 ${styles.dirsTableList}`}>
-            <ListGroup.Item className="col-6">
-                <div className="container">
-                    <div className="row">
-                <div className={`col-8 ${styles.columns} text-center`}>
-                    <b>Name</b>
-                </div >
-                </div>
-            </div>
-        </ListGroup.Item>
+    const [rows, setRows] = useState([])
 
-            {props.templates.map(template => (
-                <TemplateListItem
-                    key={template.id}
-                    id={template.id}
-                    name={template.data.name}
-                    showEditTemplate={props.showEditTemplate}
-                    removeTemplate={props.removeTemplate}
-                />
-                )
-            )}
-        </ListGroup>
+    useEffect(() => {
+        setRows(
+            props.templates.map(t => {
+                return {
+                    id : t.id,
+                    cols: [t.data.name]
+                }
+            })
+        )
+    }, [props.templates, setRows])
+
+    return (
+        <List
+            header={["Name"]}
+            rows={rows}
+            onEdit={props.onEdit}
+            onRemove={props.onRemove}
+            />
     )
 }

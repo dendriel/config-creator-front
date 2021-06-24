@@ -30,6 +30,11 @@ export default function Routes() {
             <Route path="/template">
                 <Template />
             </Route>
+
+            <Route path="configuration/create">
+                {/*<Configuration*/}
+            </Route>
+
             <Route path="/resource/create">
                 <ResourceCreate />
             </Route>

@@ -30,11 +30,11 @@ export default function Template() {
         history.push('/template/create')
     }
 
-    const showEditTemplate = (id) => {
+    const onEdit = (id) => {
         history.push('/template/edit/' + id)
     }
 
-    const removeTemplate = (id, setRemoving) => {
+    const onRemove = (id, setRemoving) => {
         closeAlert()
 
         templateService.removeById(id)
@@ -67,8 +67,8 @@ export default function Template() {
             </div>
             <TemplateList
                 templates={templates}
-                showEditTemplate={showEditTemplate}
-                removeTemplate={removeTemplate}
+                onEdit={onEdit}
+                onRemove={onRemove}
             />
         </div>
     )
