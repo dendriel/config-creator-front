@@ -32,10 +32,8 @@ export default function CustomNavbar() {
                     {/*</NavDropdown>*/}
 
                     <NavDropdown title="Project" id="basic-nav-dropdown">
+                        <NavDropdown.Item href="/project">List</NavDropdown.Item>
                         <NavDropdown.Item href="/project/create">Create</NavDropdown.Item>
-                    </NavDropdown>
-                    <NavDropdown title="Configuration" id="basic-nav-dropdown">
-                        <NavDropdown.Item href="/configuration/create">Create</NavDropdown.Item>
                     </NavDropdown>
                     <NavDropdown title="Templates" id="basic-nav-dropdown">
                         <NavDropdown.Item href="/template">List</NavDropdown.Item>

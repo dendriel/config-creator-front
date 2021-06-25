@@ -15,7 +15,6 @@ export default function TemplateCreate() {
     let { id } = useParams();
 
     useEffect(() => {
-        console.log("ID: " + id)
         if (id) {
             loadById(id);
             setMode("Edit")

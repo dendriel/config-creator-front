@@ -1,37 +1,37 @@
 import {useEffect, useState} from "react";
-import TemplateList from "../components/template/TemplateList";
-import {useHistory} from "react-router";
-import templateService from "../services/template.service";
+import ProjectList from "../components/project/ProjectList";
 import {useAlert} from "../contexts/alert-provides";
+import templateService from "../services/template.service";
+import {useHistory} from "react-router";
 
 
-export default function Template() {
-    const [templates, setTemplates] = useState([])
+export default function Project() {
+    const [projects, setProjects] = useState([])
 
     const {closeAlert, alertSuccess, alertError} = useAlert();
 
     const history = useHistory();
 
-    const loadTemplates = () => {
+    const load = () => {
         templateService.getAll(0, 10)
             .then(response => {
-                console.log("HERE " + JSON.stringify(response))
                 if (response && response.data) {
-                    setTemplates(response.data)
+                    setProjects(response.data)
                 }
             })
     }
 
     useEffect(() => {
-        loadTemplates();
-    }, [setTemplates])
+        load();
+    }, [setProjects])
+
 
     const onCreate = () => {
-        history.push('/template/create')
+        history.push('/project/create')
     }
 
     const onEdit = (id) => {
-        history.push('/template/edit/' + id)
+        history.push('/project/edit/' + id)
     }
 
     const onRemove = (id, setRemoving) => {
@@ -39,22 +39,21 @@ export default function Template() {
 
         templateService.removeById(id)
             .then(() => {
-                setTemplates(old => {
+                setProjects(old => {
                     return old.filter(t => t.id !== id);
                 })
-                alertSuccess("Template removed")
+                alertSuccess("Project removed")
             })
-            .catch(error => {
-                console.log("Failed to remove: " + error)
+            .catch(() => {
                 alertError("Failed to remove. Please, try again.")
                 setRemoving(false)
             })
     }
 
-    return(
+    return (
         <div className="col-md-12 container">
             <div>
-                <h1>Templates / List</h1>
+                <h1>Projects / List</h1>
             </div>
             <div className="col-md-12 text-center align-middle">
                 <div className={`row marginTopBottom`}>
@@ -65,8 +64,8 @@ export default function Template() {
                     </div>
                 </div>
             </div>
-            <TemplateList
-                templates={templates}
+            <ProjectList
+                elements={projects}
                 onEdit={onEdit}
                 onRemove={onRemove}
             />
