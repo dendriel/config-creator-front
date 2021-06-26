@@ -1,4 +1,4 @@
-import restService from "./api";
+import restService from "./rest.service";
 
 const proxyPath = "/auth"
 

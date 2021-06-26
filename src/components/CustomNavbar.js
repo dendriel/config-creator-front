@@ -1,5 +1,5 @@
 import {Button, Nav, Navbar, NavDropdown} from "react-bootstrap";
-import restService from "../services/api";
+import restService from "../services/rest.service";
 import {useAuth} from "../contexts/authentication-provider";
 
 

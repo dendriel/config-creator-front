@@ -2,7 +2,7 @@ import LoginForm from "../components/LoginForm";
 import styles from "./login.module.css"
 import authService from "../services/auth.service";
 import cookies from "js-cookie";
-import restService from "../services/api";
+import restService from "../services/rest.service";
 import {useEffect, useState} from "react";
 import {useAuth} from "../contexts/authentication-provider";
 import {useHistory} from "react-router";

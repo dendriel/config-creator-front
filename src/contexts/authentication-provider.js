@@ -1,6 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react'
 import cookies from "js-cookie"
-import restService from "../services/api";
+import restService from "../services/rest.service";
 
 const AuthContext = createContext({});
 

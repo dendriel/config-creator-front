@@ -1,6 +1,6 @@
 import Login from "../pages/login";
 import {useAuth} from "./authentication-provider";
-import restService from "../services/api";
+import restService from "../services/rest.service";
 import {useHistory} from "react-router";
 
 
