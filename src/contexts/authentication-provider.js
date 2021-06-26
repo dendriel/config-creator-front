@@ -11,15 +11,12 @@ export default function AuthenticationProvider({children} ) {
     restService.setToken = setToken
 
     useEffect(() => {
-        async function loadTokenFromCookies() {
-            const token = cookies.get('token')
-            if (token) {
-                console.log("Got a token in the cookies " + token)
-                restService.api.defaults.headers.Authorization = `Bearer ${token}`
-                setToken(token);
-            }
+        const token = cookies.get('token')
+        if (token) {
+            console.log("Got a token in the cookies " + token)
+            restService.api.defaults.headers.Authorization = `Bearer ${token}`
+            setToken(token);
         }
-        loadTokenFromCookies()
     }, [])
 
     return (

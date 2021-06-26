@@ -4,7 +4,7 @@ import SelectComponent from "../components/template/SelectComponent";
 import {Button} from "react-bootstrap";
 import {useParams} from "react-router";
 import templateService from "../services/template.service";
-import {useAlert} from "../contexts/alert-provides";
+import {useAlert} from "../contexts/alert-provider";
 
 export default function TemplateCreate() {
     const [template, setTemplate] = useState({ id: "", data: { name: "", value: [] } })

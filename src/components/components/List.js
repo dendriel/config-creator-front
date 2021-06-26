@@ -17,7 +17,7 @@ export default function List(props) {
                             )
                             })
                         }
-                        {(props.onEdit || props.onRemove) ?
+                        {(props.onEdit || props.onDefault || props.onRemove) ?
                             <div className={`col ${styles.columns} text-center`}>
                             </div >
                             :
@@ -33,6 +33,7 @@ export default function List(props) {
                         id={row.id}
                         cols={row.cols}
                         onEdit={props.onEdit}
+                        onDefault={props.onDefault}
                         onRemove={props.onRemove}
                     />
                 )

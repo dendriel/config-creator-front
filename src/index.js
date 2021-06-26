@@ -9,8 +9,9 @@ import Footer from "./components/Footer";
 import AuthenticationProvider from "./contexts/authentication-provider";
 import RequireAuthentication from "./contexts/require-authentication";
 import CustomNavbar from "./components/CustomNavbar";
-import AlertProvider from "./contexts/alert-provides";
+import AlertProvider from "./contexts/alert-provider";
 import Routes from "./routes";
+import UserProvider from "./contexts/user-provider";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -18,10 +19,12 @@ ReactDOM.render(
         <Header />
             <AuthenticationProvider>
                 <RequireAuthentication>
-                    <CustomNavbar />
-                    <AlertProvider>
-                        <Routes />
-                    </AlertProvider>
+                    <UserProvider>
+                        <CustomNavbar />
+                        <AlertProvider>
+                            <Routes />
+                        </AlertProvider>
+                    </UserProvider>
                 </RequireAuthentication>
             </AuthenticationProvider>
         <Footer />

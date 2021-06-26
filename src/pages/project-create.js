@@ -1,10 +1,12 @@
 import {useEffect, useState} from "react";
-import {useAlert} from "../contexts/alert-provides";
-import templateService from "../services/template.service";
+import {useAlert} from "../contexts/alert-provider";
+import projectService from "../services/project.service";
 import {useParams} from "react-router";
+import PageHeader from "../components/components/PageHeader";
+import {Button} from "react-bootstrap";
 
 export default function ProjectCreate() {
-    const [project, setProject] = useState({ id: "", data: { name: "" } })
+    const [project, setProject] = useState({ id: "", data: { name: "", default: false } })
     const [saving, setSaving] = useState(false)
     const {closeAlert, alertSuccess, alertError} = useAlert();
     const [mode, setMode] = useState("Create")
@@ -18,12 +20,12 @@ export default function ProjectCreate() {
             return;
         }
 
-        setProject({ id: "", data: { name: "" } })
+        setProject({ id: "", data: { name: "", default: false } })
 
     }, [setProject])
 
     const loadById = (id) => {
-        templateService.getById(id)
+        projectService.getById(id)
             .then(response => {
                 if (response && response.data) {
                     setProject(response.data)
@@ -62,7 +64,7 @@ export default function ProjectCreate() {
         closeAlert();
 
         setSaving(true)
-        templateService.save(project)
+        projectService.save(project)
             .then(response => {
                 console.log("saved successfully. Id: " + response.data)
                 alertSuccess("Project saved successfully.")
@@ -81,9 +83,11 @@ export default function ProjectCreate() {
 
     return(
         <div className="col-md-12 container">
-            <div>
-                <h1>Projects / {mode}</h1>
-            </div>
+            <PageHeader
+                current={mode}
+                previous="Projects"
+                previousLink="/project"
+            />
             <div>
                 <div className="row">
                     <label className="col-2 col-form-label text-sm-right">Id</label>
@@ -103,11 +107,11 @@ export default function ProjectCreate() {
                     </div>
                 </div>
                 <div className="row">
-                    <div className={`col-10 marginTop`}>
-                        <button className={`btn btn-primary float-right`} onClick={save} disabled={saving}>
+                    <div className={`col-10 marginTopBottom`}>
+                        <Button variant="primary" className="float-right" onClick={save} disabled={saving || !project.data.name || project.data.name.length === 0}>
                             {saving ? <span className="spinner-border spinner-border-sm" /> : ""}
                             Save
-                        </button>
+                        </Button>
                     </div>
                 </div>
             </div>

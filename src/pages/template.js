@@ -2,7 +2,7 @@ import {useEffect, useState} from "react";
 import TemplateList from "../components/template/TemplateList";
 import {useHistory} from "react-router";
 import templateService from "../services/template.service";
-import {useAlert} from "../contexts/alert-provides";
+import {useAlert} from "../contexts/alert-provider";
 
 
 export default function Template() {

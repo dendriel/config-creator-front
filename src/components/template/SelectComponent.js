@@ -1,5 +1,5 @@
 import {useRef, useState} from "react";
-import {ButtonGroup, Button, Overlay} from "react-bootstrap";
+import {ButtonGroup, Button} from "react-bootstrap";
 import {BsFillCaretDownFill, BsFillCaretUpFill, BsTrashFill} from "react-icons/all";
 import ComponentTypeDropdown from "./ComponentTypeDropdown";
 import CustomOverlay from "../components/CustomOverlay";

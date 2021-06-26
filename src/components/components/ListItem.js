@@ -1,7 +1,7 @@
 import {useRef, useState} from "react";
-import {Button, ListGroup, Overlay} from "react-bootstrap";
+import {Button, ListGroup} from "react-bootstrap";
 import styles from "../list.module.css";
-import {BsPencilSquare, BsTrashFill} from "react-icons/all";
+import {BsBraces, BsPencilSquare, BsTrashFill} from "react-icons/all";
 import CustomOverlay from "./CustomOverlay";
 
 
@@ -35,11 +35,18 @@ export default function ListItem(props) {
                         )
                     })}
 
-                    {(props.onEdit || props.onRemove) ?
+                    {(props.onEdit || props.onDefault || props.onRemove) ?
                         <div className={`col text-right`}>
                             {props.onEdit ?
                                 <Button className={`marginRight`} variant="info" onClick={() => props.onEdit(props.id)}>
                                     <BsPencilSquare className="buttonIcon" />
+                                </Button>
+                                : ""
+                            }
+                            {props.onDefault ?
+                                <Button className={`marginRight`} variant="info" onClick={() => props.onDefault(props.id)}>
+                                    <BsBraces
+                                        className="buttonIcon" />
                                 </Button>
                                 : ""
                             }

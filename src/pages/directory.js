@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import DirectoryList from "../components/directory/DirectoryList";
 import DirectoryCreate from "../components/directory/DirectoryCreate";
 import directoryService from "../services/directory.service";
-import {useAlert} from "../contexts/alert-provides";
+import {useAlert} from "../contexts/alert-provider";
 
 export default function Directory() {
     const [inProgressCreate, setInProgressCreate] = useState(false)

@@ -8,7 +8,7 @@ export default function Header() {
             </header>
 
             <h1 className="title">
-                NPC Data Manager
+                Config Creator
             </h1>
             <p className="description">
                 Create and manage data for game projects

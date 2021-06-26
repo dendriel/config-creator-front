@@ -1,19 +1,25 @@
 import {useEffect, useState} from "react";
 import ProjectList from "../components/project/ProjectList";
-import {useAlert} from "../contexts/alert-provides";
-import templateService from "../services/template.service";
+import {useAlert} from "../contexts/alert-provider";
+import projectService from "../services/project.service";
+import userService from "../services/user.service";
 import {useHistory} from "react-router";
+import PageHeader from "../components/components/PageHeader";
+import {useUser} from "../contexts/user-provider";
 
 
 export default function Project() {
     const [projects, setProjects] = useState([])
+    const [onDefaultInProgress, setOnDefaultInProgress] = useState(false)
 
     const {closeAlert, alertSuccess, alertError} = useAlert();
+
+    const {reloadUser} = useUser()
 
     const history = useHistory();
 
     const load = () => {
-        templateService.getAll(0, 10)
+        projectService.getAll(0, 10)
             .then(response => {
                 if (response && response.data) {
                     setProjects(response.data)
@@ -34,10 +40,30 @@ export default function Project() {
         history.push('/project/edit/' + id)
     }
 
+    const onDefault = (id) => {
+        if (onDefaultInProgress) {
+            return
+        }
+
+        setOnDefaultInProgress(true)
+        userService.setDefaultProject(id)
+            .then(() => {
+                reloadUser()
+                    .then(() => {
+                        alertSuccess("Project was set as default.")
+                    })
+                    .finally(() => setOnDefaultInProgress(false))
+            })
+            .catch(() => {
+                alertError("Failed to set project as default. Please, try again.")
+                setOnDefaultInProgress(false)
+            })
+    }
+
     const onRemove = (id, setRemoving) => {
         closeAlert()
 
-        templateService.removeById(id)
+        projectService.removeById(id)
             .then(() => {
                 setProjects(old => {
                     return old.filter(t => t.id !== id);
@@ -52,9 +78,7 @@ export default function Project() {
 
     return (
         <div className="col-md-12 container">
-            <div>
-                <h1>Projects / List</h1>
-            </div>
+            <PageHeader current="Projects" />
             <div className="col-md-12 text-center align-middle">
                 <div className={`row marginTopBottom`}>
                     <div className="col-md-9">
@@ -67,6 +91,7 @@ export default function Project() {
             <ProjectList
                 elements={projects}
                 onEdit={onEdit}
+                onDefault={onDefault}
                 onRemove={onRemove}
             />
         </div>

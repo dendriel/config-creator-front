@@ -6,6 +6,7 @@ import restService from "../services/rest.service";
 import {useEffect, useState} from "react";
 import {useAuth} from "../contexts/authentication-provider";
 import {useHistory} from "react-router";
+import userService from "../services/user.service";
 
 export default function Login() {
     const [loginError, setLoginError] = useState('')
@@ -16,10 +17,12 @@ export default function Login() {
 
     useEffect(() => {
         console.log(isAuthenticated)
-        if (isAuthenticated) {
-            console.log("Already logged in")
-            history.push('/')
+        if (!isAuthenticated) {
+            return;
         }
+
+        console.log("Already logged in")
+
     }, [history, isAuthenticated]);
 
     const login = (username, password) => {
@@ -33,10 +36,21 @@ export default function Login() {
                     return false;
                 }
 
-                setToken(token.jwt)
-                cookies.set('token', token.jwt, { expires: 60 })
                 restService.api.defaults.headers.Authorization = `Bearer ${token.jwt}`
-                console.log("Got token " + token.jwt)
+                userService.getMyUser()
+                    .then(response => {
+
+                        setToken(token.jwt)
+                        cookies.set('token', token.jwt, { expires: 60 })
+                        console.log("Got token " + token.jwt)
+
+                        localStorage.setItem("user", JSON.stringify(response.data))
+                        console.log(response.data)
+
+                        setTryingLogin(false)
+
+                        history.push('/')
+                    })
             })
             .catch((error) => {
                 console.log(JSON.stringify(error))
@@ -46,8 +60,7 @@ export default function Login() {
                 else {
                     setLoginError("Unable to login right now")
                 }
-            })
-            .finally(() => {
+
                 setTryingLogin(false)
             })
     }

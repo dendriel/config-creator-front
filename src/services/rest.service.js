@@ -15,17 +15,17 @@ const axiosInstance = Axios.create({
     }
 });
 
-const parseTemplate = (template) => {
+const parseDataHolder = (holder) => {
     return {
-        ...template,
-        data: JSON.parse(template.data)
+        ...holder,
+        data: JSON.parse(holder.data)
     }
 }
 
-const prepareTemplate = (template) => {
+const prepareDataHolder = (holder) => {
     return {
-        ...template,
-        data: JSON.stringify(template.data)
+        ...holder,
+        data: JSON.stringify(holder.data)
     }
 }
 
@@ -33,7 +33,7 @@ const getById = (path, id) => {
     return restService.api.get(path + "/" + id)
         .then(response => {
             if (response && response.data) {
-                response.data = parseTemplate(response.data)
+                response.data = parseDataHolder(response.data)
                 return response;
             }
 
@@ -45,7 +45,7 @@ const getAll = (path, offset, limit) => {
     return restService.api.get(path + "/all?limit=" + limit + "&offset=" + offset)
         .then(response => {
             if (response && response.data) {
-                response.data = response.data.map(parseTemplate)
+                response.data = response.data.map(parseDataHolder)
                 return response;
             }
 
@@ -63,7 +63,7 @@ const getSaveRequest = (template) => {
 
 const save = (path, template) => {
     const saveRequest = getSaveRequest(template)
-    const toSave = prepareTemplate(template)
+    const toSave = prepareDataHolder(template)
     return saveRequest(path, toSave)
         .then(response => {
             if (response && response.data) {
@@ -81,6 +81,7 @@ const restService = {
     logout: () => {
         console.log("Logging out")
         cookies.remove('token')
+        localStorage.removeItem("user")
         restService.setToken(null)
         restService.redirect.push('/login')
     },
