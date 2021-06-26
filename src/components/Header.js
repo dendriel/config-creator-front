@@ -3,7 +3,7 @@ export default function Header() {
         <>
             <header>
                 <title>Config Creator</title>
-                <meta name="description" content="Create and manage data for game projects." />
+                <meta name="description" content="Create and manage data from projects." />
                 <link rel="icon" href="/favicon.ico" />
             </header>
 
@@ -11,7 +11,7 @@ export default function Header() {
                 Config Creator
             </h1>
             <p className="description">
-                Create and manage data for game projects
+                Create and manage data from projects
             </p>
         </>
     )

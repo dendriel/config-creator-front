@@ -34,6 +34,7 @@ export default function LoginForm (props) {
                         className="form-control"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
+                        disabled={props.tryingLogin}
                     />
                     <br />
                 </div>
@@ -44,6 +45,7 @@ export default function LoginForm (props) {
                         className="form-control"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        disabled={props.tryingLogin}
                     />
                     <br/>
                 </div>

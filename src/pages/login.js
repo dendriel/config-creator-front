@@ -25,6 +25,28 @@ export default function Login() {
 
     }, [history, isAuthenticated]);
 
+    const loadUser = (token) => {
+        userService.getMyUser()
+            .then(response => {
+
+                setToken(token.jwt)
+                cookies.set('token', token.jwt, { expires: 60 })
+                console.log("Got token " + token.jwt)
+
+                localStorage.setItem("user", JSON.stringify(response.data))
+                console.log(response.data)
+
+                setTryingLogin(false)
+
+                history.push('/')
+            })
+            .catch(() => {
+                restService.api.defaults.headers.Authorization = null
+                setLoginError("Unable to login right now")
+                setTryingLogin(false)
+            })
+    }
+
     const login = (username, password) => {
         setLoginError('')
         setTryingLogin(true)
@@ -37,20 +59,8 @@ export default function Login() {
                 }
 
                 restService.api.defaults.headers.Authorization = `Bearer ${token.jwt}`
-                userService.getMyUser()
-                    .then(response => {
+                loadUser(token)
 
-                        setToken(token.jwt)
-                        cookies.set('token', token.jwt, { expires: 60 })
-                        console.log("Got token " + token.jwt)
-
-                        localStorage.setItem("user", JSON.stringify(response.data))
-                        console.log(response.data)
-
-                        setTryingLogin(false)
-
-                        history.push('/')
-                    })
             })
             .catch((error) => {
                 console.log(JSON.stringify(error))
