@@ -2,7 +2,7 @@ import {useState} from "react";
 import ComponentSelector from "./ComponentSelector";
 
 export default function ListComponent(props) {
-    const [data, setData] = useState(props.component)
+    const [, setData] = useState(props.component)
 
     return (
         <div className={`form-group col-md-12 text-center`}>

@@ -65,13 +65,6 @@ const save = (path, template) => {
     const saveRequest = getSaveRequest(template)
     const toSave = prepareDataHolder(template)
     return saveRequest(path, toSave)
-        .then(response => {
-            if (response && response.data) {
-                console.log("Template saved successfuly. Id: " + response.data)
-            }
-
-            return response;
-        })
 }
 
 const restService = {

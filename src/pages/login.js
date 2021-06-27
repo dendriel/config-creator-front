@@ -3,41 +3,28 @@ import styles from "./login.module.css"
 import authService from "../services/auth.service";
 import cookies from "js-cookie";
 import restService from "../services/rest.service";
-import {useEffect, useState} from "react";
 import {useAuth} from "../contexts/authentication-provider";
 import {useHistory} from "react-router";
 import userService from "../services/user.service";
+import {useState} from "react";
 
 export default function Login() {
     const [loginError, setLoginError] = useState('')
-    const { isAuthenticated, setToken } = useAuth()
+    const { setToken } = useAuth()
     const [tryingLogin, setTryingLogin] = useState(false)
 
     const history = useHistory();
-
-    useEffect(() => {
-        console.log(isAuthenticated)
-        if (!isAuthenticated) {
-            return;
-        }
-
-        console.log("Already logged in")
-
-    }, [history, isAuthenticated]);
 
     const loadUser = (token) => {
         userService.getMyUser()
             .then(response => {
 
+                localStorage.setItem("user", JSON.stringify(response.data))
                 setToken(token.jwt)
                 cookies.set('token', token.jwt, { expires: 60 })
                 console.log("Got token " + token.jwt)
 
-                localStorage.setItem("user", JSON.stringify(response.data))
-                console.log(response.data)
-
                 setTryingLogin(false)
-
                 history.push('/')
             })
             .catch(() => {

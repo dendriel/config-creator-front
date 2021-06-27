@@ -5,16 +5,19 @@ import NotFound from "./pages/notfound";
 import Directory from "./pages/directory";
 import Template from "./pages/template";
 import TemplateCreate from "./pages/template-create";
-import ResourceCreate from "./components/template/ResourceCreate";
-import Configuration from "./pages/configuration";
 import Project from "./pages/project";
 import ProjectCreate from "./pages/project-create";
+import Resource from "./pages/resource";
+import ResourceCreate from "./pages/resource-create";
 
 
 export default function Routes() {
     return (
         <Switch>
             <Route exact path="/">
+                <Home />
+            </Route>
+            <Route path="/home">
                 <Home />
             </Route>
             <Route path="/login">
@@ -34,13 +37,6 @@ export default function Routes() {
                 <Template />
             </Route>
 
-            <Route path="/configuration/create">
-                {/*<Configuration*/}
-            </Route>
-            <Route path="/configuration">
-                <Configuration />
-            </Route>
-
             <Route path="/project/create">
                 <ProjectCreate />
             </Route>
@@ -51,9 +47,18 @@ export default function Routes() {
                 <Project />
             </Route>
 
-            <Route path="/resource/create">
+
+            <Route path="/resource/edit/:projectId/:id">
                 <ResourceCreate />
             </Route>
+            <Route path="/resource/create/:projectId">
+                <ResourceCreate />
+            </Route>
+            <Route path="/resource">
+                <Resource />
+            </Route>
+
+
             <Route path="*">
                 <NotFound />
             </Route>

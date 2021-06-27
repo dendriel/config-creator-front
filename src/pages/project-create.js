@@ -90,13 +90,13 @@ export default function ProjectCreate() {
             />
             <div>
                 <div className="row">
-                    <label className="col-2 col-form-label text-sm-right">Id</label>
+                    <label className="col-2 col-form-label text-right">Id</label>
                     <div className="col-8">
-                        <label className="col-10 col-form-label text-sm-left">{project.id}</label>
+                        <label className="col-10 col-form-label text-left">{project.id}</label>
                     </div>
                 </div>
                 <div className="row">
-                    <label className="col-2 col-form-label text-sm-right">Name</label>
+                    <label className="col-2 col-form-label text-right">Name</label>
                     <div className="col-8">
                         <input
                             type="text"

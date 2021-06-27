@@ -117,13 +117,13 @@ export default function ResourceCreate(props) {
         <div className="col-md-10 container">
             <div>
                 <div className="form-group row">
-                    <label className="col-md-2 col-form-label text-sm-right">Id</label>
+                    <label className="col-md-2 col-form-label text-right">Id</label>
                     <div className="col-md-8">
-                        <label className="col-md-10 col-form-label text-sm-left">{data.id}</label>
+                        <label className="col-md-10 col-form-label text-left">{data.id}</label>
                     </div>
                 </div>
                 <div className="form-group row">
-                    <label className="col-md-2 col-form-label text-sm-right">Name</label>
+                    <label className="col-md-2 col-form-label text-right">Name</label>
                     <div className="col-md-8">
                         <input
                             type="text"

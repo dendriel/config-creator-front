@@ -11,7 +11,7 @@ export default function List(props) {
                     <div className="row">
                         {props.header.map(item => {
                             return (
-                                <div className={`col ${styles.columns} text-center`}>
+                                <div className={`col ${styles.columns} text-center`} key={item}>
                                     <b>{item}</b>
                                 </div >
                             )

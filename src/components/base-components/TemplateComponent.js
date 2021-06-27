@@ -2,7 +2,7 @@ import {useState} from "react";
 import ComponentSelector from "./ComponentSelector";
 
 export default function TemplateComponent(props) {
-    const [data, setData] = useState(props.component)
+    const [, setData] = useState(props.component)
 
     const getStyle = () => {
         return props.root ? "" : "border border-primary rounded"

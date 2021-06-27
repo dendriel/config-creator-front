@@ -17,26 +17,6 @@ export default function ComponentTypeDropdown(props) {
     const onSelect = (e) => {
         setSelected(e)
         props.onSelected(e)
-        // setData(old => {
-        //     return {
-        //         ...old,
-        //         type: e
-        //     }
-        // })
-
-        // props.setData(oldData => {
-        //     oldData.value = oldData.value.map(comp => {
-        //         if (comp.key !== props.component.key) {
-        //             return comp;
-        //         }
-        //
-        //         return {
-        //             ...comp,
-        //             type: e
-        //         }
-        //     })
-        //     return oldData
-        // })
     }
 
     const getTitle = (type, label) => {

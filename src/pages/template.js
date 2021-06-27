@@ -15,7 +15,6 @@ export default function Template() {
     const loadTemplates = () => {
         templateService.getAll(0, 10)
             .then(response => {
-                console.log("HERE " + JSON.stringify(response))
                 if (response && response.data) {
                     setTemplates(response.data)
                 }

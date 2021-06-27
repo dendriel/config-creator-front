@@ -2,6 +2,7 @@ import {useRef, useState} from "react";
 import {ButtonGroup, Button} from "react-bootstrap";
 import {BsFillCaretDownFill, BsFillCaretUpFill, BsTrashFill} from "react-icons/all";
 import ComponentTypeDropdown from "./ComponentTypeDropdown";
+import ComponentTypeDropdownExtraFields from "./ComponentTypeDropdownExtraFields";
 import CustomOverlay from "../components/CustomOverlay";
 
 
@@ -9,6 +10,10 @@ export default function SelectComponent(props) {
     const [data, setData] = useState(props.component)
     const [toRemove, setToRemove] = useState(false)
     const removeButtonTarget = useRef(null)
+
+    const onComponentSubtypeChanged = (value) => {
+        onDataUpdated('subtype', value)
+    }
 
     const onDataUpdated = (key, value) => {
         setData(old => {
@@ -41,36 +46,6 @@ export default function SelectComponent(props) {
 
         console.log("Remove")
         props.remove(data.key)
-    }
-
-    const hasExtraFields = () => {
-        if (!data.type) {
-            return ""
-        }
-
-        return data.type === "list";
-    }
-
-    const getExtraFields = () => {
-        if (!data.type) {
-            return ""
-        }
-
-        switch (data.type) {
-            case "list":
-                return (
-                    <>
-                        <label className="marginRight">Type: </label>
-                        <ComponentTypeDropdown
-                            placeholder="Select Type"
-                            selected={data.subtype}
-                            onSelected={(value) => onDataUpdated("subtype", value)}
-                        />
-                    </>
-                )
-            default:
-                return ""
-        }
     }
 
     const findIndex = () => {
@@ -136,18 +111,18 @@ export default function SelectComponent(props) {
                         </>
                     </div>
                 </div>
-                {
-                    hasExtraFields() ?
-                        <div className={`row justify-content-start marginTop`}>
-                            <div className="col-10">
-                                <div className={`form-inline marginRight`}>
-                                    {getExtraFields()}
-                                </div>
-                            </div>
+                <div className={`row justify-content-start marginTop`}>
+                    <div className="col-10">
+                        <div className={`form-inline marginRight`}>
+                            <ComponentTypeDropdownExtraFields
+                                subtype={data.subtype}
+                                type={data.type}
+                                onChanged={onComponentSubtypeChanged}
+                                label="Type: "
+                            />
                         </div>
-                        :
-                        ""
-                }
+                    </div>
+                </div>
             </div>
         </div>
     )

@@ -20,7 +20,7 @@ export default function AuthenticationProvider({children} ) {
     }, [])
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated: !!token, setToken}}>
+        <AuthContext.Provider value={{ isAuthenticated: !!token, token, setToken}}>
             {children}
         </AuthContext.Provider>
     );

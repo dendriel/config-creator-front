@@ -29,7 +29,7 @@ export default function ListItem(props) {
 
                     {props.cols.map(value => {
                         return (
-                            <div className={`col ${styles.columns} text-center`}>
+                            <div className={`col ${styles.columns} text-center`} key={value}>
                                 {value}
                             </div >
                         )

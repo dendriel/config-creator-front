@@ -5,6 +5,7 @@ import {Button} from "react-bootstrap";
 import {useParams} from "react-router";
 import templateService from "../services/template.service";
 import {useAlert} from "../contexts/alert-provider";
+import PageHeader from "../components/components/PageHeader";
 
 export default function TemplateCreate() {
     const [template, setTemplate] = useState({ id: "", data: { name: "", value: [] } })
@@ -123,17 +124,17 @@ export default function TemplateCreate() {
     return(
         <div className="col-md-12 container">
             <div>
-                <h1>Templates / {mode}</h1>
+                <PageHeader current={mode} previous="Templates" previousLink="/template"/>
             </div>
             <div>
                 <div className="row">
-                    <label className="col-2 col-form-label text-sm-right">Id</label>
+                    <label className="col-2 col-form-label text-right">Id</label>
                     <div className="col-8">
-                        <label className="col-10 col-form-label text-sm-left">{template.id}</label>
+                        <label className="col-10 col-form-label text-left">{template.id}</label>
                     </div>
                 </div>
                 <div className="row">
-                    <label className="col-2 col-form-label text-sm-right">Name</label>
+                    <label className="col-2 col-form-label text-right">Name</label>
                     <div className="col-8">
                         <input
                             type="text"
