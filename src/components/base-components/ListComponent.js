@@ -2,6 +2,10 @@ import {useState} from "react";
 import ComponentSelector from "./ComponentSelector";
 
 export default function ListComponent(props) {
+    if (props.component.value === undefined || props.component.value === null) {
+        props.component.value = []
+    }
+
     const [, setData] = useState(props.component)
 
     return (

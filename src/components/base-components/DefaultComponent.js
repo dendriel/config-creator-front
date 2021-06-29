@@ -1,25 +1,44 @@
 import {useState} from "react";
 
 export default function DefaultComponent(props) {
+    if (props.component.value === undefined || props.component.value === null) {
+        props.component.value = props.defaultValue
+    }
+
     const [value, setValue] = useState(props.component.value)
 
-    const onChange = (e) => {
-        const newValue = props.component.type === "toggle" ? e.target.checked : e.target.value
+    const onChanged = (e) => {
+        let newValue = e.target.value
+        if (props.type === "checkbox") {
+            newValue = e.target.checked
+        }
+
         setValue(newValue);
 
-        props.setData(data => {
-            data.value = data.value.map(comp => {
-                if (comp.key !== props.component.key) {
-                    return comp;
-                }
+        props.onChanged(props.id, newValue)
+    }
 
-                return {
-                    ...comp,
-                    value: newValue
-                }
-            })
-            return data
-        })
+    const getComponent = () => {
+        if (props.type === "textarea") {
+            return (
+                <textarea
+                    rows={props.component.rows}
+                    className={`form-control`}
+                    onChange={onChanged}
+                    value={value}
+                />
+            )
+        }
+
+        return (
+            <input
+                type={props.type}
+                className={`form-control ${props.inputStyle}`}
+                onChange={onChanged}
+                value={value}
+                checked={value}
+            />
+        )
     }
 
     return (
@@ -28,13 +47,7 @@ export default function DefaultComponent(props) {
                 {props.component.name}
             </label>
             <div className="col-md-8 float-left">
-                <input
-                    type={props.type}
-                    className={`form-control ${props.inputStyle}`}
-                    onChange={onChange}
-                    value={value}
-                    checked={value}
-                />
+                {getComponent()}
             </div>
         </div>
     )

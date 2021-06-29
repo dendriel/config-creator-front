@@ -63,7 +63,7 @@ export default function ResourceCreate() {
 
     const setName = (name) => setValue('name', name)
     const setType = (type) => setValue('type', type)
-    const setComponentType = (type) => setValue('componentType', type)
+    const setComponentType = (componentType) => setValue('componentType', componentType)
     const setComponentSubtype = (type) => setValue('componentSubtype', type)
 
     const setValue = (key, value) => {

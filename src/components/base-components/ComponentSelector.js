@@ -9,45 +9,49 @@ import TemplateComponent from "./TemplateComponent";
 export default function ComponentSelector(props) {
 
     const select = () => {
-        switch(props.component.type) {
+        switch(props.component.componentType) {
             case "text":
                 return <TextComponent
-                    key={props.component.key}
+                    key={props.id}
+                    id={props.id}
                     component={props.component}
-                    setData={props.setData}
+                    onChanged={props.onChanged}
                 />
             case "textarea":
                 return <TextAreaComponent
-                    key={props.component.key}
+                    key={props.id}
+                    id={props.id}
                     component={props.component}
-                    setData={props.setData}
+                    onChanged={props.onChanged}
                 />
             case "number":
                 return <NumberComponent
-                    key={props.component.key}
+                    key={props.id}
+                    id={props.id}
                     component={props.component}
-                    setData={props.setData}
+                    onChanged={props.onChanged}
                 />
             case "toggle":
                 return <ToggleComponent
-                    key={props.component.key}
+                    key={props.id}
+                    id={props.id}
                     component={props.component}
-                    setData={props.setData}
+                    onChanged={props.onChanged}
                 />
             case "template":
                 return <TemplateComponent
-                    key={props.component.key}
+                    key={props.id}
                     component={props.component}
                     setData={props.setData}
                 />
             case "list":
                 return <ListComponent
-                    key={props.component.key}
+                    key={props.id}
                     component={props.component}
                     setData={props.setData}
                 />
             default:
-                return <div>unknown component {props.component.type} </div>
+                return <div>unknown component {props.component.componentType} </div>
         }
     }
 

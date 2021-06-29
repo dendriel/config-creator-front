@@ -4,7 +4,9 @@ import DefaultComponent from "./DefaultComponent";
 export default function NumberComponent(props) {
     return <DefaultComponent
         type="number"
+        id={props.id}
         component={props.component}
-        setData={props.setData}
+        onChanged={props.onChanged}
+        defaultValue={0}
     />
 }

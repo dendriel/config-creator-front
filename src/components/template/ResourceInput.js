@@ -2,8 +2,10 @@ import {useState} from "react";
 import TemplateComponent from "../base-components/TemplateComponent";
 
 
-export default function ResourceCreate(props) {
-    const [data, setData] = useState({
+export default function ResourceInput(props) {
+    const [data, setData] = useState(props.data)
+
+    const sampleState = {
         key: "CDAB11C6194F4008A985EE19B6D052D5",
         id: 1,
         type: "template",
@@ -102,7 +104,7 @@ export default function ResourceCreate(props) {
                 ]
             }
         ]
-    })
+    }
 
     const setName = (name) => {
         setData(old => {

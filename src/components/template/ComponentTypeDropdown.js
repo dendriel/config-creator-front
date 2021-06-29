@@ -3,8 +3,6 @@ import {useState} from "react";
 
 
 export default function ComponentTypeDropdown(props) {
-    const [selected, setSelected] = useState(props.selected)
-
     // Get from backend
     const options = [
         { value: 'number', label: 'Number' },
@@ -15,7 +13,6 @@ export default function ComponentTypeDropdown(props) {
     ]
 
     const onSelect = (e) => {
-        setSelected(e)
         props.onSelected(e)
     }
 
@@ -28,7 +25,7 @@ export default function ComponentTypeDropdown(props) {
     }
 
     return (
-        <DropdownButton className={`float-left marginRight`} variant="secondary" title={getTitle(selected, props.placeholder)} onSelect={onSelect}>
+        <DropdownButton className={`float-left marginRight`} variant="secondary" title={getTitle(props.selected, props.placeholder)} onSelect={onSelect}>
             <Dropdown.ItemText><i>Components</i></Dropdown.ItemText>
             {options.map(o =>
                 <Dropdown.Item key={o.value} eventKey={o.value}>

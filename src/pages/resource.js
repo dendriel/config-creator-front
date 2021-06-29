@@ -35,7 +35,7 @@ export default function Resource() {
                 load();
             })
             .catch(error => {
-                if (error.response.status === 404) {
+                if (error.response && error.response.status === 404) {
                     setNotFound(true)
                 }
             })
