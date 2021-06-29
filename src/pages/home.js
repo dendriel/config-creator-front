@@ -63,6 +63,10 @@ export default function Home() {
         })
     }
 
+    const saveResources = () => {
+        console.log(JSON.stringify(resourcesData))
+    }
+
     return (
         <div className="col-md-12 container">
             <div className="text-center marginTop marginTopBottom">
@@ -75,8 +79,12 @@ export default function Home() {
                 }
                 {!notFound && resourcesData ?
                     <>
-                        <Button variant="info" onClick={() => console.log(JSON.stringify(resourcesData))}> Save </Button>
-                        <div className="col-md-12 container align-middle">
+                        <div className={"row"}>
+                            <div className={"col marginBottom"}>
+                                <Button variant="info" onClick={saveResources}> Save </Button>
+                            </div>
+                        </div>
+                        <div className="col-12 container align-middle">
                             {resourcesData.map(res => {
                                 if (res.data.type === "item") {
                                     return <ComponentSelector

@@ -47,8 +47,9 @@ export default function ComponentSelector(props) {
             case "list":
                 return <ListComponent
                     key={props.id}
+                    id={props.id}
                     component={props.component}
-                    setData={props.setData}
+                    onChanged={props.onChanged}
                 />
             default:
                 return <div>unknown component {props.component.componentType} </div>

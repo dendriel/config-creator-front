@@ -78,7 +78,7 @@ export default function SelectComponent(props) {
 
     return(
         <div className="row justify-content-center">
-            <div className={`col-10  border border-secondary rounded paddingTopBottom`}>
+            <div className={`col-10 border border-secondary rounded paddingTopBottom`}>
                 <div className="row justify-content-center">
                     <div className="col-2">
                         <ComponentTypeDropdown
