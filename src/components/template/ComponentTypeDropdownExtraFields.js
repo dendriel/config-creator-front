@@ -24,6 +24,7 @@ export default function ComponentTypeDropdownExtraFields(props) {
                             placeholder="Select Type"
                             selected={props.subtype}
                             onSelected={props.onChanged}
+                            excludeTypes={["list"]}
                         />
                     </>
                 )

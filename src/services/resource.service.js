@@ -3,9 +3,31 @@ import restService from "./rest.service";
 const proxyPath = "/rest"
 const path = proxyPath + "/resource"
 
+const mapToValue = (res) => {
+    return {
+        id: res.id,
+        data: {
+            componentType: res.data.componentType,
+            value: res.data.value
+        }
+    }
+}
 
 const saveValues = (resources) => {
-    // TODO: remove unecessary fields
+    resources = resources.map(res => {
+        let value = res.data.value
+        if (value !== null && res.data.componentType === "list") {
+            value = value.map(mapToValue)
+        }
+        return {
+            id: res.id,
+            data: {
+                componentType: res.data.componentType,
+                value: value
+            }
+        }
+    })
+
     const toSave = resources.map(res => restService.prepareDataHolder(res));
     return restService.api.patch(path + "/value", toSave)
 }

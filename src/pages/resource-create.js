@@ -14,6 +14,8 @@ export default function ResourceCreate() {
     const {closeAlert, alertSuccess, alertError} = useAlert();
     const [mode, setMode] = useState("Create")
 
+    const [initialComponentSubtype, setInitialComponentSubtype] = useState(resource.data.componentType)
+
     let { projectId, id } = useParams();
     const history = useHistory();
 
@@ -47,24 +49,24 @@ export default function ResourceCreate() {
         resourceService.getById(id)
             .then(response => {
                 if (response && response.data) {
-                    setResource(response.data)
+                    const value = response.data
+                    setResource(value)
+                    if (value.data.componentType === "list") {
+                        setInitialComponentSubtype(value.data.componentSubtype)
+                    }
                 }
             })
-    }
-
-    const setData = (data) => {
-        setResource(old => {
-            return {
-                ...old,
-                data: data
-            }
-        })
     }
 
     const setName = (name) => setValue('name', name)
     const setType = (type) => setValue('type', type)
     const setComponentType = (componentType) => setValue('componentType', componentType)
     const setComponentSubtype = (type) => setValue('componentSubtype', type)
+
+    const clearValues = () => {
+        setValue('value', null)
+        resource.data.value = null
+    }
 
     const setValue = (key, value) => {
         setResource(old => {
@@ -83,14 +85,40 @@ export default function ResourceCreate() {
         })
     }
 
+    const getListLength = () => {
+        if (!isComponentTypeList() || resource.data.value === null) {
+            return 0
+        }
+
+        return resource.data.value.length
+    }
+
+    const isSaveDisabled = () => {
+        return saving ||
+            !resource.data.name ||
+            (isComponentTypeList() && !resource.data.componentSubtype)
+    }
+
+    const isComponentTypeList = () => {
+        return resource.data.componentType === "list"
+    }
+
     const save = () => {
         if (saving) {
             return;
         }
 
         closeAlert();
-
         setSaving(true)
+
+        if (initialComponentSubtype &&
+            resource.data.componentType === "list" &&
+            initialComponentSubtype !== resource.data.componentSubtype
+        ) {
+            clearValues()
+            setInitialComponentSubtype(resource.data.componentSubtype)
+        }
+
         resourceService.save(resource)
             .then(response => {
                 alertSuccess("Resource saved successfully.")
@@ -164,6 +192,15 @@ export default function ResourceCreate() {
                                 subtype={resource.data.componentSubtype}
                                 onChanged={setComponentSubtype}
                             />
+                            {initialComponentSubtype &&
+                             resource.data.componentSubtype &&
+                             initialComponentSubtype !== resource.data.componentSubtype &&
+                                getListLength() > 0?
+                                    <label className={" col-form-label textColorRed"}>
+                                        WARNING! Changing SubType will remove all {getListLength()} list elements.
+                                    </label>
+                                : ""
+                            }
                         </div>
                     </div>
                     : ""
@@ -171,7 +208,7 @@ export default function ResourceCreate() {
 
                 <div className="row">
                     <div className={`col-10 marginTopBottom`}>
-                        <button className={`btn btn-primary float-right`} onClick={save} disabled={saving}>
+                        <button className={`btn btn-primary float-right`} onClick={save} disabled={isSaveDisabled()}>
                             {saving ? <span className="spinner-border spinner-border-sm" /> : ""}
                             Save
                         </button>

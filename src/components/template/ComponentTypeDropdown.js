@@ -4,13 +4,17 @@ import {useState} from "react";
 
 export default function ComponentTypeDropdown(props) {
     // Get from backend
-    const options = [
+    let options = [
         { value: 'number', label: 'Number' },
         { value: 'toggle', label: 'Toggle' },
         { value: 'text', label: 'Text' },
         { value: 'textarea', label: 'Text Area' },
         { value: 'list', label: 'List' },
     ]
+
+    if (props.excludeTypes) {
+        options = options.filter(e => !props.excludeTypes.includes(e.value))
+    }
 
     const onSelect = (e) => {
         props.onSelected(e)
