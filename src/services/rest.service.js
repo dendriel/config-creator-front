@@ -82,7 +82,8 @@ const restService = {
     getAll: getAll,
     removeById: removeById,
     save: save,
-    parseDataHolder: parseDataHolder
+    parseDataHolder: parseDataHolder,
+    prepareDataHolder: prepareDataHolder
 }
 
 axiosInstance.interceptors.response.use((response) => response, (error) => {

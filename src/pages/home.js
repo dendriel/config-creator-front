@@ -6,6 +6,7 @@ import LinkTo from "../components/components/LinkTo";
 import resourceService from "../services/resource.service";
 import ComponentSelector from "../components/base-components/ComponentSelector";
 import {Button} from "react-bootstrap";
+import {useAlert} from "../contexts/alert-provider";
 
 export default function Home() {
     const [project, setProject] = useState(null)
@@ -13,6 +14,8 @@ export default function Home() {
     const [resourcesData, setResourcesData] = useState(null)
 
     const {user} = useUser()
+
+    const {closeAlert, alertSuccess, alertError} = useAlert();
 
     const loadResources = () => {
         resourceService.getAll(0, 10)
@@ -64,7 +67,15 @@ export default function Home() {
     }
 
     const saveResources = () => {
+        closeAlert()
         console.log(JSON.stringify(resourcesData))
+        resourceService.saveValues(resourcesData)
+            .then(() => {
+                alertSuccess("Data saved successfully")
+            })
+            .catch(() => {
+                alertError("Failed to saved data. Please, try again")
+            })
     }
 
     return (

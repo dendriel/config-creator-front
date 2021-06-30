@@ -12,6 +12,9 @@ export default function DefaultComponent(props) {
         if (props.type === "checkbox") {
             newValue = e.target.checked
         }
+        else if (props.type === "number") {
+            newValue = parseInt(newValue, 10)
+        }
 
         setValue(newValue);
 
