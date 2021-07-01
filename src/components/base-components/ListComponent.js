@@ -15,7 +15,7 @@ export default function ListComponent(props) {
         const comp = {
             id: uuidv4(),
             data: {
-                name: "item",
+                name: data.length + ":",
                 type: "item",
                 componentType: props.component.componentSubtype,
                 componentSubtype: ""
@@ -55,6 +55,9 @@ export default function ListComponent(props) {
         newData[destnIndex] = newData[sourceIndex];
         newData[sourceIndex] = temp;
 
+        newData[destnIndex].data.name = destnIndex
+        newData[sourceIndex].data.name = sourceIndex
+
         setData(newData)
         props.onChanged(props.id, newData)
     }
@@ -66,30 +69,37 @@ export default function ListComponent(props) {
     }
 
     return (
-        <div className="row border border-secondary rounded paddingTopBottom marginTopBottom">
-            <div className={`col`}>
-                <label>{props.component.name}</label>
-                {data.map(comp => {
-                    return (<>
-                        <ComponentSelector
-                            key={comp.id}
-                            id={comp.id}
-                            component={comp.data}
-                            onChanged={onChanged}
-                        />
-                        <div className="col-3 text-right marginBottom">
-                            <ListItemController
-                                id={comp.id}
-                                saving={false}
-                                list={data}
-                                move={onMoveItem}
-                                remove={onRemoveItem}
-                            />
-                        </div>
-                    </>)
-                })}
+        <div className="row paddingTopBottom marginTopBottom formBorder">
+            <div className={"col-12"}>
+                <label className={"largeMarginBottom"}>{props.component.name}</label>
+
+                <div className={"row"}>
+                    {data.map((comp, idx) => {
+                        comp.data.name = idx
+                        return (
+                            <>
+                                <div className={"col-10"}>
+                                    <ComponentSelector
+                                        key={comp.id}
+                                        id={comp.id}
+                                        component={comp.data}
+                                        onChanged={onChanged}
+                                    />
+                                </div>
+                                <div className="col-2 text-left marginBottom">
+                                    <ListItemController
+                                        id={comp.id}
+                                        saving={false}
+                                        list={data}
+                                        move={onMoveItem}
+                                        remove={onRemoveItem}
+                                    />
+                                </div>
+                        </>)
+                    })}
+                </div>
             </div>
-            <div className={`col-12 text-center marginTopBottom`}>
+            <div className={`col-10 text-right`}>
                 <Button variant="info" onClick={addItem} >
                     Add
                 </Button>

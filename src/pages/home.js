@@ -79,23 +79,25 @@ export default function Home() {
     }
 
     return (
-        <div className="col-md-12 container">
-            <div className="text-center marginTop marginTopBottom">
+        <div className="container">
+            <div className={"text-center"}>
                 {!notFound ?
-                    <div className="largeMarginBottom">
+                    <div className="largeMarginBottom marginTop">
                         <PageHeader current={project ? project.data.name : ""}/>
                     </div>
                     :
                     <LinkTo to="/project" message="Click here to select a default project" />
                 }
-                {!notFound && resourcesData ?
-                    <>
-                        <div className={"row"}>
-                            <div className={"col marginBottom"}>
-                                <Button variant="info" onClick={saveResources}> Save </Button>
-                            </div>
+            </div>
+            {!notFound && resourcesData ?
+                <>
+                    <div className={"row"}>
+                        <div className={"col marginBottom text-right"}>
+                            <Button variant="info" onClick={saveResources}>Save</Button>
                         </div>
-                        <div className="col-12 align-middle">
+                    </div>
+                    <div className={"row"}>
+                        <div className={"container"}>
                             {resourcesData.map(res => {
                                 if (res.data.type === "item") {
                                     return <ComponentSelector
@@ -115,10 +117,10 @@ export default function Home() {
                             }
                         )}
                         </div>
-                    </>
-                        : ""
-                }
-            </div>
+                    </div>
+                </>
+                    : ""
+            }
         </div>
     )
 }

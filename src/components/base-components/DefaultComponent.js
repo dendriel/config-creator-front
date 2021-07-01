@@ -46,10 +46,10 @@ export default function DefaultComponent(props) {
 
     return (
         <div className="form-group row">
-            <label className="col-md-2 col-form-label text-right">
+            <label className="col-1 col-form-label text-right">
                 {props.component.name}
             </label>
-            <div className="col-md-8 float-left">
+            <div className="col float-left">
                 {getComponent()}
             </div>
         </div>
