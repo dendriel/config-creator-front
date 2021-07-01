@@ -95,7 +95,7 @@ export default function Home() {
                                 <Button variant="info" onClick={saveResources}> Save </Button>
                             </div>
                         </div>
-                        <div className="col-12 container align-middle">
+                        <div className="col-12 align-middle">
                             {resourcesData.map(res => {
                                 if (res.data.type === "item") {
                                     return <ComponentSelector
