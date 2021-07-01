@@ -9,6 +9,7 @@ import Project from "./pages/project";
 import ProjectCreate from "./pages/project-create";
 import Resource from "./pages/resource";
 import ResourceCreate from "./pages/resource-create";
+import CollectionEditor from "./pages/collection-editor";
 
 
 export default function Routes() {
@@ -58,6 +59,9 @@ export default function Routes() {
                 <Resource />
             </Route>
 
+            <Route path="/collection/edit/:id">
+                <CollectionEditor />
+            </Route>
 
             <Route path="*">
                 <NotFound />

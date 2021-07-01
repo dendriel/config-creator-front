@@ -7,6 +7,8 @@ import resourceService from "../services/resource.service";
 import ComponentSelector from "../components/base-components/ComponentSelector";
 import {Button} from "react-bootstrap";
 import {useAlert} from "../contexts/alert-provider";
+import TemplateComponent from "../components/base-components/TemplateComponent";
+import {Link} from "react-router-dom";
 
 export default function Home() {
     const [project, setProject] = useState(null)
@@ -89,6 +91,20 @@ export default function Home() {
                     <LinkTo to="/project" message="Click here to select a default project" />
                 }
             </div>
+
+            {!notFound && resourcesData ?
+                <div className={"row"}>
+                    {resourcesData.map(res => {
+                            if (res.data.type === "collection") {
+                                return <div className={"col"}>
+                                    <Link to={'/collection/edit/' + res.id}>{res.data.name}</Link>
+                                </div>
+                            }
+                        }
+                    )}
+                </div>
+                : ""
+            }
             {!notFound && resourcesData ?
                 <>
                     <div className={"row"}>
@@ -107,13 +123,6 @@ export default function Home() {
                                         onChanged={onItemChanged}
                                     />
                                 }
-                                // else {
-                                //     return <TemplateComponent
-                                //         root={true}
-                                //         component={res}
-                                //         setData={setResourcesData}
-                                //     />
-                                // }
                             }
                         )}
                         </div>
