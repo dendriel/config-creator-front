@@ -7,7 +7,6 @@ import resourceService from "../services/resource.service";
 import ComponentSelector from "../components/base-components/ComponentSelector";
 import {Button} from "react-bootstrap";
 import {useAlert} from "../contexts/alert-provider";
-import TemplateComponent from "../components/base-components/TemplateComponent";
 import {Link} from "react-router-dom";
 
 export default function Home() {
@@ -20,7 +19,7 @@ export default function Home() {
     const {closeAlert, alertSuccess, alertError} = useAlert();
 
     const loadResources = () => {
-        resourceService.getAll(0, 10)
+        resourceService.getAll(0, 100)
             .then(response => {
                 setResourcesData(response.data)
             })
@@ -68,9 +67,8 @@ export default function Home() {
         })
     }
 
-    const saveResources = () => {
+    const onSave = () => {
         closeAlert()
-        console.log(JSON.stringify(resourcesData))
         resourceService.saveValues(resourcesData)
             .then(() => {
                 alertSuccess("Data saved successfully")
@@ -109,7 +107,7 @@ export default function Home() {
                 <>
                     <div className={"row"}>
                         <div className={"col marginBottom text-right"}>
-                            <Button variant="info" onClick={saveResources}>Save</Button>
+                            <Button variant="info" onClick={onSave}>Save</Button>
                         </div>
                     </div>
                     <div className={"row"}>

@@ -59,7 +59,12 @@ export default function ResourceCreate() {
     }
 
     const setName = (name) => setValue('name', name)
-    const setType = (type) => setValue('type', type)
+    const setType = (type) => {
+        if (type === 'collection' && resource.data.componentType === 'list') {
+            setComponentType('')
+        }
+        setValue('type', type)
+    }
     const setComponentType = (componentType) => setValue('componentType', componentType)
     const setComponentSubtype = (type) => setValue('componentSubtype', type)
 
@@ -86,7 +91,7 @@ export default function ResourceCreate() {
     }
 
     const getListLength = () => {
-        if (!isComponentTypeList() || resource.data.value === null) {
+        if (!isComponentTypeList() || !resource.data.value) {
             return 0
         }
 
@@ -96,6 +101,7 @@ export default function ResourceCreate() {
     const isSaveDisabled = () => {
         return saving ||
             !resource.data.name ||
+            !resource.data.componentType ||
             (isComponentTypeList() && !resource.data.componentSubtype)
     }
 
@@ -180,6 +186,7 @@ export default function ResourceCreate() {
                             placeholder="Select"
                             selected={resource.data.componentType}
                             onSelected={setComponentType}
+                            excludeTypes={resource.data.type === 'collection' ? ["list"] : []}
                         />
                     </div>
                 </div>
