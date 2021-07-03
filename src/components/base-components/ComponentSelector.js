@@ -38,14 +38,15 @@ export default function ComponentSelector(props) {
                     component={props.component}
                     onChanged={props.onChanged}
                 />
-            case "template":
-                return <TemplateComponent
-                    key={props.id}
-                    component={props.component}
-                    setData={props.setData}
-                />
             case "list":
                 return <ListComponent
+                    key={props.id}
+                    id={props.id}
+                    component={props.component}
+                    onChanged={props.onChanged}
+                />
+            case "template":
+                return <TemplateComponent
                     key={props.id}
                     id={props.id}
                     component={props.component}

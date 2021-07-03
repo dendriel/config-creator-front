@@ -7,9 +7,8 @@ import ListItemController from "../components/ListItemController";
 export default function SelectComponent(props) {
     const [data, setData] = useState(props.component)
 
-    const onComponentSubtypeChanged = (value) => {
-        onDataUpdated('subtype', value)
-    }
+    const onComponentTypeChanged = (value) => onDataUpdated('componentType', value)
+    const onComponentSubtypeChanged = (value) => onDataUpdated('componentSubtype', value)
 
     const onDataUpdated = (key, value) => {
         setData(old => {
@@ -20,7 +19,7 @@ export default function SelectComponent(props) {
         })
 
         props.data.value = props.data.value.map(comp => {
-            if (comp.key !== props.component.key) {
+            if (comp.id !== props.component.id) {
                 return comp;
             }
 
@@ -48,24 +47,24 @@ export default function SelectComponent(props) {
 
     return(
         <div className="row justify-content-center">
-            <div className={`col-10 border border-secondary rounded paddingTopBottom`}>
+            <div className={`col-10 formBorder paddingTopBottom`}>
                 <div className="row justify-content-center">
                     <div className="col-2">
                         <ComponentTypeDropdown
                             placeholder="Select"
-                            selected={data.type}
-                            onSelected={(value) => onDataUpdated("type", value)}
+                            selected={data.componentType}
+                            onSelected={onComponentTypeChanged}
                         />
                     </div>
                     <div className="col-7">
-                        <div className={`float-left form-inline marginRight`}>
-                            <label className={`col-form-label marginRight`}>Name:</label>
-                            <input className="form-control" type="text" value={data.name} onChange={(e) => onDataUpdated("name", e.target.value)}/>
+                        <div className={"row"}>
+                            <label className={"col-form-label col-2 text-right"}>Name:</label>
+                            <input type="text" className="col-10 form-control" value={data.name} onChange={(e) => onDataUpdated("name", e.target.value)}/>
                         </div>
                     </div>
                     <div className="col-3 text-right">
                         <ListItemController
-                            id={data.key}
+                            id={data.id}
                             saving={props.saving}
                             move={move}
                             list={props.data.value}
@@ -73,16 +72,15 @@ export default function SelectComponent(props) {
                             />
                     </div>
                 </div>
-                <div className={`row justify-content-start marginTop`}>
+                <div className={`row justify-content-start`}>
                     <div className="col-10">
-                        <div className={`form-inline marginRight`}>
-                            <ComponentTypeDropdownExtraFields
-                                subtype={data.subtype}
-                                type={data.type}
-                                onChanged={onComponentSubtypeChanged}
-                                label="Type: "
-                            />
-                        </div>
+                        <ComponentTypeDropdownExtraFields
+                            subtype={data.componentSubtype}
+                            type={data.componentType}
+                            onChanged={onComponentSubtypeChanged}
+                            label="Type: "
+                            style={"marginTop"}
+                        />
                     </div>
                 </div>
             </div>

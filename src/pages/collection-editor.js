@@ -5,7 +5,6 @@ import {useAlert} from "../contexts/alert-provider";
 import PageHeader from "../components/components/PageHeader";
 import {useUser} from "../contexts/user-provider";
 import projectService from "../services/project.service";
-import ListComponent from "../components/base-components/ListComponent";
 import ComponentSelector from "../components/base-components/ComponentSelector";
 import {Button} from "react-bootstrap";
 
@@ -16,7 +15,7 @@ export default function CollectionEditor() {
     let { id } = useParams();
 
     const [project, setProject] = useState(null)
-    const [notFound, setNotFound] = useState(false)
+    const [, setNotFound] = useState(false)
 
     const {closeAlert, alertSuccess, alertError} = useAlert();
 

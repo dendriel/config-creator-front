@@ -20,12 +20,7 @@ export default function ListItemController(props) {
     }
 
     const findIndex = () => {
-        let id = props.list.findIndex(e => e.key === props.id)
-        if (id === -1) { // gambiarra
-            // TODO: use key instead of id in template-create
-            return props.list.findIndex(e => e.id === props.id)
-        }
-        return id
+        return props.list.findIndex(e => e.id === props.id)
     }
 
     const isLastElement = () => {

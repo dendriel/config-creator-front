@@ -12,7 +12,9 @@ import {Link} from "react-router-dom";
 export default function Home() {
     const [project, setProject] = useState(null)
     const [notFound, setNotFound] = useState(true)
-    const [resourcesData, setResourcesData] = useState(null)
+    const [itemResourcesData, setItemResourcesData] = useState(null)
+    const [collResourcesData, setCollResourcesData] = useState(null)
+
 
     const {user} = useUser()
 
@@ -21,7 +23,10 @@ export default function Home() {
     const loadResources = () => {
         resourceService.getAll(0, 100)
             .then(response => {
-                setResourcesData(response.data)
+                const itemRes = response.data.filter(r => r.data.type === 'item')
+                const collRes = response.data.filter(r => r.data.type === 'collection')
+                setItemResourcesData(itemRes)
+                setCollResourcesData(collRes)
             })
     }
 
@@ -51,7 +56,7 @@ export default function Home() {
     }, [user, setProject])
 
     const onItemChanged = (id, value) => {
-        setResourcesData(old => {
+        setItemResourcesData(old => {
             return old.map(res => {
                 if (res.id === id) {
                     return {
@@ -69,7 +74,7 @@ export default function Home() {
 
     const onSave = () => {
         closeAlert()
-        resourceService.saveValues(resourcesData)
+        resourceService.saveValues(itemResourcesData)
             .then(() => {
                 alertSuccess("Data saved successfully")
             })
@@ -90,9 +95,9 @@ export default function Home() {
                 }
             </div>
 
-            {!notFound && resourcesData ?
+            {!notFound && collResourcesData ?
                 <div className={"row"}>
-                    {resourcesData.map(res => {
+                    {collResourcesData.map(res => {
                             if (res.data.type === "collection") {
                                 return <div className={"col"}>
                                     <Link to={'/collection/edit/' + res.id}>{res.data.name}</Link>
@@ -103,7 +108,7 @@ export default function Home() {
                 </div>
                 : ""
             }
-            {!notFound && resourcesData ?
+            {!notFound && itemResourcesData ?
                 <>
                     <div className={"row"}>
                         <div className={"col marginBottom text-right"}>
@@ -112,7 +117,7 @@ export default function Home() {
                     </div>
                     <div className={"row"}>
                         <div className={"container"}>
-                            {resourcesData.map(res => {
+                            {itemResourcesData.map(res => {
                                 if (res.data.type === "item") {
                                     return <ComponentSelector
                                         key={res.id}

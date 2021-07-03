@@ -8,7 +8,7 @@ import {useAlert} from "../contexts/alert-provider";
 import PageHeader from "../components/components/PageHeader";
 
 export default function TemplateCreate() {
-    const [template, setTemplate] = useState({ id: "", data: { name: "", value: [] } })
+    const [template, setTemplate] = useState({ id: "", data: { name: "", componentType: "template", value: [] } })
     const [saving, setSaving] = useState(false)
     const {closeAlert, alertSuccess, alertError} = useAlert();
     const [mode, setMode] = useState("Create")
@@ -22,7 +22,7 @@ export default function TemplateCreate() {
             return;
         }
 
-        setTemplate({ id: "", data: { name: "", value: [] } })
+        setTemplate({ id: "", data: { name: "", componentType: "template", value: [] } })
         addComponent()
 
     }, [setTemplate])
@@ -69,8 +69,8 @@ export default function TemplateCreate() {
     }
 
     const addComponent = () => {
-        const newKey = uuidv4();
-        const newComponents = template.data.value.concat({key: newKey, type: "", name: ""})
+        const newId = uuidv4();
+        const newComponents = template.data.value.concat({id: newId, componentType: "", componentSubtype: "", name: ""})
         const data = {
             ...template.data,
             value: newComponents
@@ -82,8 +82,8 @@ export default function TemplateCreate() {
         )
     }
 
-    const removeComponent = (key) => {
-        const newComponents = template.data.value.filter(comp => comp.key !== key)
+    const removeComponent = (id) => {
+        const newComponents = template.data.value.filter(comp => comp.id !== id)
         const data = {
             ...template.data,
             value: newComponents
@@ -121,6 +121,10 @@ export default function TemplateCreate() {
             })
     }
 
+    const isSaveDisabled = () => {
+        return saving || !template.data.name
+    }
+
     return(
         <div className="col-md-12 container">
             <div>
@@ -146,7 +150,7 @@ export default function TemplateCreate() {
                 </div>
                 <div className="row">
                     <div className={`col-10 marginTop`}>
-                        <button className={`btn btn-primary float-right`} onClick={save} disabled={saving}>
+                        <button className={`btn btn-primary float-right`} onClick={save} disabled={isSaveDisabled()}>
                             {saving ? <span className="spinner-border spinner-border-sm" /> : ""}
                             Save
                         </button>
@@ -158,7 +162,7 @@ export default function TemplateCreate() {
                 <div>
                     {template.data.value.map(comp => {
                         return(
-                        <div key={comp.key} className="marginTop">
+                        <div key={comp.id} className="marginTop">
                             <SelectComponent
                                 component={comp}
                                 setData={setData}

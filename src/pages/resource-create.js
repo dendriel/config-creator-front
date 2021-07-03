@@ -61,11 +61,19 @@ export default function ResourceCreate() {
     const setName = (name) => setValue('name', name)
     const setType = (type) => {
         if (type === 'collection' && resource.data.componentType === 'list') {
-            setComponentType('')
+            setComponentType('', false)
         }
         setValue('type', type)
     }
-    const setComponentType = (componentType) => setValue('componentType', componentType)
+    const setComponentType = (componentType, isTemplate) => {
+        if (isTemplate) {
+            setValue('componentType', 'template')
+            setComponentSubtype(componentType)
+        }
+        else {
+            setValue('componentType', componentType)
+        }
+    }
     const setComponentSubtype = (type) => setValue('componentSubtype', type)
 
     const clearValues = () => {
@@ -141,6 +149,10 @@ export default function ResourceCreate() {
             })
     }
 
+    const getSelectedType = () => {
+        return resource.data.componentType === 'template' ? resource.data.componentSubtype : resource.data.componentType
+    }
+
     return (
         <div className="col-md-12 container">
             <div>
@@ -184,9 +196,10 @@ export default function ResourceCreate() {
                     <div className="col-8">
                         <ComponentTypeDropdown
                             placeholder="Select"
-                            selected={resource.data.componentType}
+                            selected={getSelectedType()}
                             onSelected={setComponentType}
                             excludeTypes={resource.data.type === 'collection' ? ["list"] : []}
+                            includeTemplates={true}
                         />
                     </div>
                 </div>

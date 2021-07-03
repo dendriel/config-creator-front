@@ -43,7 +43,7 @@ export default function Resource() {
     }, [user, setProject, setResources])
 
     const load = () => {
-        resourceService.getAll(0, 10)
+        resourceService.getAll(0, 100)
             .then(response => {
                 if (response && response.data) {
                     setResources(response.data)
