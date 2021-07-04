@@ -26,7 +26,7 @@ export default function ComponentTypeDropdownExtraFields(props) {
                                 selected={props.subtype}
                                 onSelected={props.onChanged}
                                 excludeTypes={["list"]}
-                                includeTemplates={true}
+                                includeTemplates={props.includeTemplates !== undefined ? props.includeTemplates : true}
                             />
                         </div>
                     </div>

@@ -12,13 +12,15 @@ export default function ListComponent(props) {
     const [data, setData] = useState(props.component.value)
 
     const addItem = () => {
+        const componentSubtype = props.component.templateId ? props.component.templateId : ""
+
         const comp = {
             id: uuidv4(),
             data: {
                 name: data.length + ":",
                 type: "item",
                 componentType: props.component.componentSubtype,
-                componentSubtype: ""
+                componentSubtype: componentSubtype
             }
         }
 
@@ -77,25 +79,29 @@ export default function ListComponent(props) {
                     {data.map((comp, idx) => {
                         comp.data.name = idx
                         return (
-                            <>
-                                <div className={"col-10"}>
-                                    <ComponentSelector
-                                        key={comp.id}
-                                        id={comp.id}
-                                        component={comp.data}
-                                        onChanged={onChanged}
-                                    />
+                            <div key={comp.id} className={"col-12"}>
+                                <div className={"container"}>
+                                     <div className={"row"}>
+                                        <div className={"col-10"}>
+                                            <ComponentSelector
+                                                key={comp.id}
+                                                id={comp.id}
+                                                component={comp.data}
+                                                onChanged={onChanged}
+                                            />
+                                        </div>
+                                        <div className="col-2 text-left marginBottom">
+                                            <ListItemController
+                                                id={comp.id}
+                                                saving={false}
+                                                list={data}
+                                                move={onMoveItem}
+                                                remove={onRemoveItem}
+                                            />
+                                        </div>
+                                     </div>
                                 </div>
-                                <div className="col-2 text-left marginBottom">
-                                    <ListItemController
-                                        id={comp.id}
-                                        saving={false}
-                                        list={data}
-                                        move={onMoveItem}
-                                        remove={onRemoveItem}
-                                    />
-                                </div>
-                        </>)
+                            </div>)
                     })}
                 </div>
             </div>

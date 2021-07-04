@@ -12,42 +12,36 @@ export default function ComponentSelector(props) {
         switch(props.component.componentType) {
             case "text":
                 return <TextComponent
-                    key={props.id}
                     id={props.id}
                     component={props.component}
                     onChanged={props.onChanged}
                 />
             case "textarea":
                 return <TextAreaComponent
-                    key={props.id}
                     id={props.id}
                     component={props.component}
                     onChanged={props.onChanged}
                 />
             case "number":
                 return <NumberComponent
-                    key={props.id}
                     id={props.id}
                     component={props.component}
                     onChanged={props.onChanged}
                 />
             case "toggle":
                 return <ToggleComponent
-                    key={props.id}
                     id={props.id}
                     component={props.component}
                     onChanged={props.onChanged}
                 />
             case "list":
                 return <ListComponent
-                    key={props.id}
                     id={props.id}
                     component={props.component}
                     onChanged={props.onChanged}
                 />
             case "template":
                 return <TemplateComponent
-                    key={props.id}
                     id={props.id}
                     component={props.component}
                     onChanged={props.onChanged}

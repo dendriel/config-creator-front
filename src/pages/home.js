@@ -99,7 +99,7 @@ export default function Home() {
                 <div className={"row"}>
                     {collResourcesData.map(res => {
                             if (res.data.type === "collection") {
-                                return <div className={"col"}>
+                                return <div className={"col"} key={res.id}>
                                     <Link to={'/collection/edit/' + res.id}>{res.data.name}</Link>
                                 </div>
                             }

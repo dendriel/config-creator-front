@@ -31,8 +31,15 @@ export default function CollectionEditor() {
                 if (!loadedCollection.data.value) {
                     loadedCollection.data.value = []
                 }
+
+                if (loadedCollection.data.componentType === 'template') {
+                    loadedCollection.data.templateId = loadedCollection.data.componentSubtype
+                }
+
                 loadedCollection.data.componentSubtype = loadedCollection.data.componentType
                 loadedCollection.data.componentType = "list"
+
+
                 console.log(JSON.stringify(loadedCollection))
                 setCollection(loadedCollection)
 

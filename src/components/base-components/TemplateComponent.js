@@ -51,7 +51,7 @@ export default function TemplateComponent(props) {
                     }
                 })
             })
-    }, [])
+    }, [template.data])
 
     return (
 
@@ -61,9 +61,8 @@ export default function TemplateComponent(props) {
 
                 <div className={"row"}>
                     {template.value ? template.value.map(comp => {
-                        return <div className={"col-12 align-content-center"}>
+                        return <div key={comp.id} className={"col-12 align-content-center"}>
                                 <ComponentSelector
-                                        key={comp.id}
                                         id={comp.id}
                                         component={comp}
                                         onChanged={onChanged}

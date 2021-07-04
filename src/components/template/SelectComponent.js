@@ -54,6 +54,7 @@ export default function SelectComponent(props) {
                             placeholder="Select"
                             selected={data.componentType}
                             onSelected={onComponentTypeChanged}
+                            includeTemplates={true}
                         />
                     </div>
                     <div className="col-7">
