@@ -22,8 +22,10 @@ configuration based on these templates. Features:
   - Add permissions in the backend.
 - Add image component
 - Add binary component
-
-
-### Tests
-
-- 
+- Add dropdown component
+- Disallow template loop
+- Disallow removing templates that are included in other templates
+- Use skeleton to wait for data loading
+- Add option to "inline" templates that only contains a list
+  - inlining a template will add its value without a key when exporting.
+  - This way, we can create a list of a inline template resulting in a list of lists (a matrix)

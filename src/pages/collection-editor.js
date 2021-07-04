@@ -39,8 +39,13 @@ export default function CollectionEditor() {
                 loadedCollection.data.componentSubtype = loadedCollection.data.componentType
                 loadedCollection.data.componentType = "list"
 
+                if (loadedCollection.data.value.length > 0) {
+                    loadedCollection.data.value = loadedCollection.data.value.map(e => {
+                        e.data.componentSubtype = loadedCollection.data.templateId
+                        return e
+                    })
+                }
 
-                console.log(JSON.stringify(loadedCollection))
                 setCollection(loadedCollection)
 
             })
@@ -82,11 +87,10 @@ export default function CollectionEditor() {
     }, [id, user, setProject])
 
     const onChanged = (id, value) => {
-        console.log(id + " - " + value)
-
         setCollection(old => {
             let newData = old.data
             newData.value = value
+
             return {
                 ...old,
                 data: newData
@@ -106,7 +110,7 @@ export default function CollectionEditor() {
     }
 
     return (
-        <div className="container">
+        <div className="col-md-12 container">
             <div>
                 <PageHeader current={collection.data.name} previous={project ? project.data.name : ""} previousLink="/"/>
             </div>

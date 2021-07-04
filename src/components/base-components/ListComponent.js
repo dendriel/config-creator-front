@@ -1,4 +1,3 @@
-import {useState} from "react";
 import ComponentSelector from "./ComponentSelector";
 import {Button} from "react-bootstrap";
 import { v4 as uuidv4 } from 'uuid';
@@ -9,29 +8,26 @@ export default function ListComponent(props) {
         props.component.value = []
     }
 
-    const [data, setData] = useState(props.component.value)
-
     const addItem = () => {
         const componentSubtype = props.component.templateId ? props.component.templateId : ""
 
         const comp = {
             id: uuidv4(),
             data: {
-                name: data.length + ":",
+                name: props.component.value.length + ":",
                 type: "item",
                 componentType: props.component.componentSubtype,
                 componentSubtype: componentSubtype
             }
         }
 
-        const newValue = data.concat(comp)
-        setData(newValue)
+        const newValue = props.component.value.concat(comp)
 
         props.onChanged(props.id, newValue)
     }
 
     const onChanged = (id, value) => {
-        const newData = data.map(item => {
+        const newData = props.component.value.map(item => {
             if (item.id !== id) {
                 return item
             }
@@ -44,14 +40,13 @@ export default function ListComponent(props) {
             }
         })
 
-        setData(newData)
         props.onChanged(props.id, newData)
     }
 
     const onMoveItem = (sourceIndex, pos) => {
         const destnIndex = sourceIndex + pos;
 
-        let newData = [...data]
+        let newData = [...props.component.value]
 
         const temp = newData[destnIndex]
         newData[destnIndex] = newData[sourceIndex];
@@ -60,13 +55,11 @@ export default function ListComponent(props) {
         newData[destnIndex].data.name = destnIndex
         newData[sourceIndex].data.name = sourceIndex
 
-        setData(newData)
         props.onChanged(props.id, newData)
     }
 
     const onRemoveItem = (id) => {
-        const newData = data.filter(comp => comp.id !== id)
-        setData(newData)
+        const newData = props.component.value.filter(comp => comp.id !== id)
         props.onChanged(props.id, newData)
     }
 
@@ -76,7 +69,7 @@ export default function ListComponent(props) {
                 <label className={"largeMarginBottom"}>{props.component.name}</label>
 
                 <div className={"row"}>
-                    {data.map((comp, idx) => {
+                    {props.component.value.map((comp, idx) => {
                         comp.data.name = idx
                         return (
                             <div key={comp.id} className={"col-12"}>
@@ -94,7 +87,7 @@ export default function ListComponent(props) {
                                             <ListItemController
                                                 id={comp.id}
                                                 saving={false}
-                                                list={data}
+                                                list={props.component.value}
                                                 move={onMoveItem}
                                                 remove={onRemoveItem}
                                             />

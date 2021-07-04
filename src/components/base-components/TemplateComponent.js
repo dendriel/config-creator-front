@@ -28,15 +28,54 @@ export default function TemplateComponent(props) {
         })
     }
 
-    useEffect(() => {
-        props.onChanged(props.id, template.value)
-    }, [template.value])
+    const setTemplateValue = (newValue) => {
+        setTemplate(old => {
+            return {
+                ...old,
+                value: newValue
+            }
+        })
+    }
 
-    useEffect(() => {
-        if (template.value) {
-            return
+    const isCompatibleTypes = (from, to) => {
+        if (from.componentType === 'list' && to.componentType === 'list') {
+            return from.componentSubtype === to.componentSubtype
         }
 
+        if (from.componentType === 'text' && to.componentType === 'textarea') {
+            return true
+        }
+
+        return from.componentType === to.componentType
+    }
+
+    const mapComponentValue = (from, to) => {
+        switch (to.componentType) {
+            default:
+                if (from.value && isCompatibleTypes(from, to)) {
+                    to.value = from.value
+                }
+                else {
+                    to.value = null
+                }
+        }
+    }
+
+    const updateTemplateValue = (baseValue) => {
+        if (!template.value) {
+            return baseValue
+        }
+
+        return baseValue.map(to => {
+            const from = template.value.find(curr => curr.id === to.id)
+            if (from) {
+                mapComponentValue(from, to)
+            }
+            return to;
+        })
+    }
+
+    const loadTemplate = () => {
         templateService.getById(props.component.componentSubtype)
             .then(response => {
                 if (!response || !response.data) {
@@ -44,13 +83,18 @@ export default function TemplateComponent(props) {
                 }
 
                 const template = response.data
-                setTemplate(old => {
-                    return {
-                        ...old,
-                        value: template.data.value
-                    }
-                })
+                const value = updateTemplateValue(template.data.value)
+                setTemplateValue(value)
             })
+    }
+
+    useEffect(() => {
+        props.onChanged(props.id, template.value)
+    }, [template.value])
+
+    useEffect(() => {
+        loadTemplate()
+
     }, [template.data])
 
     return (
