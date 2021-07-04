@@ -24,18 +24,23 @@ export default function ComponentTypeDropdown(props) {
                 response.data.forEach(t => {
                     setOptions(old => [...old, {value: t.id, label: t.data.name}])
                 })
+
+                removeExcludedTypes()
             })
             .catch(() => {
                 console.log("Failed to retrieve templates")
             })
     }
 
-    useEffect(() => {
+    const removeExcludedTypes = () => {
         if (props.excludeTypes) {
             setOptions(old => old.filter(e => !props.excludeTypes.includes(e.value)))
         }
+    }
 
+    useEffect(() => {
         if (!props.includeTemplates) {
+            removeExcludedTypes()
             return
         }
 
@@ -62,7 +67,12 @@ export default function ComponentTypeDropdown(props) {
             return label
         }
 
-        return options.find(e => e.value === type).label
+        const elem = options.find(e => e.value === type)
+        if (elem) {
+            return elem.label
+        }
+
+        return label
     }
 
     return (

@@ -7,17 +7,28 @@ import ListItemController from "../components/ListItemController";
 export default function SelectComponent(props) {
     const [data, setData] = useState(props.component)
 
-    const onComponentTypeChanged = (value) => onDataUpdated('componentType', value)
-    const onComponentSubtypeChanged = (value) => onDataUpdated('componentSubtype', value)
+    const setComponentType = (componentType, isTemplate) => {
+        if (isTemplate) {
+            onDataUpdated('componentType', 'template')
+            setComponentSubtype(componentType)
+        }
+        else {
+            onDataUpdated('componentType', componentType)
+        }
+    }
 
-    const onDataUpdated = (key, value) => {
+    const setComponentSubtype = (value) => onDataUpdated('componentSubtype', value)
+
+    const updateData = (key, value) => {
         setData(old => {
             return {
                 ...old,
                 [key]: value
             }
         })
+    }
 
+    const updatePropsData = (key, value) => {
         props.data.value = props.data.value.map(comp => {
             if (comp.id !== props.component.id) {
                 return comp;
@@ -30,6 +41,11 @@ export default function SelectComponent(props) {
         })
 
         props.setData(props.data)
+    }
+
+    const onDataUpdated = (key, value) => {
+        updateData(key, value)
+        updatePropsData(key, value)
     }
 
     const move = (sourceIndex, pos) => {
@@ -52,9 +68,10 @@ export default function SelectComponent(props) {
                     <div className="col-2">
                         <ComponentTypeDropdown
                             placeholder="Select"
-                            selected={data.componentType}
-                            onSelected={onComponentTypeChanged}
+                            selected={data.componentType !== 'template' ? data.componentType : data.componentSubtype}
+                            onSelected={setComponentType}
                             includeTemplates={true}
+                            excludeTypes={props.excludeTypes}
                         />
                     </div>
                     <div className="col-7">
@@ -78,7 +95,7 @@ export default function SelectComponent(props) {
                         <ComponentTypeDropdownExtraFields
                             subtype={data.componentSubtype}
                             type={data.componentType}
-                            onChanged={onComponentSubtypeChanged}
+                            onChanged={setComponentSubtype}
                             label="Type: "
                             style={"marginTop"}
                         />

@@ -10,10 +10,11 @@ export default function ResourceList(props) {
     const loadRows = () => {
         setRows(
             props.elements.map(elem => {
-                const subtype = elem.data.componentType === "list" ? elem.data.componentSubtype : ""
+                const compType = elem.data.componentType === 'template' ? elem.data.name : elem.data.componentType
+                const compSubtype = elem.data.componentType === 'list' ? elem.data.componentSubtype : ''
                 return {
                     id : elem.id,
-                    cols: [elem.data.name, elem.data.type, elem.data.componentType, subtype]
+                    cols: [elem.data.name, elem.data.type, compType, compSubtype]
                 }
             })
         )
@@ -25,7 +26,7 @@ export default function ResourceList(props) {
 
     return (
         <List
-            header={["Name", "Resource", "Component", "Subtype"]}
+            header={['Name', 'Resource', 'Component', 'Subtype']}
             rows={rows}
             onEdit={props.onEdit}
             onDefault={props.onDefault}

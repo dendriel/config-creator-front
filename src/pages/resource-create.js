@@ -153,10 +153,6 @@ export default function ResourceCreate() {
         return resource.data.componentType === 'template' ? resource.data.componentSubtype : resource.data.componentType
     }
 
-    // const getAllowTemplatesOnComponentSubtype = () => {
-    //     return resource.data.componentType !== 'list'
-    // }
-
     return (
         <div className="col-md-12 container">
             <div>

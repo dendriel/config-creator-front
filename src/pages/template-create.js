@@ -169,6 +169,7 @@ export default function TemplateCreate() {
                                 data={template.data}
                                 remove={removeComponent}
                                 saving={saving}
+                                excludeTypes={[template.id]}
                             />
                         </div>)
                         })
