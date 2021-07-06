@@ -3,12 +3,16 @@ import styles from "../list.module.css";
 import ListItem from "./ListItem";
 import {BsFillCaretLeftFill, BsFillCaretRightFill} from "react-icons/all";
 import {useEffect, useState} from "react";
+import resourceService from "../../services/resource.service";
+import {useAlert} from "../../contexts/alert-provider";
 
 
 export default function List(props) {
     const [currentPage, setCurrentPage] = useState(1)
     const [lastPage, setLastPage] = useState(1)
     const [rows, setRows] = useState([])
+
+    const {closeAlert, alertSuccess, alertError} = useAlert();
 
     const pageSizeOptions = [
         {value: 10, label: "10"},
@@ -57,6 +61,20 @@ export default function List(props) {
 
     const isLastPage = () => {
         return currentPage === lastPage
+    }
+
+    const onRemove = (id, setRemoving) => {
+        closeAlert()
+
+        resourceService.removeById(id)
+            .then(() => {
+                setRows(old =>  old.filter(t => t.id !== id))
+                alertSuccess("Resource removed")
+            })
+            .catch(() => {
+                alertError("Failed to remove. Please, try again.")
+                setRemoving(false)
+            })
     }
 
     return (
@@ -116,7 +134,7 @@ export default function List(props) {
                                     cols={row.cols}
                                     onEdit={props.onEdit}
                                     onDefault={props.onDefault}
-                                    onRemove={props.onRemove}
+                                    onRemove={onRemove}
                                 />
                             )
                         )}

@@ -1,5 +1,4 @@
 import {useEffect, useState} from "react";
-import {useAlert} from "../contexts/alert-provider";
 import {useUser} from "../contexts/user-provider";
 import resourceService from "../services/resource.service";
 import PageHeader from "../components/components/PageHeader";
@@ -10,9 +9,6 @@ import LinkTo from "../components/components/LinkTo";
 
 
 export default function Resource() {
-    const [resources, setResources] = useState([])
-    const {closeAlert, alertSuccess, alertError} = useAlert();
-
     const history = useHistory();
 
     const [project, setProject] = useState(null)
@@ -32,7 +28,6 @@ export default function Resource() {
             .then(response => {
                 setProject(response.data)
                 setNotFound(false)
-                load();
             })
             .catch(error => {
                 if (error.response && error.response.status === 404) {
@@ -40,16 +35,7 @@ export default function Resource() {
                 }
             })
 
-    }, [user, setProject, setResources])
-
-    const load = () => {
-        resourceService.getAll(0, 100)
-            .then(response => {
-                if (response && response.data) {
-                    setResources(response.data)
-                }
-            })
-    }
+    }, [user])
 
     const storeProject = () => {
         localStorage.setItem(project.id, JSON.stringify(project))
@@ -63,22 +49,6 @@ export default function Resource() {
     const onEdit = (id) => {
         storeProject()
         history.push('/resource/edit/' + user.defaultProjectId + '/' + id)
-    }
-
-    const onRemove = (id, setRemoving) => {
-        closeAlert()
-
-        resourceService.removeById(id)
-            .then(() => {
-                setResources(old => {
-                    return old.filter(t => t.id !== id);
-                })
-                alertSuccess("Project removed")
-            })
-            .catch(() => {
-                alertError("Failed to remove. Please, try again.")
-                setRemoving(false)
-            })
     }
 
     return (
@@ -111,9 +81,7 @@ export default function Resource() {
                                 </div>
                             </div>
                             <ResourceList
-                                elements={resources}
                                 onEdit={onEdit}
-                                onRemove={onRemove}
                                 service={resourceService}
                             />
                         </>
