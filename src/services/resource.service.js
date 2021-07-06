@@ -35,6 +35,7 @@ const saveValues = (resources) => {
 const resourceService = {
     getById: (id) => restService.getById(path, id),
     getAll: (offset, limit) => restService.getAll(path, offset, limit),
+    count: () => restService.count(path),
     removeById: (id) => restService.removeById(path, id),
     save: (data) => restService.save(path, data),
     saveValues: saveValues

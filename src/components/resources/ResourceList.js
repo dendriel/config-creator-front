@@ -20,6 +20,17 @@ export default function ResourceList(props) {
         )
     }
 
+    const parseRows = (rows) => {
+        return rows.map(elem => {
+            const compType = elem.data.componentType === 'template' ? elem.data.componentSubtype : elem.data.componentType
+            const compSubtype = elem.data.componentType === 'list' ? elem.data.componentSubtype : ''
+            return {
+                id : elem.id,
+                cols: [elem.data.name, elem.data.type, compType, compSubtype]
+            }
+        })
+    }
+
     useEffect(() => {
         loadRows()
     }, [props.elements, setRows, user])
@@ -31,6 +42,8 @@ export default function ResourceList(props) {
             onEdit={props.onEdit}
             onDefault={props.onDefault}
             onRemove={props.onRemove}
+            service={props.service}
+            parseRows={parseRows}
         />
     )
 }

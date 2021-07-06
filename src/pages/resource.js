@@ -82,35 +82,43 @@ export default function Resource() {
     }
 
     return (
-        <div className="col-md-12 container">
-            {notFound ?
-                <PageHeader current="Resources"/>
-                :
-                <PageHeader current="Resources" previous={project ? project.data.name : ""} previousLink="/"/>
-            }
+        <div className="container-fluid">
+            <div className={"row"}>
+                <div className={"col"}>
+                    {notFound ?
+                        <PageHeader current="Resources"/>
+                        :
+                        <PageHeader current="Resources" previous={project ? project.data.name : ""} previousLink="/"/>
+                    }
+                </div>
+            </div>
 
-            {notFound ?
-                <div className="col-md-12 text-center align-middle">
-                    <LinkTo to="/project" message="Click here to select a default project" />
-                </div>
-                :
-                <>
-                <div className="col-md-12 text-center align-middle">
-                    <div className={`row marginTopBottom`}>
-                        <div className="col-md-9">
-                            <button className={`btn btn-primary float-right actionButton`} onClick={onCreate}>
-                                New
-                            </button>
+            <div className={"row"}>
+                {notFound ?
+                        <div className="col text-center align-middle">
+                            <LinkTo to="/project" message="Click here to select a default project" />
                         </div>
-                    </div>
-                </div>
-                <ResourceList
-                    elements={resources}
-                    onEdit={onEdit}
-                    onRemove={onRemove}
-                />
-                </>
-            }
+                        :
+                        <>
+                            <div className="col-12 text-center align-middle">
+                                <div className={`row marginTopBottom`}>
+                                    <div className="col-3"></div>
+                                    <div className="col-9">
+                                        <button className={`btn btn-primary float-left actionButton`} onClick={onCreate}>
+                                            New
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <ResourceList
+                                elements={resources}
+                                onEdit={onEdit}
+                                onRemove={onRemove}
+                                service={resourceService}
+                            />
+                        </>
+                }
+            </div>
         </div>
     )
 }

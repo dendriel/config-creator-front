@@ -57,6 +57,10 @@ const removeById = (path, id) => {
     return restService.api.delete(path + "/" + id)
 }
 
+const count = (path) => {
+    return restService.api.get(path + "/count")
+}
+
 const getSaveRequest = (template) => {
     return template.id ? restService.api.put : restService.api.post;
 }
@@ -80,6 +84,7 @@ const restService = {
     },
     getById: getById,
     getAll: getAll,
+    count: count,
     removeById: removeById,
     save: save,
     parseDataHolder: parseDataHolder,

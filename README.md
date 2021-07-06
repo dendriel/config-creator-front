@@ -27,5 +27,7 @@ configuration based on these templates. Features:
 - Disallow removing templates that are included in other templates
 - Use skeleton to wait for data loading
 - Add option to "inline" templates that only contains a list
-  - inlining a template will add its value without a key when exporting.
-  - This way, we can create a list of a inline template resulting in a list of lists (a matrix)
+  - inlining a template will add its value without a key when exporting
+  - This way, we can create a list of an inline template resulting in a list of lists (a matrix)
+- Improve List component to handle pagination
+- Hide alert bar when changing route
