@@ -17,7 +17,15 @@ export default function SelectComponent(props) {
         }
     }
 
-    const setComponentSubtype = (value) => onDataUpdated('componentSubtype', value)
+    const setComponentSubtype = (componentType, isTemplate) => {
+        if (isTemplate) {
+            onDataUpdated('componentSubtype', 'template')
+            onDataUpdated('templateId', componentType)
+        }
+        else {
+            onDataUpdated('componentSubtype', componentType)
+        }
+    }
 
     const updateData = (key, value) => {
         setData(old => {
@@ -93,11 +101,12 @@ export default function SelectComponent(props) {
                 <div className={`row justify-content-start`}>
                     <div className="col-10">
                         <ComponentTypeDropdownExtraFields
-                            subtype={data.componentSubtype}
+                            subtype={data.componentSubtype !== 'template' ? data.componentSubtype : data.templateId}
                             type={data.componentType}
                             onChanged={setComponentSubtype}
                             label="Type: "
                             style={"marginTop"}
+                            includeTemplates={true}
                         />
                     </div>
                 </div>

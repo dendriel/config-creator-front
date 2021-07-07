@@ -2,12 +2,28 @@ import ComponentTypeDropdown from "./ComponentTypeDropdown";
 
 
 export default function ComponentTypeDropdownExtraFields(props) {
+    const baseTypes = ['number', 'toggle', 'text', 'textarea', 'list']
+
     const hasExtraFields = () => {
         if (!props.type) {
             return ""
         }
 
         return props.type === "list";
+    }
+
+    const isBaseType = (e) => {
+        return baseTypes.includes(e)
+    }
+
+    const onChanged = (e) => {
+        if (props.includeTemplates) {
+            const isTemplate = !isBaseType(e)
+            props.onChanged(e, isTemplate)
+        }
+        else {
+            props.onChanged(e)
+        }
     }
 
     const getExtraFields = () => {
@@ -24,7 +40,7 @@ export default function ComponentTypeDropdownExtraFields(props) {
                             <ComponentTypeDropdown
                                 placeholder="Select Type"
                                 selected={props.subtype}
-                                onSelected={props.onChanged}
+                                onSelected={onChanged}
                                 excludeTypes={["list"]}
                                 includeTemplates={props.includeTemplates !== undefined ? props.includeTemplates : true}
                             />
