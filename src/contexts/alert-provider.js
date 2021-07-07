@@ -1,11 +1,18 @@
 import {Alert} from "react-bootstrap";
-import React, {createContext, useContext, useState} from "react";
+import React, {createContext, useContext, useEffect, useState} from "react";
+import {useLocation} from "react-router";
 
 const AlertContext = createContext({});
 
 export default function AlertProvider ({children}) {
 
     const [alert, setAlert] = useState({message:'', visible:false})
+
+    let location = useLocation();
+
+    useEffect(() => {
+        closeAlert()
+    }, [location]);
 
     const dismiss = () => {
         setAlert(prev => {

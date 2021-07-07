@@ -29,5 +29,3 @@ configuration based on these templates. Features:
 - Add option to "inline" templates that only contains a list
   - inlining a template will add its value without a key when exporting
   - This way, we can create a list of an inline template resulting in a list of lists (a matrix)
-- Improve List component to handle pagination
-- Hide alert bar when changing route
