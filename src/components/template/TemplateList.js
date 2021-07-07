@@ -1,27 +1,23 @@
 import List from "../components/List";
-import {useEffect, useState} from "react";
+import templateService from "../../services/template.service";
 
 
 export default function TemplateList(props) {
-    const [rows, setRows] = useState([])
-
-    useEffect(() => {
-        setRows(
-            props.templates.map(t => {
-                return {
-                    id : t.id,
-                    cols: [t.data.name]
-                }
-            })
-        )
-    }, [props.templates, setRows])
+    const parseRows = (rows) => {
+        return rows.map(t => {
+            return {
+                id : t.id,
+                cols: [t.data.name]
+            }
+        })
+    }
 
     return (
         <List
             header={["Name"]}
-            rows={rows}
+            service={templateService}
+            parseRows={parseRows}
             onEdit={props.onEdit}
-            onRemove={props.onRemove}
             />
     )
 }

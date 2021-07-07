@@ -29,10 +29,10 @@ export default function ProjectList(props) {
             {active ?
                     <List
                         header={["Project", "Default"]}
-                        onEdit={props.onEdit}
-                        onDefault={props.onDefault}
                         service={projectService}
                         parseRows={parseRows}
+                        onEdit={props.onEdit}
+                        onDefault={props.onDefault}
                     />
                     : ""
             }
