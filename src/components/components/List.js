@@ -13,7 +13,7 @@ export default function List(props) {
     const [rows, setRows] = useState([])
 
     const {closeAlert, alertSuccess, alertError} = useAlert();
-    const {user, reloadUser} = useUser()
+    const {user} = useUser()
 
     const pageSizeOptions = [
         {value: 10, label: "10"},
@@ -30,7 +30,6 @@ export default function List(props) {
     }
 
     const reloadData = () => {
-        console.log("RELOAD DATA")
         const offset = (currentPage - 1) * pageSize.value
         const limit = offset + pageSize.value
 

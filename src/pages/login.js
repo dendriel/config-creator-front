@@ -19,10 +19,10 @@ export default function Login() {
         userService.getMyUser()
             .then(response => {
 
+                console.log("Got token " + token.jwt)
                 localStorage.setItem("user", JSON.stringify(response.data))
                 setToken(token.jwt)
                 cookies.set('token', token.jwt, { expires: 60 })
-                console.log("Got token " + token.jwt)
 
                 setTryingLogin(false)
                 history.push('/')
