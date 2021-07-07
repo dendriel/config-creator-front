@@ -1,4 +1,5 @@
 import List from "../components/List";
+import resourceService from "../../services/resource.service";
 
 
 export default function ResourceList(props) {
@@ -17,7 +18,7 @@ export default function ResourceList(props) {
         <List
             header={['Name', 'Resource', 'Component', 'Subtype']}
             onEdit={props.onEdit}
-            service={props.service}
+            service={resourceService}
             parseRows={parseRows}
         />
     )

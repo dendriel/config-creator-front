@@ -1,7 +1,6 @@
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import ProjectList from "../components/project/ProjectList";
 import {useAlert} from "../contexts/alert-provider";
-import projectService from "../services/project.service";
 import userService from "../services/user.service";
 import {useHistory} from "react-router";
 import PageHeader from "../components/components/PageHeader";
@@ -9,7 +8,6 @@ import {useUser} from "../contexts/user-provider";
 
 
 export default function Project() {
-    const [projects, setProjects] = useState([])
     const [onDefaultInProgress, setOnDefaultInProgress] = useState(false)
 
     const {closeAlert, alertSuccess, alertError} = useAlert();
@@ -17,20 +15,6 @@ export default function Project() {
     const {reloadUser} = useUser()
 
     const history = useHistory();
-
-    const load = () => {
-        projectService.getAll(0, 10)
-            .then(response => {
-                if (response && response.data) {
-                    setProjects(response.data)
-                }
-            })
-    }
-
-    useEffect(() => {
-        load();
-    }, [setProjects])
-
 
     const onCreate = () => {
         history.push('/project/create')
@@ -45,10 +29,12 @@ export default function Project() {
             return
         }
 
+        closeAlert()
+
         setOnDefaultInProgress(true)
-        userService.setDefaultProject(id)
+        return userService.setDefaultProject(id)
             .then(() => {
-                reloadUser()
+                return reloadUser()
                     .then(() => {
                         alertSuccess("Project was set as default.")
                     })
@@ -57,22 +43,6 @@ export default function Project() {
             .catch(() => {
                 alertError("Failed to set project as default. Please, try again.")
                 setOnDefaultInProgress(false)
-            })
-    }
-
-    const onRemove = (id, setRemoving) => {
-        closeAlert()
-
-        projectService.removeById(id)
-            .then(() => {
-                setProjects(old => {
-                    return old.filter(t => t.id !== id);
-                })
-                alertSuccess("Project removed")
-            })
-            .catch(() => {
-                alertError("Failed to remove. Please, try again.")
-                setRemoving(false)
             })
     }
 
@@ -88,12 +58,7 @@ export default function Project() {
                     </div>
                 </div>
             </div>
-            <ProjectList
-                elements={projects}
-                onEdit={onEdit}
-                onDefault={onDefault}
-                onRemove={onRemove}
-            />
+            <ProjectList onEdit={onEdit} onDefault={onDefault} />
         </div>
     )
 }

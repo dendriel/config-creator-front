@@ -1,37 +1,41 @@
-import {useEffect, useState} from "react";
 import List from "../components/List";
 import {useUser} from "../../contexts/user-provider";
+import projectService from "../../services/project.service";
+import {useEffect, useState} from "react";
 
 
 export default function ProjectList(props) {
-    const [rows, setRows] = useState([])
-
+    const [active, setActive] = useState(false)
     const {user} = useUser()
 
-    const loadRows = () => {
+    const parseRows = (rows) => {
         const defaultProjectId = user.defaultProjectId
-        setRows(
-            props.elements.map(t => {
-                const defaultTag = t.id === defaultProjectId ? "default" : ""
-                return {
-                    id : t.id,
-                    cols: [t.data.name, defaultTag]
-                }
-            })
-        )
+        console.log(defaultProjectId)
+        return rows.map(t => {
+            const defaultTag = t.id === defaultProjectId ? "default" : ""
+            return {
+                id : t.id,
+                cols: [t.data.name, defaultTag]
+            }
+        })
     }
 
     useEffect(() => {
-        loadRows()
-    }, [props.elements, setRows, user])
+        setActive(user.defaultProjectId !== undefined)
+    }, [user])
 
     return (
-        <List
-            header={["Project", "Default"]}
-            rows={rows}
-            onEdit={props.onEdit}
-            onDefault={props.onDefault}
-            onRemove={props.onRemove}
-        />
+        <>
+            {active ?
+                    <List
+                        header={["Project", "Default"]}
+                        onEdit={props.onEdit}
+                        onDefault={props.onDefault}
+                        service={projectService}
+                        parseRows={parseRows}
+                    />
+                    : ""
+            }
+        </>
     )
 }

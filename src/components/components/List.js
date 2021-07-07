@@ -3,8 +3,8 @@ import styles from "../list.module.css";
 import ListItem from "./ListItem";
 import {BsFillCaretLeftFill, BsFillCaretRightFill} from "react-icons/all";
 import {useEffect, useState} from "react";
-import resourceService from "../../services/resource.service";
 import {useAlert} from "../../contexts/alert-provider";
+import {useUser} from "../../contexts/user-provider";
 
 
 export default function List(props) {
@@ -13,6 +13,7 @@ export default function List(props) {
     const [rows, setRows] = useState([])
 
     const {closeAlert, alertSuccess, alertError} = useAlert();
+    const {user, reloadUser} = useUser()
 
     const pageSizeOptions = [
         {value: 10, label: "10"},
@@ -28,24 +29,33 @@ export default function List(props) {
         setCurrentPage(1)
     }
 
-    useEffect(() => {
+    const reloadData = () => {
+        console.log("RELOAD DATA")
         const offset = (currentPage - 1) * pageSize.value
         const limit = offset + pageSize.value
 
         props.service.getAll(offset, limit)
             .then(response => {
-                const rows = props.parseRows(response.data)
-                setRows(rows)
+                if (response && response.data) {
+                    const rows = props.parseRows(response.data)
+                    setRows(rows)
+                }
             })
 
         props.service.count()
             .then(response => {
-                const total = response.data
-                const lastPage = Math.max(1,  Math.ceil(total /pageSize.value))
-                setLastPage(lastPage)
+                if (response && response.data) {
+                    const total = response.data
+                    const lastPage = Math.max(1, Math.ceil(total / pageSize.value))
+                    setLastPage(lastPage)
+                }
             })
+    }
 
-    }, [pageSize, currentPage])
+    useEffect(() => {
+        reloadData()
+
+    }, [pageSize, currentPage, user])
 
     const nextPage = () => {
         setCurrentPage(old => ++old)
@@ -66,7 +76,7 @@ export default function List(props) {
     const onRemove = (id, setRemoving) => {
         closeAlert()
 
-        resourceService.removeById(id)
+        props.service.removeById(id)
             .then(() => {
                 setRows(old =>  old.filter(t => t.id !== id))
                 alertSuccess("Resource removed")

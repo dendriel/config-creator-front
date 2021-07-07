@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
 import {useUser} from "../contexts/user-provider";
-import resourceService from "../services/resource.service";
 import PageHeader from "../components/components/PageHeader";
 import ResourceList from "../components/resources/ResourceList";
 import {useHistory} from "react-router";
@@ -80,10 +79,7 @@ export default function Resource() {
                                     </div>
                                 </div>
                             </div>
-                            <ResourceList
-                                onEdit={onEdit}
-                                service={resourceService}
-                            />
+                            <ResourceList onEdit={onEdit} />
                         </>
                 }
             </div>
