@@ -13,7 +13,6 @@ configuration based on these templates. Features:
 
 ## TODO
 
-- Create a page to list items from collections;
 - Improve list border formatting when inside templates;
 - Add export/generate project configuration feature
   - Async lambda that generates the JSON configuration

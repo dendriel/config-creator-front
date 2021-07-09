@@ -54,7 +54,8 @@ export default function List(props) {
     useEffect(() => {
         reloadData()
 
-    }, [pageSize, currentPage, user])
+        // props.data should be used when we are rendering an in-memory dataset.
+    }, [pageSize, currentPage, user, props.data])
 
     const nextPage = () => {
         setCurrentPage(old => ++old)
@@ -92,7 +93,7 @@ export default function List(props) {
                 <div className={"col"}>
 
                     <ListGroup className={`${styles.dirsTableList}`}>
-                        <div className="col-6">
+                        <div className="col">
                             <div className="container">
                                 <div className="row marginBottom">
                                     <div className={"col text-left"}>
@@ -115,7 +116,7 @@ export default function List(props) {
                             </div>
                         </div>
 
-                        <ListGroup.Item className="col-6">
+                        <ListGroup.Item className="col">
                             <div className="container">
                                 <div className="row">
                                     {props.header.map(item => {
@@ -126,12 +127,8 @@ export default function List(props) {
                                         )
                                         })
                                     }
-                                    {(props.onEdit || props.onDefault || props.onRemove) ?
-                                        <div className={`col ${styles.columns} text-center`}>
-                                        </div >
-                                        :
-                                        ""
-                                    }
+                                    <div className={`col ${styles.columns} text-center`}>
+                                    </div >
                                 </div>
                             </div>
                         </ListGroup.Item>

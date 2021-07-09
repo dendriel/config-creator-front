@@ -5,12 +5,15 @@ import {useAlert} from "../contexts/alert-provider";
 import PageHeader from "../components/components/PageHeader";
 import {useUser} from "../contexts/user-provider";
 import projectService from "../services/project.service";
-import ComponentSelector from "../components/base-components/ComponentSelector";
 import {Button} from "react-bootstrap";
+import CollectionList from "../components/collection/CollectionList";
+import CollectionItemCreator from "../components/collection/CollectionItemCreator";
 
 
 export default function CollectionEditor() {
-    const [collection, setCollection] = useState({id: "", data: { name: "", value: []}})
+    const [collection, setCollection] = useState({id: "", data: { name: "", value: null}})
+    const [mode, setMode] = useState('list')
+    const[editItem, setEditItem] = useState(undefined)
     const history = useHistory();
     let { id } = useParams();
 
@@ -37,7 +40,7 @@ export default function CollectionEditor() {
                 }
 
                 loadedCollection.data.componentSubtype = loadedCollection.data.componentType
-                loadedCollection.data.componentType = "list"
+                loadedCollection.data.componentType = 'list'
 
                 if (loadedCollection.data.value.length > 0) {
                     loadedCollection.data.value = loadedCollection.data.value.map(e => {
@@ -86,7 +89,7 @@ export default function CollectionEditor() {
 
     }, [id, user, setProject])
 
-    const onChanged = (id, value) => {
+    const onChanged = (value) => {
         setCollection(old => {
             let newData = old.data
             newData.value = value
@@ -98,36 +101,159 @@ export default function CollectionEditor() {
         })
     }
 
-    const onSave = () => {
+    const onItemRemoved = (value) => {
         closeAlert()
-        resourceService.saveValues([collection])
+
+        const toSave = JSON.parse(JSON.stringify(collection))
+        toSave.data.value = value
+
+        return resourceService.saveValues([toSave])
             .then(() => {
-                alertSuccess("Resource updated successfully")
+                clearUnsaved()
+                setCollection(toSave)
             })
             .catch(() => {
-                alertError("Failed to update resource. Please, try again")
+                alertError("Failed to save resource. Please, try again")
             })
     }
 
+    const clearUnsaved = () => {
+        setCollection(old => {
+
+            const newData = old.data
+            newData.value = newData.value.map(e => {
+                e.state = undefined
+                return e
+            })
+
+            return {
+                ...old,
+                data: newData
+            }
+        })
+    }
+
+    const onSave = () => {
+        closeAlert()
+
+        resourceService.saveCollection(collection)
+            .then(() => {
+                alertSuccess("Resource saved successfully")
+                clearUnsaved()
+                setMode('list')
+            })
+            .catch(() => {
+                alertError("Failed to save resource. Please, try again")
+            })
+    }
+
+    const onCreate = () => {
+        setMode('create')
+    }
+
+    const onEdit = (id) => {
+
+        const target = collection.data.value.find(e => e.id === id)
+        if (!target) {
+            alertError("Could not find item " + id + " to edit ")
+            return
+        }
+
+        setEditItem(target)
+        setMode('create')
+    }
+
+    const onNewItemChanged = (id, value) => {
+        if (!value) {
+            return
+        }
+
+        setCollection(old => {
+            let newData = old.data
+            newData.value = newData.value.map(e => {
+                if (e => e.id === id) {
+                    e.data.value = value
+                }
+                return e
+            })
+
+            return {
+                ...old,
+                data: newData
+            }
+        })
+    }
+
+    const onItemCreated = (item) => {
+        const newData = collection.data
+        newData.value = newData.value.concat(item)
+
+        setCollection(old => {
+            return {
+                ...old,
+                data: newData
+            }
+        })
+    }
+
+    const onPrevious = () => {
+        setEditItem(undefined)
+        setMode('list')
+    }
+
     return (
-        <div className="col-md-12 container">
-            <div>
-                <PageHeader current={collection.data.name} previous={project ? project.data.name : ""} previousLink="/"/>
-            </div>
-            <div>
-                <div className={"row"}>
-                    <div className={"col marginBottom text-right"}>
-                        <Button variant="info" onClick={onSave}>Save</Button>
-                    </div>
+        <div className="container-fluid">
+            <div className={"row"}>
+                <div className={"col"}>
+                    {mode === 'list' ?
+                        <PageHeader current={collection.data.name} previous={project ? project.data.name : ""} previousLink="/"/>
+                        :
+                        <PageHeader current={"New Item"} previous={collection.data.name} onPrevious={onPrevious} previousLink={history.location.pathname}/>
+                    }
                 </div>
-                <div className="row">
-                    <div className={"container"}>
-                        <ComponentSelector
-                            key={collection.id}
-                            id={collection.id}
-                            component={collection.data}
-                            onChanged={onChanged}
-                        />
+            </div>
+            <div className={"row"}>
+                <div className={"col"}>
+                    {mode === 'create' ?
+                        <div className={"row"}>
+                            <div className={"col-10 marginBottom text-right"}>
+                                <Button variant="info" onClick={onSave}>Save</Button>
+                            </div>
+                        </div>
+                        : ""
+                    }
+                    <div className="row">
+                        <div className="col-2"></div>
+                        <div className="col-8 text-center align-middle">
+                            {mode === 'list' ?
+                                <>
+                                    <div className={`row marginTopBottom`}>
+                                        <div className="col">
+                                            <button className={`btn btn-primary float-center actionButton`} onClick={onCreate}>
+                                                New
+                                            </button>
+                                        </div>
+                                    </div>
+                                    {collection.data.componentType && collection.data.componentType === 'list' && collection.data.value ?
+                                        <CollectionList
+                                            value={collection.data.value}
+                                            onChanged={onChanged}
+                                            onEdit={onEdit}
+                                            onRemoved={onItemRemoved}
+                                        />
+                                        : ""
+                                    }
+                                </>
+                                :
+                                <CollectionItemCreator
+                                    name={collection.data.value.length + ":"}
+                                    templateId={collection.data.templateId}
+                                    onChanged={onNewItemChanged}
+                                    onItemCreated={onItemCreated}
+                                    item={editItem}
+                                />
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

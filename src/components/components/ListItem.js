@@ -23,7 +23,7 @@ export default function ListItem(props) {
     }
 
     return (
-        <ListGroup.Item className="col-6" key={props.id}>
+        <ListGroup.Item className="col" key={props.id}>
             <div className="container">
                 <div className="row">
 

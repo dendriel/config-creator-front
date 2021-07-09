@@ -32,13 +32,19 @@ const saveValues = (resources) => {
     return restService.api.patch(path + "/value", toSave)
 }
 
+const saveCollection = (collection) => {
+    const toSave = restService.prepareDataHolder(collection);
+    return restService.api.patch(path + "/value", [toSave])
+}
+
 const resourceService = {
     getById: (id) => restService.getById(path, id),
     getAll: (offset, limit) => restService.getAll(path, offset, limit),
     count: () => restService.count(path),
     removeById: (id) => restService.removeById(path, id),
     save: (data) => restService.save(path, data),
-    saveValues: saveValues
+    saveValues: saveValues,
+    saveCollection: saveCollection
 }
 
 export default resourceService

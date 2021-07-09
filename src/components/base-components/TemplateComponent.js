@@ -3,7 +3,7 @@ import {useEffect, useState} from "react";
 import templateService from "../../services/template.service";
 
 export default function TemplateComponent(props) {
-    const [template, setTemplate] = useState(props.component)
+    const [template, setTemplate] = useState(JSON.parse(JSON.stringify(props.component)))
 
     const getStyle = () => {
         return props.root ? "" : "formBorder"
