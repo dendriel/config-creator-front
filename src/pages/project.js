@@ -3,8 +3,8 @@ import ProjectList from "../components/project/ProjectList";
 import {useAlert} from "../contexts/alert-provider";
 import userService from "../services/user.service";
 import {useHistory} from "react-router";
-import PageHeader from "../components/components/PageHeader";
 import {useUser} from "../contexts/user-provider";
+import ListPageContentFrame from "../components/page/ListPageContentFrame";
 
 
 export default function Project() {
@@ -47,18 +47,8 @@ export default function Project() {
     }
 
     return (
-        <div className="col-md-12 container">
-            <PageHeader current="Projects" />
-            <div className="col-md-12 text-center align-middle">
-                <div className={`row marginTopBottom`}>
-                    <div className="col-md-9">
-                        <button className={`btn btn-primary float-right actionButton`} onClick={onCreate}>
-                            New
-                        </button>
-                    </div>
-                </div>
-            </div>
+        <ListPageContentFrame current={"Projects"} onCreate={onCreate}>
             <ProjectList onEdit={onEdit} onDefault={onDefault} />
-        </div>
+        </ListPageContentFrame>
     )
 }

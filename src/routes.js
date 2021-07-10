@@ -10,7 +10,6 @@ import ProjectCreate from "./pages/project-create";
 import Resource from "./pages/resource";
 import ResourceCreate from "./pages/resource-create";
 import CollectionEditor from "./pages/collection-editor";
-import CollectionItemCreator from "./components/collection/CollectionItemCreator";
 
 
 export default function Routes() {

@@ -212,6 +212,7 @@ export default function CollectionEditor() {
                     }
                 </div>
             </div>
+
             <div className={"row"}>
                 <div className={"col"}>
                     {mode === 'create' ?
