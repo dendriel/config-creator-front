@@ -2,8 +2,8 @@ import {useEffect, useState} from "react";
 import {useAlert} from "../contexts/alert-provider";
 import projectService from "../services/project.service";
 import {useParams} from "react-router";
-import PageHeader from "../components/components/PageHeader";
 import {Button} from "react-bootstrap";
+import BasePageContentFrame from "../components/page/BasePageContentFrame";
 
 export default function ProjectCreate() {
     const [project, setProject] = useState({ id: "", data: { name: "", default: false } })
@@ -82,13 +82,12 @@ export default function ProjectCreate() {
     }
 
     return(
-        <div className="col-md-12 container">
-            <PageHeader
-                current={mode}
-                previous="Projects"
-                previousLink="/project"
-            />
-            <div>
+        <BasePageContentFrame
+            current={mode}
+            previous="Projects"
+            previousLink="/project"
+        >
+            <div className={"container-fluid"}>
                 <div className="row">
                     <label className="col-2 col-form-label text-right">Id</label>
                     <div className="col-8">
@@ -115,6 +114,6 @@ export default function ProjectCreate() {
                     </div>
                 </div>
             </div>
-        </div>
+        </BasePageContentFrame>
     )
 }

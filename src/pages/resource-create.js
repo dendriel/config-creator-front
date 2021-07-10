@@ -6,6 +6,7 @@ import ResourceTypeSelect from "../components/resources/ResourceTypeSelect";
 import PageHeader from "../components/components/PageHeader";
 import ComponentTypeDropdown from "../components/template/ComponentTypeDropdown";
 import ComponentTypeDropdownExtraFields from "../components/template/ComponentTypeDropdownExtraFields";
+import BasePageContentFrame from "../components/page/BasePageContentFrame";
 
 
 export default function ResourceCreate() {
@@ -154,11 +155,8 @@ export default function ResourceCreate() {
     }
 
     return (
-        <div className="col-md-12 container">
-            <div>
-                <PageHeader current={mode} previous="Resources" previousLink="/resource"/>
-            </div>
-            <div>
+        <BasePageContentFrame current={mode} previous={"Resources"} previousLink={"/resource"}>
+            <div className={"container-fluid"}>
                 <div className="row">
                     <label className="col-2 col-form-label text-right">Id</label>
                     <div className="col-8">
@@ -236,6 +234,6 @@ export default function ResourceCreate() {
                     </div>
                 </div>
             </div>
-        </div>
+        </BasePageContentFrame>
     )
 }

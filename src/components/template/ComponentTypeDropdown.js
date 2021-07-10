@@ -3,49 +3,55 @@ import {useEffect, useState} from "react";
 import templateService from "../../services/template.service";
 
 export default function ComponentTypeDropdown(props) {
-    const [options, setOptions] = useState([
+    const defaultOptions = [
         { value: 'number', label: 'Number' },
         { value: 'toggle', label: 'Toggle' },
         { value: 'text', label: 'Text' },
         { value: 'textarea', label: 'Text Area' },
         { value: 'list', label: 'List' },
-    ])
+    ]
+
+    const [options, setOptions] = useState(defaultOptions)
+    const [baseOptions, setBaseOptions] = useState(defaultOptions)
 
     const baseTypes = ['number', 'toggle', 'text', 'textarea', 'list']
 
     const loadTemplateOptions = () => {
-        templateService.getAll(0, 10)
+        templateService.getAll(0, 1000)
             .then(response => {
                 if (!response || !response.data) {
-                    console.log("Failed to retrieve templates. Response is null or empty")
                     return
                 }
 
                 response.data.forEach(t => {
-                    setOptions(old => [...old, {value: t.id, label: t.data.name}])
+                    setBaseOptions(old => [...old, {value: t.id, label: t.data.name}])
                 })
-
-                removeExcludedTypes()
             })
             .catch(() => {
                 console.log("Failed to retrieve templates")
             })
     }
 
-    const removeExcludedTypes = () => {
+    const refreshOptions = () => {
+        let newOptions = JSON.parse(JSON.stringify(baseOptions))
         if (props.excludeTypes) {
-            setOptions(old => old.filter(e => !props.excludeTypes.includes(e.value)))
+            newOptions = newOptions.filter(e => !props.excludeTypes.includes(e.value))
         }
+
+        setOptions(newOptions)
     }
 
     useEffect(() => {
+        refreshOptions()
+    }, [props.excludeTypes, baseOptions])
+
+    useEffect(() => {
         if (!props.includeTemplates) {
-            removeExcludedTypes()
+            refreshOptions()
             return
         }
 
         loadTemplateOptions()
-
     }, [props.includeTemplates])
 
     const isBaseType = (e) => {
