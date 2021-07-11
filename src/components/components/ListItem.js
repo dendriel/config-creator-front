@@ -3,6 +3,7 @@ import {Button, ListGroup} from "react-bootstrap";
 import styles from "../list.module.css";
 import {BsBraces, BsPencilSquare, BsTrashFill} from "react-icons/all";
 import CustomOverlay from "./CustomOverlay";
+import { v4 as uuidv4 } from 'uuid';
 
 
 export default function ListItem(props) {
@@ -23,13 +24,13 @@ export default function ListItem(props) {
     }
 
     return (
-        <ListGroup.Item className="col" key={props.id}>
+        <ListGroup.Item key={props.id} className="col">
             <div className="container">
                 <div className="row">
 
                     {props.cols.map(value => {
                         return (
-                            <div className={`col ${styles.columns} text-center`} key={value}>
+                            <div key={uuidv4()} className={`col ${styles.columns} text-center`}>
                                 {value}
                             </div >
                         )

@@ -51,7 +51,8 @@ export default function ProjectListPageContentFrame(props) {
             current={props.current}
             previous={project ? project.data.name : ""}
             previousLink="/"
-            onCreate={onCreate}
+            onCreate={props.onCreate ? onCreate : null}
+            onCreateLabel={props.onCreateLabel}
             hideNewButton={notFound}
         >
             {notFound ?

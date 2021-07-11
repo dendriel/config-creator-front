@@ -79,12 +79,16 @@ export default function List(props) {
         props.service.removeById(id)
             .then(() => {
                 setRows(old =>  old.filter(t => t.id !== id))
-                alertSuccess("Resource removed")
+                alertSuccess("Removed successfully")
             })
             .catch(() => {
-                alertError("Failed to remove. Please, try again.")
+                alertError("Failed to remove. Please, try again")
                 setRemoving(false)
             })
+    }
+
+    const onRemoveEnabled = () => {
+        return !(props.onRemoveDisabled && props.onRemoveDisabled === true)
     }
 
     return (
@@ -127,8 +131,10 @@ export default function List(props) {
                                         )
                                         })
                                     }
-                                    <div className={`col ${styles.columns} text-center`}>
-                                    </div >
+                                    {(props.onEdit || props.onDefault || onRemoveEnabled()) ?
+                                        <div className={`col ${styles.columns} text-center`} />
+                                        : ""
+                                    }
                                 </div>
                             </div>
                         </ListGroup.Item>
@@ -140,7 +146,7 @@ export default function List(props) {
                                     cols={row.cols}
                                     onEdit={props.onEdit}
                                     onDefault={props.onDefault}
-                                    onRemove={onRemove}
+                                    onRemove={onRemoveEnabled() ? onRemove : null}
                                 />
                             )
                         )}

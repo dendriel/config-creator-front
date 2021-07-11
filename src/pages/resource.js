@@ -18,7 +18,7 @@ export default function Resource() {
 
     return (
         <ProjectListPageContentFrame
-            current={'Resources'}
+            current={'Resource'}
             onCreate={onCreate}
             onEdit={onEdit}
             >
