@@ -24,12 +24,12 @@ export default function CustomNavbar() {
                     {/*<Nav.Link href="/link">Link</Nav.Link>*/}
 
                     <NavDropdown title="Project" id="basic-nav-dropdown">
-                        <NavDropdown.ItemText><b><i>Project</i></b></NavDropdown.ItemText>
+                        {/*<NavDropdown.ItemText><b><i>Project</i></b></NavDropdown.ItemText>*/}
                         <NavDropdown.Item href="/project">List</NavDropdown.Item>
                         <NavDropdown.Item href="/project/create">Create</NavDropdown.Item>
-                        <NavDropdown.Divider />
-                        <NavDropdown.ItemText><b><i>Resources</i></b></NavDropdown.ItemText>
-                        <NavDropdown.Item href="/resource">List</NavDropdown.Item>
+                        {/*<NavDropdown.Divider />*/}
+                        <NavDropdown.Item href="/resource">Resources</NavDropdown.Item>
+                        <NavDropdown.Item href="/configuration">Configuration</NavDropdown.Item>
                     </NavDropdown>
                     <NavDropdown title="Templates" id="basic-nav-dropdown">
                         <NavDropdown.Item href="/template">List</NavDropdown.Item>

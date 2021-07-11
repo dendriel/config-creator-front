@@ -3,10 +3,12 @@
 Provider the front-end for the Config Creator solution.
 
 Config Creator is a software that allows to draw customized templates of configuration and create
-configuration based on these templates. Features:
+configuration based on these templates.
 
-- CRUD for templates that can include base types (text, textArea, number, toggle and list);
-- Create projects that includes Items and Collections of resources;
+## Features
+
+- CRUD for templates that can include base types (text, textArea, number, toggle and list) and other templates;
+- Create projects that includes resources. Resources can be Items or Collections of items;
 - Items can be base types and/or templates;
 - Collections are lists of base types or templates.
 
