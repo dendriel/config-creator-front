@@ -97,13 +97,10 @@ export default function Home() {
 
             {!notFound && collResourcesData ?
                 <div className={"row"}>
-                    {collResourcesData.map(res => {
-                            if (res.data.type === "collection") {
-                                return <div className={"col"} key={res.id}>
-                                    <Link to={'/collection/edit/' + res.id}>{res.data.name}</Link>
-                                </div>
-                            }
-                        }
+                    {collResourcesData.map(res =>
+                        <div className={"col"} key={res.id}>
+                            <Link to={'/collection/edit/' + res.id}>{res.data.name}</Link>
+                        </div>
                     )}
                 </div>
                 : ""
@@ -117,16 +114,13 @@ export default function Home() {
                     </div>
                     <div className={"row"}>
                         <div className={"container"}>
-                            {itemResourcesData.map(res => {
-                                if (res.data.type === "item") {
-                                    return <ComponentSelector
-                                        key={res.id}
-                                        id={res.id}
-                                        component={res.data}
-                                        onChanged={onItemChanged}
-                                    />
-                                }
-                            }
+                            {itemResourcesData.map(res =>
+                                <ComponentSelector
+                                    key={res.id}
+                                    id={res.id}
+                                    component={res.data}
+                                    onChanged={onItemChanged}
+                                />
                         )}
                         </div>
                     </div>
