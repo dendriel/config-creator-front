@@ -15,6 +15,7 @@ configuration based on these templates.
 
 ## TODO
 
+- Add key and default key options to data fields; 
 - Improve list border formatting when inside templates;
 - Add export/generate project configuration feature
   - Async lambda that generates the JSON configuration

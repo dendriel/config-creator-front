@@ -171,7 +171,7 @@ export default function CollectionEditor() {
         setCollection(old => {
             let newData = old.data
             newData.value = newData.value.map(e => {
-                if (e => e.id === id) {
+                if (e.id === id) {
                     e.data.value = value
                 }
                 return e
@@ -248,6 +248,7 @@ export default function CollectionEditor() {
                                 :
                                 <CollectionItemCreator
                                     name={collection.data.value.length + ":"}
+                                    componentType={collection.data.componentSubtype}
                                     templateId={collection.data.templateId}
                                     onChanged={onNewItemChanged}
                                     onItemCreated={onItemCreated}

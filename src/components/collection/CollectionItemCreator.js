@@ -15,7 +15,7 @@ export default function CollectionItemCreator(props) {
             id: uuidv4(),
             data: {
                 name: props.name,
-                componentType: 'template',
+                componentType: props.componentType,
                 componentSubtype: props.templateId
             }
         }
