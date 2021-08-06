@@ -42,7 +42,7 @@ export default function Login() {
                 const token = response.data
                 if (!token) {
                     console.log("Unexpected response from login")
-                    return false;
+                    return;
                 }
 
                 restService.api.defaults.headers.Authorization = `Bearer ${token.jwt}`

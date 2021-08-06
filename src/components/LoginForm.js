@@ -19,9 +19,9 @@ export default function LoginForm (props) {
             return
         }
 
+        props.login(username, password)
         setUsername('')
         setPassword('')
-        props.login(username, password)
     }
 
     return (
