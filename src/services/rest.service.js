@@ -71,6 +71,29 @@ const save = (path, template) => {
     return saveRequest(path, toSave)
 }
 
+const download = (url, fileName) => {
+    return restService.api({
+        method: "get",
+        url: url,
+        responseType: "arraybuffer"
+    })
+        .then((response) => {
+            let link = document.createElement("a");
+            link.href = window.URL.createObjectURL(
+                new Blob([response.data], { type: "application/octet-stream" })
+            );
+
+            link.download = fileName;
+
+            document.body.appendChild(link);
+
+            link.click();
+            setTimeout(function () {
+                window.URL.revokeObjectURL(link);
+            }, 200);
+        })
+}
+
 const restService = {
     api: axiosInstance,
     redirect: null,
@@ -88,7 +111,8 @@ const restService = {
     removeById: removeById,
     save: save,
     parseDataHolder: parseDataHolder,
-    prepareDataHolder: prepareDataHolder
+    prepareDataHolder: prepareDataHolder,
+    download: download
 }
 
 axiosInstance.interceptors.response.use((response) => response, (error) => {

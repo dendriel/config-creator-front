@@ -17,10 +17,13 @@ export default function ConfigurationList(props) {
 
     const parseRows = (rows) => {
         return rows.map(elem => {
-            console.log(elem.id)
             return {
                 id : elem.id,
-                cols: [formatDate(elem.createdAt), formatDate(elem.createdBy), formatDate(elem.requestedAt), elem.state]
+                cols: [formatDate(elem.createdAt), formatDate(elem.createdBy), formatDate(elem.requestedAt), elem.state],
+                data: {
+                    active: elem.state === 'READY',
+                    targetId: elem.resourceId
+                }
             }
         })
     }
@@ -32,6 +35,7 @@ export default function ConfigurationList(props) {
             service={configurationService}
             parseRows={parseRows}
             data={props.data}
+            onDownload={props.onDownload}
         />
     )
 }

@@ -1,7 +1,7 @@
 import {useRef, useState} from "react";
 import {Button, ListGroup} from "react-bootstrap";
 import styles from "../list.module.css";
-import {BsBraces, BsPencilSquare, BsTrashFill} from "react-icons/all";
+import {BsBraces, BsDownload, BsPencilSquare, BsTrashFill} from "react-icons/all";
 import CustomOverlay from "./CustomOverlay";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -36,8 +36,19 @@ export default function ListItem(props) {
                         )
                     })}
 
-                    {(props.onEdit || props.onDefault || props.onRemove) ?
+                    {(props.onDownload || props.onEdit || props.onDefault || props.onRemove) ?
                         <div className={`col text-right`}>
+                            {props.onDownload ?
+                                <Button
+                                    className={`marginRight`}
+                                    variant={props.data.active ? "info" : "secondary"}
+                                    onClick={() => props.onDownload(props.data.targetId)}
+                                    disabled={!props.data.active}
+                                >
+                                    <BsDownload className="buttonIcon" />
+                                </Button>
+                                : ""
+                            }
                             {props.onEdit ?
                                 <Button className={`marginRight`} variant="info" onClick={() => props.onEdit(props.id)}>
                                     <BsPencilSquare className="buttonIcon" />

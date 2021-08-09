@@ -131,7 +131,7 @@ export default function List(props) {
                                         )
                                         })
                                     }
-                                    {(props.onEdit || props.onDefault || onRemoveEnabled()) ?
+                                    {(props.onDownload || props.onEdit || props.onDefault || onRemoveEnabled()) ?
                                         <div className={`col ${styles.columns} text-center`} />
                                         : ""
                                     }
@@ -144,6 +144,8 @@ export default function List(props) {
                                     key={row.id}
                                     id={row.id}
                                     cols={row.cols}
+                                    data={row.data}
+                                    onDownload={props.onDownload}
                                     onEdit={props.onEdit}
                                     onDefault={props.onDefault}
                                     onRemove={onRemoveEnabled() ? onRemove : null}
