@@ -31,17 +31,7 @@ export default function Configuration() {
                     return
                 }
 
-                return response.data
-            })
-            .then(url => {
-                storageService.download(url, 'exported.json')
-                    .then(() => {
-                        alertSuccess("Download completed!")
-                    })
-                    .catch(error => {
-                        console.log(JSON.stringify(error))
-                        alertError("Failed to download configuration. Please, try again")
-                    })
+                alertSuccess("Download completed!")
             })
             .catch(error => {
                 console.log(JSON.stringify(error))

@@ -7,13 +7,24 @@ let urls = {
     production: 'https://your-production-url.com/'
 }
 
-const axiosInstance = Axios.create({
+const restAxiosInstance = Axios.create({
     baseURL: urls[process.env.NODE_ENV],
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
     }
 });
+
+let plainAxiosInstance = null
+
+const getPlainAxiosInstance = () => {
+    if (plainAxiosInstance) {
+        return plainAxiosInstance
+    }
+
+    plainAxiosInstance = Axios.create({baseURL: urls[process.env.NODE_ENV],})
+    return plainAxiosInstance
+}
 
 const parseDataHolder = (holder) => {
     return {
@@ -71,11 +82,12 @@ const save = (path, template) => {
     return saveRequest(path, toSave)
 }
 
-const download = (url, fileName) => {
-    return restService.api({
+const download = (url, fileName, headers) => {
+    return getPlainAxiosInstance()({
         method: "get",
         url: url,
-        responseType: "arraybuffer"
+        responseType: "arraybuffer",
+        headers: headers
     })
         .then((response) => {
             let link = document.createElement("a");
@@ -95,7 +107,7 @@ const download = (url, fileName) => {
 }
 
 const restService = {
-    api: axiosInstance,
+    api: restAxiosInstance,
     redirect: null,
     setToken: null,
     logout: () => {
@@ -105,6 +117,7 @@ const restService = {
         restService.setToken(null)
         restService.redirect.push('/login')
     },
+    getPlainAxiosInstance: getPlainAxiosInstance,
     getById: getById,
     getAll: getAll,
     count: count,
@@ -115,7 +128,7 @@ const restService = {
     download: download
 }
 
-axiosInstance.interceptors.response.use((response) => response, (error) => {
+restAxiosInstance.interceptors.response.use((response) => response, (error) => {
     if (!error) {
         console.log("Not an error")
         return;
