@@ -13,6 +13,21 @@ configuration based on these templates.
 - Collections are lists of base types or templates.
 
 
+## Run with Docker
+
+Build the image:
+```shell
+docker build -t dendriel/config-creator-front .
+```
+
+Start config-creator-front:
+```shell
+docker run --name config-creator-front -p 80:80 dendriel/config-creator-front
+```
+
+*Before starting config-creator-front, update nginx.conf (nginx/nginx.conf) proxying rules to point to the correct
+addresses of auth, rest and storage services.
+
 ## TODO
 
 - Add key and default key options to data fields; 

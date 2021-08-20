@@ -51,7 +51,7 @@ export default function Login() {
             })
             .catch((error) => {
                 console.log(JSON.stringify(error))
-                if (error.response.status === 401 || error.response.status === 403) {
+                if (error.response && (error.response.status === 401 || error.response.status === 403)) {
                     setLoginError("Invalid username or password");
                 }
                 else {

@@ -1,11 +1,15 @@
 const { createProxyMiddleware } = require('http-proxy-middleware');
 
+const auth_url = process.env.AUTH_URL || 'http://localhost:8080'
+const rest_url = process.env.REST_URL || 'http://localhost:8081'
+const storage_url = process.env.STORAGE_URL || 'http://localhost:8082'
+
 module.exports = function(app) {
     app.use(
         '/auth',
         createProxyMiddleware({
             pathRewrite: {'^/auth' : ''},
-            target: 'http://localhost:8080',
+            target: auth_url,
             changeOrigin: true,
         })
     );
@@ -13,7 +17,7 @@ module.exports = function(app) {
         '/rest',
         createProxyMiddleware({
             pathRewrite: {'^/rest' : ''},
-            target: 'http://localhost:8081',
+            target: rest_url,
             changeOrigin: true,
         })
     );
@@ -21,7 +25,7 @@ module.exports = function(app) {
         '/storage',
         createProxyMiddleware({
             pathRewrite: {'^/storage' : ''},
-            target: 'http://localhost:8082',
+            target: storage_url,
             changeOrigin: true,
         })
     );

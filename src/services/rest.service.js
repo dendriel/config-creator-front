@@ -1,14 +1,7 @@
 import Axios from "axios";
 import cookies from "js-cookie"
 
-let urls = {
-    test: `http://localhost:8080`,
-    development: 'http://localhost:3000/',
-    production: 'https://your-production-url.com/'
-}
-
 const restAxiosInstance = Axios.create({
-    baseURL: urls[process.env.NODE_ENV],
     headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
@@ -22,7 +15,7 @@ const getPlainAxiosInstance = () => {
         return plainAxiosInstance
     }
 
-    plainAxiosInstance = Axios.create({baseURL: urls[process.env.NODE_ENV],})
+    plainAxiosInstance = Axios.create()
     return plainAxiosInstance
 }
 
