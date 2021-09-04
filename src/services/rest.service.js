@@ -82,21 +82,23 @@ const download = (url, fileName, headers) => {
         responseType: "arraybuffer",
         headers: headers
     })
-        .then((response) => {
-            let link = document.createElement("a");
-            link.href = window.URL.createObjectURL(
-                new Blob([response.data], { type: "application/octet-stream" })
-            );
+    .then((response) => {
+        let link = document.createElement("a");
+        link.href = window.URL.createObjectURL(
+            new Blob([response.data], { type: "application/octet-stream" })
+        );
 
-            link.download = fileName;
+        link.download = fileName;
 
-            document.body.appendChild(link);
+        document.body.appendChild(link);
 
-            link.click();
-            setTimeout(function () {
-                window.URL.revokeObjectURL(link);
-            }, 200);
-        })
+        link.click();
+        setTimeout(function () {
+            window.URL.revokeObjectURL(link);
+        }, 200);
+
+        return { status: 200 }
+    })
 }
 
 const restService = {

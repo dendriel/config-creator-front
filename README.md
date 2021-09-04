@@ -20,7 +20,7 @@ Build the image:
 docker build -t dendriel/config-creator-front .
 ```
 
-Start config-creator-front:
+Start config-creator-front using port mapping:
 ```shell
 docker run --name config-creator-front -p 80:80 dendriel/config-creator-front
 ```
@@ -28,9 +28,32 @@ docker run --name config-creator-front -p 80:80 dendriel/config-creator-front
 *Before starting config-creator-front, update nginx.conf (nginx/nginx.conf) proxying rules to point to the correct
 addresses of auth, rest and storage services.
 
+Start config-creator-front using host network:
+```shell
+docker run --name config-creator-front --network host dendriel/config-creator-front
+```
+
+*Before starting config-creator-front, update nginx.conf (nginx/nginx.conf) proxying rules to point to the correct
+addresses of auth, rest and storage services (keep localhost address if running everything locally).
+
+## Run required backend services with docker-compose
+
+Start the infrastructure using:
+```shell
+docker-compose up
+```
+
+*Mysql and MongoDB aren't included.
+
+Stop and remove the infrastructure using:
+```shell
+docker-compose stop && docker-compose rm
+```
+
+
 ## TODO
 
-- Add key and default key options to data fields; 
+- Add key and default key options to data fields;
 - Improve list border formatting when inside templates;
 - Add export/generate project configuration feature
   - Async lambda that generates the JSON configuration
@@ -46,3 +69,7 @@ addresses of auth, rest and storage services.
 - Add option to "inline" templates that only contains a list
   - inlining a template will add its value without a key when exporting
   - This way, we can create a list of an inline template resulting in a list of lists (a matrix)
+
+## Issues
+
+- Fix download configuration feedback message (alerting error on success case)

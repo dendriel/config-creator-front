@@ -26,12 +26,12 @@ export default function Configuration() {
     const onDownload = (id) => {
         storageService.resource.getAccessLink(id)
             .then(response => {
-                if (!response) {
+                if (!response || response.status !== 200) {
                     alertError("Failed to download configuration. Please, try again")
                     return
                 }
 
-                alertSuccess("Download completed!")
+                alertSuccess("Download ready!")
             })
             .catch(error => {
                 console.log(JSON.stringify(error))
