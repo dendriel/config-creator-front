@@ -31,7 +31,6 @@ export default function ConfigurationList(props) {
     return (
         <List
             header={['Created At', 'Requested By', 'Requested At', 'State']}
-            onRemoveDisabled={true}
             service={configurationService}
             parseRows={parseRows}
             data={props.data}

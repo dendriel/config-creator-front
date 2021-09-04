@@ -31,7 +31,7 @@ export default function List(props) {
 
     const reloadData = () => {
         const offset = (currentPage - 1) * pageSize.value
-        const limit = offset + pageSize.value
+        const limit = pageSize.value
 
         props.service.getAll(offset, limit)
             .then(response => {

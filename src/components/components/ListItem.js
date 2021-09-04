@@ -64,7 +64,12 @@ export default function ListItem(props) {
                             }
                             {props.onRemove ?
                                 <>
-                                    <Button ref={removeButtonTarget} variant="danger" onClick={() => onRemove(props.id)} disabled={removing}>
+                                    <Button
+                                        ref={removeButtonTarget}
+                                        variant={(props.data && !props.data.active) ? "secondary" : "danger"}
+                                        onClick={() => onRemove(props.id)}
+                                        disabled={(props.data && !props.data.active) || removing}
+                                    >
                                         {removing ?
                                             <span className="spinner-border spinner-border-sm" />
                                             :

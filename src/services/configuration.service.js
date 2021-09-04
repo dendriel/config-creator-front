@@ -14,18 +14,15 @@ const getAll = (offset, limit) => {
         })
 }
 
-const count = () => {
-    return restService.api.get(path + "/count")
-}
-
 const generate = () => {
     return restService.api.get(path + "/export")
 }
 
 const configurationService = {
     getAll: getAll,
-    count: count,
     generate: generate,
+    count: () => restService.count(path),
+    removeById: (id) => restService.removeById(path, id)
 }
 
 export default configurationService
