@@ -21,7 +21,9 @@ export default function ConfigurationList(props) {
                 id : elem.id,
                 cols: [formatDate(elem.createdAt), formatDate(elem.createdBy), formatDate(elem.requestedAt), elem.state],
                 data: {
-                    active: elem.state === 'READY',
+                    downloadActive: elem.state === 'READY',
+                    removeActive: elem.state === 'READY' || elem.state === 'FAILED',
+                    retryActive: elem.state === 'FAILED',
                     targetId: elem.resourceId
                 }
             }
@@ -35,6 +37,7 @@ export default function ConfigurationList(props) {
             parseRows={parseRows}
             data={props.data}
             onDownload={props.onDownload}
+            onRetry={props.onRetry}
         />
     )
 }

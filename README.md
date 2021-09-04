@@ -55,9 +55,7 @@ docker-compose stop && docker-compose rm
 
 - Add key and default key options to data fields;
 - Improve list border formatting when inside templates;
-- Add export/generate project configuration feature
-  - Async lambda that generates the JSON configuration
-- Add mailbox feature
+- Add mailbox feature (to receive export notifications)
 - Add admin panel to allow CRUD over users
   - Add permissions in the backend.
 - Add image component
@@ -70,6 +68,3 @@ docker-compose stop && docker-compose rm
   - inlining a template will add its value without a key when exporting
   - This way, we can create a list of an inline template resulting in a list of lists (a matrix)
 
-## Issues
-
-- Fix download configuration feedback message (alerting error on success case)

@@ -39,12 +39,26 @@ export default function Configuration() {
             })
     }
 
+    const onRetry = (id) => {
+        closeAlert()
+
+        configurationService.retry(id)
+            .then(() => {
+                alertSuccess("Configuration generation successfully scheduled")
+                setReload(old => !old)
+            })
+            .catch(() => {
+                alertError("Failed to schedule configuration generation")
+            })
+    }
+
     return (
         <ProjectListPageContentFrame
             current={'Configuration'}
             onCreate={onExport}
             onCreateLabel={"Generate"}
             onDownload={onDownload}
+            onRetry={onRetry}
         >
             <ConfigurationList data={reload}/>
         </ProjectListPageContentFrame>

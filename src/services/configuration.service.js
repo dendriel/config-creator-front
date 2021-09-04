@@ -18,9 +18,14 @@ const generate = () => {
     return restService.api.get(path + "/export")
 }
 
+const retry = (id) => {
+    return restService.api.get(path + "/export/retry/" + id)
+}
+
 const configurationService = {
     getAll: getAll,
     generate: generate,
+    retry: retry,
     count: () => restService.count(path),
     removeById: (id) => restService.removeById(path, id)
 }

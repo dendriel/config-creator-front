@@ -1,7 +1,7 @@
 import {useRef, useState} from "react";
 import {Button, ListGroup} from "react-bootstrap";
 import styles from "../list.module.css";
-import {BsBraces, BsDownload, BsPencilSquare, BsTrashFill} from "react-icons/all";
+import {AiOutlineRedo, BsBraces, BsDownload, BsPencilSquare, BsTrashFill} from "react-icons/all";
 import CustomOverlay from "./CustomOverlay";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -23,6 +23,18 @@ export default function ListItem(props) {
         setRemoving(true)
     }
 
+    const getDownloadActive = () => {
+        return !props.data || (props.data.downloadActive !== undefined && props.data.downloadActive)
+    }
+
+    const getRemoveActive = () => {
+        return !props.data || (props.data.removeActive !== undefined && props.data.removeActive)
+    }
+
+    const getRetryActive = () => {
+        return !props.data || (props.data.retryActive !== undefined && props.data.retryActive)
+    }
+
     return (
         <ListGroup.Item key={props.id} className="col">
             <div className="container">
@@ -36,14 +48,14 @@ export default function ListItem(props) {
                         )
                     })}
 
-                    {(props.onDownload || props.onEdit || props.onDefault || props.onRemove) ?
+                    {(props.onDownload || props.onEdit || props.onDefault || props.onRemove || props.onRetry) ?
                         <div className={`col text-right`}>
                             {props.onDownload ?
                                 <Button
                                     className={`marginRight`}
-                                    variant={props.data.active ? "info" : "secondary"}
+                                    variant={getDownloadActive() ? "info" : "secondary"}
                                     onClick={() => props.onDownload(props.data.targetId)}
-                                    disabled={!props.data.active}
+                                    disabled={!getDownloadActive()}
                                 >
                                     <BsDownload className="buttonIcon" />
                                 </Button>
@@ -57,8 +69,18 @@ export default function ListItem(props) {
                             }
                             {props.onDefault ?
                                 <Button className={`marginRight`} variant="info" onClick={() => props.onDefault(props.id)}>
-                                    <BsBraces
-                                        className="buttonIcon" />
+                                    <BsBraces className="buttonIcon" />
+                                </Button>
+                                : ""
+                            }
+                            {props.onRetry ?
+                                <Button
+                                    className={`marginRight`}
+                                    variant={getRetryActive() ? "warning" : "secondary"}
+                                    onClick={() => props.onRetry(props.id)}
+                                    disabled={!getRetryActive()}
+                                >
+                                    <AiOutlineRedo className="buttonIcon" />
                                 </Button>
                                 : ""
                             }
@@ -66,9 +88,9 @@ export default function ListItem(props) {
                                 <>
                                     <Button
                                         ref={removeButtonTarget}
-                                        variant={(props.data && !props.data.active) ? "secondary" : "danger"}
+                                        variant={ getRemoveActive() ? "danger" : "secondary" }
                                         onClick={() => onRemove(props.id)}
-                                        disabled={(props.data && !props.data.active) || removing}
+                                        disabled={ !getRemoveActive() || removing}
                                     >
                                         {removing ?
                                             <span className="spinner-border spinner-border-sm" />

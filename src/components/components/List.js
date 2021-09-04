@@ -149,6 +149,7 @@ export default function List(props) {
                                     onEdit={props.onEdit}
                                     onDefault={props.onDefault}
                                     onRemove={onRemoveEnabled() ? onRemove : null}
+                                    onRetry={props.onRetry}
                                 />
                             )
                         )}
