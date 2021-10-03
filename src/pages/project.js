@@ -11,9 +11,7 @@ export default function Project() {
     const [onDefaultInProgress, setOnDefaultInProgress] = useState(false)
 
     const {closeAlert, alertSuccess, alertError} = useAlert();
-
     const {reloadUser} = useUser()
-
     const history = useHistory();
 
     const onCreate = () => {

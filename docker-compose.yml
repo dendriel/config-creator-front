@@ -3,7 +3,6 @@ version: "3.9"
 services:
   auth-service:
     image: dendriel/npc-data-manager-auth:latest
-    command: "java -jar /app/npc-data-manager-auth.jar"
     restart: always
     ports:
       - 8080:8080
@@ -16,7 +15,6 @@ services:
       - MYSQL_PASS=pass
   storage-service:
     image: dendriel/npc-data-manager-storage:latest
-    command: "java -jar /npc-data-manager-storage.jar"
     restart: always
     ports:
       - 8082:8082
@@ -29,7 +27,7 @@ services:
       - MYSQL_PORT=3306
       - MYSQL_USER=docker
       - MYSQL_PASS=pass
-      - AUTH_URL=http://host.docker.internal:8080
+      - AUTH_URL=http://auth-service:8080
   rest-service:
     image: dendriel/config-creator-rest
     restart: always
@@ -46,7 +44,7 @@ services:
       - AWS_ACCESS_KEY_ID=1111
       - AWS_SECRET_KEY=2222
       - SERVICE_URL=http://host.docker.internal:3000
-      - SERVICE_AUTH_KEY=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJyZXN0IiwiZXhwIjoxNjMzMzc4NzQ0LCJpYXQiOjE2MzA3ODY3NDR9.rvlpOK5RljrCIWfdTKMg0kNlpOPMGghB9yILNE1V3jY
+      - SERVICE_AUTH_KEY=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzZXJ2aWNlLnVzZXIwMSIsImV4cCI6MTYzNDA2OTQwMywiaWF0IjoxNjMxNDc3NDAzfQ.ZT3R7PSqQ2SmQ4vkyCxZb2BB7oObgl6cyGk0LtUBJZQ
     depends_on:
       sqs-service:
         condition: service_healthy
@@ -56,7 +54,7 @@ services:
     environment:
       - SERVICE_URL=http://host.docker.internal:3000
       - QUEUE_URL=http://sqs-service:9324/queue/export-request
-      - AUTH_KEY=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJleHBvcnRlciIsImV4cCI6MTYzMTc1MDE4NCwiaWF0IjoxNjI5MTU4MTg0fQ.45AW5A7mp7gGCdYztoAadzPPumdV7MAiAXGpBX4be_8
+      - AUTH_KEY=eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJzZXJ2aWNlLnVzZXIwMSIsImV4cCI6MTYzNDA2OTQwMywiaWF0IjoxNjMxNDc3NDAzfQ.ZT3R7PSqQ2SmQ4vkyCxZb2BB7oObgl6cyGk0LtUBJZQ
     depends_on:
       sqs-service:
         condition: service_healthy

@@ -11,7 +11,9 @@ export default function AlertProvider ({children}) {
     let location = useLocation();
 
     useEffect(() => {
-        closeAlert()
+        if (location.search !== '?alert=true') {
+            closeAlert()
+        }
     }, [location]);
 
     const dismiss = () => {
