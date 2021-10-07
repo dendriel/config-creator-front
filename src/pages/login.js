@@ -4,7 +4,7 @@ import authService from "../services/auth.service";
 import {useAuth} from "../contexts/authentication-provider";
 import {useHistory} from "react-router";
 import userService from "../services/user.service";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 export default function Login() {
     const [loginError, setLoginError] = useState('')
@@ -55,9 +55,11 @@ export default function Login() {
             })
     }
 
-    if (isAuthenticated()) {
-        history.push('/')
-    }
+    useEffect(() => {
+        if (isAuthenticated()) {
+            history.push('/')
+        }
+    }, [])
 
     return (
         <div className={`col-md-12 ${styles.outer}`}>
