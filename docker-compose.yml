@@ -27,7 +27,7 @@ services:
       - MYSQL_PORT=3306
       - MYSQL_USER=docker
       - MYSQL_PASS=pass
-      - AUTH_URL=http://auth-service:8080
+      - SERVICE_URL=http://host.docker.internal:3000
   rest-service:
     image: dendriel/config-creator-rest
     restart: always

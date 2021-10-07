@@ -1,5 +1,4 @@
 import Axios from "axios";
-import cookies from "js-cookie"
 
 const restAxiosInstance = Axios.create({
     headers: {
@@ -7,17 +6,6 @@ const restAxiosInstance = Axios.create({
         'Content-Type': 'application/json'
     }
 });
-
-let plainAxiosInstance = null
-
-const getPlainAxiosInstance = () => {
-    if (plainAxiosInstance) {
-        return plainAxiosInstance
-    }
-
-    plainAxiosInstance = Axios.create()
-    return plainAxiosInstance
-}
 
 const parseDataHolder = (holder) => {
     return {
@@ -75,12 +63,11 @@ const save = (path, template) => {
     return saveRequest(path, toSave)
 }
 
-const download = (url, fileName, headers) => {
-    return getPlainAxiosInstance()({
+const download = (url, fileName) => {
+    return restService.api({
         method: "get",
         url: url,
-        responseType: "arraybuffer",
-        headers: headers
+        responseType: "arraybuffer"
     })
     .then((response) => {
         let link = document.createElement("a");
@@ -104,15 +91,9 @@ const download = (url, fileName, headers) => {
 const restService = {
     api: restAxiosInstance,
     redirect: null,
-    setToken: null,
     logout: () => {
-        console.log("Logging out")
-        cookies.remove('token')
-        localStorage.removeItem("user")
-        restService.setToken(null)
-        restService.redirect.push('/login')
+        restService.redirect.push('/logout')
     },
-    getPlainAxiosInstance: getPlainAxiosInstance,
     getById: getById,
     getAll: getAll,
     count: count,

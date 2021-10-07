@@ -11,6 +11,7 @@ import Resource from "./pages/resource";
 import ResourceCreate from "./pages/resource-create";
 import CollectionEditor from "./pages/collection-editor";
 import Configuration from "./pages/configuration";
+import Logout from "./pages/logout";
 
 
 export default function Routes() {
@@ -24,6 +25,9 @@ export default function Routes() {
             </Route>
             <Route path="/login">
                 <Login />
+            </Route>
+            <Route path="/logout">
+                <Logout />
             </Route>
             <Route path="/directory">
                 <Directory />

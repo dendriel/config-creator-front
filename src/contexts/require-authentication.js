@@ -9,9 +9,7 @@ export default function RequireAuthentication({children}) {
 
     restService.redirect = useHistory()
 
-    console.log("auth: " + isAuthenticated)
-
-    if (!isAuthenticated) {
+    if (!isAuthenticated()) {
         console.log("Unauthenticated");
         return <Login/>;
     }

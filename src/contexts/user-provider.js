@@ -8,7 +8,7 @@ const UserContext = createContext({});
 
 export default function UserProvider({children}) {
 
-    const userTxt = localStorage.getItem("user");
+    const userTxt = localStorage.getItem("usercc");
     let userObj = userTxt ? JSON.parse(userTxt) : {}
 
     const [user, setUser] = useState(userObj)
@@ -18,7 +18,7 @@ export default function UserProvider({children}) {
             .then(response => {
                 const newUser = response.data;
                 setUser(newUser)
-                localStorage.setItem("user", JSON.stringify(newUser))
+                localStorage.setItem("usercc", JSON.stringify(newUser))
             })
     }
 

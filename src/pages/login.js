@@ -1,8 +1,6 @@
 import LoginForm from "../components/LoginForm";
 import styles from "./login.module.css"
 import authService from "../services/auth.service";
-import cookies from "js-cookie";
-import restService from "../services/rest.service";
 import {useAuth} from "../contexts/authentication-provider";
 import {useHistory} from "react-router";
 import userService from "../services/user.service";
@@ -10,25 +8,20 @@ import {useState} from "react";
 
 export default function Login() {
     const [loginError, setLoginError] = useState('')
-    const { setToken } = useAuth()
+    const { isAuthenticated, setAuthToken, setAuthUser, clearAuth } = useAuth()
     const [tryingLogin, setTryingLogin] = useState(false)
 
     const history = useHistory();
 
-    const loadUser = (token) => {
+    const loadUser = () => {
         userService.getMyUser()
             .then(response => {
-
-                console.log("Got token " + token.jwt)
-                localStorage.setItem("user", JSON.stringify(response.data))
-                setToken(token.jwt)
-                cookies.set('token', token.jwt, { expires: 60 })
-
+                setAuthUser(JSON.stringify(response.data))
                 setTryingLogin(false)
                 history.push('/')
             })
             .catch(() => {
-                restService.api.defaults.headers.Authorization = null
+                clearAuth()
                 setLoginError("Unable to login right now")
                 setTryingLogin(false)
             })
@@ -45,8 +38,8 @@ export default function Login() {
                     return;
                 }
 
-                restService.api.defaults.headers.Authorization = `Bearer ${token.jwt}`
-                loadUser(token)
+                setAuthToken(token.jwt)
+                loadUser()
 
             })
             .catch((error) => {
@@ -60,6 +53,10 @@ export default function Login() {
 
                 setTryingLogin(false)
             })
+    }
+
+    if (isAuthenticated()) {
+        history.push('/')
     }
 
     return (
